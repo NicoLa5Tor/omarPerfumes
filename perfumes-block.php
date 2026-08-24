@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Perfumes Block
  * Description:       Bloque de WordPress construido con React (Gutenberg). Desarrollado localmente y desplegado por FTP con GitHub Actions.
- * Version:           0.2.0
+ * Version:           0.2.1
  * Author:            Tu Nombre
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html

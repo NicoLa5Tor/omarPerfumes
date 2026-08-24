@@ -14,11 +14,11 @@
 	"attributes": {
 		"title": {
 			"type": "string",
-			"default": ""
+			"default": "Chanel N°5"
 		},
 		"description": {
 			"type": "string",
-			"default": ""
+			"default": "Un clásico atemporal de la perfumería francesa."
 		},
 		"imageUrl": {
 			"type": "string",
