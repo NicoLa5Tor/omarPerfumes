@@ -32,6 +32,7 @@
 
 	.perfumes-logo {
 		@apply text-center;
+		@apply no-underline text-inherit;
 	}
 
 	.perfumes-logo__title {
@@ -54,6 +55,10 @@
 		@apply text-[13px];
 	}
 
+	.perfumes-search input[type='search'] {
+		@apply min-w-0 flex-1 border-0 bg-transparent text-[13px] outline-none;
+	}
+
 	.perfumes-cart {
 		@apply gap-2;
 	}
@@ -70,8 +75,10 @@
 		@apply flex min-h-[49px] items-center justify-center gap-[34px] bg-perfumes-navy px-10;
 	}
 
-	.perfumes-category-nav span {
+	.perfumes-category-nav span,
+	.perfumes-category-nav a {
 		@apply whitespace-nowrap text-xs font-bold uppercase text-white;
+		@apply no-underline;
 	}
 
 	.perfumes-hero {
@@ -160,8 +167,10 @@
 		@apply flex w-full items-center justify-center gap-11;
 	}
 
-	.perfumes-brand-strip span {
+	.perfumes-brand-strip span,
+	.perfumes-brand-strip a {
 		@apply whitespace-nowrap font-brand text-2xl font-semibold text-[#1d2939];
+		@apply no-underline;
 	}
 
 	.perfumes-products {
@@ -194,6 +203,7 @@
 
 	.perfumes-product-card__image {
 		@apply relative h-[280px];
+		@apply block;
 	}
 
 	.perfumes-badge {
@@ -210,6 +220,10 @@
 
 	.perfumes-product-card h3 {
 		@apply mb-2.5 mt-0 text-[17px] leading-snug;
+	}
+
+	.perfumes-product-card h3 a {
+		@apply text-inherit no-underline;
 	}
 
 	.perfumes-product-card__size {

@@ -39,6 +39,20 @@ $products           = perfumes_array_attr( $attributes, 'products' );
 $benefits           = perfumes_array_attr( $attributes, 'benefits' );
 $payment_methods    = perfumes_array_attr( $attributes, 'paymentMethods' );
 $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-landing' ) );
+$home_url           = home_url( '/' );
+$shop_url           = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/tienda/' );
+$checkout_url       = function_exists( 'wc_get_checkout_url' ) ? wc_get_checkout_url() : home_url( '/finalizar-compra/' );
+$category_links     = array(
+	'Inicio'           => $home_url,
+	'Marcas'           => $shop_url,
+	'Mujer'            => add_query_arg( array( 's' => 'DM', 'post_type' => 'product' ), $home_url ),
+	'Hombre'           => add_query_arg( array( 's' => 'HM', 'post_type' => 'product' ), $home_url ),
+	'Unisex'           => add_query_arg( array( 's' => 'unisex', 'post_type' => 'product' ), $home_url ),
+	'Perfumes Arabes'  => home_url( '/categoria-producto/perfumes-arabes/' ),
+	'Nicho'            => $shop_url,
+	'Estuches'         => add_query_arg( array( 's' => 'estuche', 'post_type' => 'product' ), $home_url ),
+	'Descuentos'       => $shop_url,
+);
 
 if ( function_exists( 'wc_get_products' ) ) {
 	$woocommerce_products = wc_get_products( array( 'status' => 'publish', 'limit' => 12, 'orderby' => 'date', 'order' => 'DESC' ) );
@@ -64,19 +78,20 @@ if ( function_exists( 'wc_get_products' ) ) {
 			<span>Fb</span>
 			<span>Tk</span>
 		</div>
-		<div class="perfumes-logo">
+		<a class="perfumes-logo" href="<?php echo esc_url( $home_url ); ?>">
 			<?php if ( $site_title ) : ?>
 				<div class="perfumes-logo__title"><?php echo esc_html( $site_title ); ?></div>
 			<?php endif; ?>
 			<?php if ( $tagline ) : ?>
 				<div class="perfumes-logo__tagline"><?php echo esc_html( $tagline ); ?></div>
 			<?php endif; ?>
-		</div>
+		</a>
 		<div class="perfumes-header__right">
-			<div class="perfumes-search">
+			<form class="perfumes-search" role="search" method="get" action="<?php echo esc_url( $home_url ); ?>">
 				<span aria-hidden="true">Search</span>
-				<span><?php echo esc_html( $search_placeholder ); ?></span>
-			</div>
+				<input type="search" name="s" placeholder="<?php echo esc_attr( $search_placeholder ); ?>" aria-label="<?php echo esc_attr__( 'Buscar producto', 'perfumes' ); ?>" />
+				<input type="hidden" name="post_type" value="product" />
+			</form>
 			<a class="perfumes-cart" href="<?php echo esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '#' ); ?>" aria-label="<?php echo esc_attr__( 'Carrito', 'perfumes' ); ?>">
 				<span aria-hidden="true">Bag</span>
 				<strong data-perfumes-cart-count><?php echo esc_html( $cart_count ); ?></strong>
@@ -88,7 +103,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 		<nav class="perfumes-category-nav" aria-label="<?php echo esc_attr__( 'Categorias destacadas', 'perfumes' ); ?>">
 			<?php foreach ( $categories as $category ) : ?>
 				<?php if ( $category ) : ?>
-					<span><?php echo esc_html( $category ); ?></span>
+					<a href="<?php echo esc_url( $category_links[ $category ] ?? $shop_url ); ?>"><?php echo esc_html( $category ); ?></a>
 				<?php endif; ?>
 			<?php endforeach; ?>
 		</nav>
@@ -134,7 +149,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 			<div>
 				<?php foreach ( $brands as $brand ) : ?>
 					<?php if ( $brand ) : ?>
-						<span><?php echo esc_html( $brand ); ?></span>
+						<a href="<?php echo esc_url( add_query_arg( array( 's' => $brand, 'post_type' => 'product' ), $home_url ) ); ?>"><?php echo esc_html( $brand ); ?></a>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</div>
@@ -145,7 +160,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 		<section class="perfumes-products" id="perfumes-products">
 			<div class="perfumes-section-heading">
 				<h2><?php echo esc_html__( 'Top en ventas', 'perfumes' ); ?></h2>
-				<a href="#"><?php echo esc_html__( 'Ver todos los productos', 'perfumes' ); ?></a>
+				<a href="<?php echo esc_url( $shop_url ); ?>"><?php echo esc_html__( 'Ver todos los productos', 'perfumes' ); ?></a>
 			</div>
 			<div class="perfumes-product-grid">
 				<?php foreach ( $products as $product ) : ?>
@@ -159,11 +174,11 @@ if ( function_exists( 'wc_get_products' ) ) {
 					$product_image     = $product['imageUrl'] ?? '';
 					?>
 					<article class="perfumes-product-card">
-						<div class="perfumes-product-card__image">
+						<a class="perfumes-product-card__image" href="<?php echo esc_url( $product['url'] ?? $shop_url ); ?>">
 							<?php if ( $product_image ) : ?>
 								<img src="<?php echo esc_url( $product_image ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $product_name ) ); ?>" loading="lazy" />
 							<?php endif; ?>
-						</div>
+						</a>
 						<?php if ( $product_discount ) : ?>
 							<span class="perfumes-badge"><?php echo esc_html( $product_discount ); ?></span>
 						<?php endif; ?>
@@ -204,7 +219,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 				<p><?php echo wp_kses_post( $promo_description ); ?></p>
 			<?php endif; ?>
 			<?php if ( $promo_cta ) : ?>
-				<a class="perfumes-button perfumes-button--primary" href="#"><?php echo esc_html( $promo_cta ); ?></a>
+				<a class="perfumes-button perfumes-button--primary" href="<?php echo esc_url( $checkout_url ); ?>"><?php echo esc_html( $promo_cta ); ?></a>
 			<?php endif; ?>
 		</div>
 		<div class="perfumes-promo__media">
