@@ -3,26 +3,121 @@
 	"apiVersion": 3,
 	"name": "perfumes/showcase",
 	"version": "0.1.0",
-	"title": "Perfumes Showcase",
+	"title": "Omar Perfumes Landing",
 	"category": "widgets",
 	"icon": "products",
-	"description": "Muestra un producto de perfume con imagen, título y descripción.",
+	"description": "Landing editable para Omar Perfumes con hero, categorias, productos y promocion.",
 	"supports": {
 		"html": false,
 		"align": [ "wide", "full" ]
 	},
 	"attributes": {
+		"eyebrow": {
+			"type": "string",
+			"default": "Perfumes originales"
+		},
 		"title": {
 			"type": "string",
-			"default": "Chanel N°5"
+			"default": "Spicebomb Night Vision"
 		},
 		"description": {
 			"type": "string",
-			"default": "Un clásico atemporal de la perfumería francesa."
+			"default": "Una seleccion premium de fragancias masculinas y femeninas para comprar facil, seguro y con entrega nacional."
 		},
-		"imageUrl": {
+		"primaryCta": {
+			"type": "string",
+			"default": "Comprar ahora"
+		},
+		"secondaryCta": {
+			"type": "string",
+			"default": "Ver catalogo"
+		},
+		"heroImageUrl": {
 			"type": "string",
 			"default": ""
+		},
+		"categories": {
+			"type": "array",
+			"default": [
+				"Boss",
+				"Blain",
+				"Intense",
+				"Jean Paul",
+				"Lacoste",
+				"Montale",
+				"Most Blanc",
+				"Moschino"
+			]
+		},
+		"products": {
+			"type": "array",
+			"default": [
+				{
+					"badge": "Nuevo",
+					"name": "Good Girl Blush",
+					"brand": "Carolina Herrera",
+					"price": "$ 368.000",
+					"imageUrl": ""
+				},
+				{
+					"badge": "Nuevo",
+					"name": "Spicebomb Night Vision",
+					"brand": "Viktor&Rolf",
+					"price": "$ 489.000",
+					"imageUrl": ""
+				},
+				{
+					"badge": "Nuevo",
+					"name": "Le Male Elixir",
+					"brand": "Jean Paul Gaultier",
+					"price": "$ 420.000",
+					"imageUrl": ""
+				},
+				{
+					"badge": "Nuevo",
+					"name": "Le Male Bleu",
+					"brand": "Jean Paul Gaultier",
+					"price": "$ 450.000",
+					"imageUrl": ""
+				}
+			]
+		},
+		"promoTitle": {
+			"type": "string",
+			"default": "Compra ahora y paga despues sin intereses"
+		},
+		"promoDescription": {
+			"type": "string",
+			"default": "Lleva tu fragancia favorita y pagala en cuotas flexibles con una experiencia simple y segura."
+		},
+		"promoCta": {
+			"type": "string",
+			"default": "Conoce como pagar"
+		},
+		"promoImageUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"benefits": {
+			"type": "array",
+			"default": [
+				{
+					"title": "Pedidos 100% seguros",
+					"description": "Compra con medios de pago confiables."
+				},
+				{
+					"title": "Entrega nacional",
+					"description": "Recibe tus fragancias en Colombia."
+				},
+				{
+					"title": "Datos protegidos",
+					"description": "Tu informacion siempre viaja cifrada."
+				},
+				{
+					"title": "Soporte real",
+					"description": "Te acompanamos antes y despues de comprar."
+				}
+			]
 		}
 	},
 	"textdomain": "perfumes",

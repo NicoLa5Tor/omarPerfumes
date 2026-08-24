@@ -3,7 +3,8 @@ node_modules/
 
 # Build de producción (se genera en CI)
 build/
-
+base/
+.claude/
 # Logs
 *.log
 npm-debug.log*
