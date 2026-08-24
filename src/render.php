@@ -62,7 +62,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-
 			</div>
 			<div class="perfumes-cart" aria-label="<?php echo esc_attr__( 'Carrito', 'perfumes' ); ?>">
 				<span aria-hidden="true">Bag</span>
-				<strong><?php echo esc_html( $cart_count ); ?></strong>
+				<strong data-perfumes-cart-count><?php echo esc_html( $cart_count ); ?></strong>
 			</div>
 		</div>
 	</header>
@@ -168,7 +168,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-
 									<span class="perfumes-product-card__old-price"><?php echo esc_html( $product_old_price ); ?></span>
 								<?php endif; ?>
 							</div>
-							<a class="perfumes-product-card__button" href="#"><?php echo esc_html__( 'Agregar al carrito', 'perfumes' ); ?></a>
+							<a class="perfumes-product-card__button" href="#" data-perfumes-add="<?php echo esc_attr( $product['id'] ?? sanitize_title( $product_name ) ); ?>"><?php echo esc_html__( 'Agregar al carrito', 'perfumes' ); ?></a>
 						</div>
 					</article>
 				<?php endforeach; ?>

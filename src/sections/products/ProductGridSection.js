@@ -3,7 +3,7 @@ import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import EditableImage from '../../components/EditableImage';
 
-export default function ProductGridSection( { products, onChange } ) {
+export default function ProductGridSection( { products, onChange, onOpen, onAdd } ) {
 	const updateProduct = ( index, patch ) => {
 		const next = [ ...products ];
 		next[ index ] = { ...next[ index ], ...patch };
@@ -18,15 +18,10 @@ export default function ProductGridSection( { products, onChange } ) {
 			</div>
 			<div className="perfumes-product-grid">
 				{ products.map( ( product, index ) => (
-					<article className="perfumes-product-card" key={ index }>
-						<EditableImage
-							className="perfumes-product-card__image"
-							imageUrl={ product.imageUrl }
-							label={ __( 'Imagen producto', 'perfumes' ) }
-							onChange={ ( value ) =>
-								updateProduct( index, { imageUrl: value } )
-							}
-						/>
+					<article className="perfumes-product-card" key={ product.id || index }>
+						<div className="perfumes-product-card__image" role="button" tabIndex={ 0 } onClick={ () => onOpen?.( index ) } onKeyDown={ () => onOpen?.( index ) }>
+							<EditableImage imageUrl={ product.imageUrl } label={ __( 'Imagen producto', 'perfumes' ) } onChange={ ( value ) => updateProduct( index, { imageUrl: value } ) } />
+						</div>
 						<RichText
 							tagName="span"
 							className="perfumes-badge"
@@ -72,7 +67,7 @@ export default function ProductGridSection( { products, onChange } ) {
 								}
 							/>
 						</div>
-						<Button variant="primary" disabled>
+						<Button className="perfumes-product-card__button" variant="primary" onClick={ () => onAdd?.( index ) }>
 							{ __( 'Agregar al carrito', 'perfumes' ) }
 						</Button>
 					</article>

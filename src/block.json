@@ -87,6 +87,10 @@
 				"Moschino"
 			]
 		},
+		"brandDirectory": {
+			"type": "array",
+			"default": [ "Armaf", "Carolina Herrera", "Dior", "Jean Paul Gaultier", "Lattafa", "Montblanc", "Orientica", "Yves Saint Laurent" ]
+		},
 		"products": {
 			"type": "array",
 			"default": [
@@ -185,5 +189,6 @@
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
+	"viewScript": "file:./view.js",
 	"render": "file:./render.php"
 }

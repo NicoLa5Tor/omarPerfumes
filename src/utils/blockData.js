@@ -1,5 +1,6 @@
 import {
 	defaultBenefits,
+	defaultBrandDirectory,
 	defaultBrands,
 	defaultCategories,
 	defaultPaymentMethods,
@@ -16,6 +17,7 @@ export function getLandingData( attributes ) {
 			defaultCategories
 		),
 		brands: withDefaultArray( attributes.brands, defaultBrands ),
+		brandDirectory: withDefaultArray( attributes.brandDirectory, defaultBrandDirectory ),
 		products: withDefaultArray( attributes.products, defaultProducts ),
 		benefits: withDefaultArray( attributes.benefits, defaultBenefits ),
 		paymentMethods: withDefaultArray(
