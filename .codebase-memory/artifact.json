@@ -1,11 +1,11 @@
 {
     "schema_version": 2,
-    "commit": "f8ab51fe10a807ac035b43eedcb86e773c9b78c5",
-    "indexed_at": "2026-08-24T19:02:20Z",
+    "commit": "5543a35726b4d2d6eef96da0b3032b7b678bddb0",
+    "indexed_at": "2026-08-24T19:06:12Z",
     "project": "C-Users-User-Desktop-Perfumes",
-    "nodes": 211,
-    "edges": 298,
+    "nodes": 212,
+    "edges": 297,
     "original_size": 2097152,
-    "compressed_size": 154151,
+    "compressed_size": 155011,
     "compression_level": 3
 }
