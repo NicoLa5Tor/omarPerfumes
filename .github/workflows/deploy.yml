@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: # Permite ejecutarlo manualmente desde GitHub
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -12,37 +12,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name:  Checkout
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name:  Setup pnpm
+      - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
 
-      - name:  Setup Node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'pnpm'
 
-      - name:  Instalar dependencias
+      - name: Instalar dependencias
         run: pnpm install --no-frozen-lockfile
 
-      - name:  Compilar React (wp-scripts build)
+      - name: Compilar React (wp-scripts build)
         run: pnpm run build
 
-      - name:  Deploy por FTP
+      - name: Deploy por FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-          # Carpeta local que se sube completa
           local-dir: ./
-          # Carpeta del servidor destino (carpeta del plugin)
-          server-dir: /wp-content/plugins/perfumes-block/
-          # Solo subimos lo necesario para producción
+          server-dir: /public_html/wp-content/plugins/perfumes-block/
           exclude: |
             **/node_modules/**
             **/src/**
