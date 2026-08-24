@@ -39,6 +39,23 @@ $products           = perfumes_array_attr( $attributes, 'products' );
 $benefits           = perfumes_array_attr( $attributes, 'benefits' );
 $payment_methods    = perfumes_array_attr( $attributes, 'paymentMethods' );
 $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-landing' ) );
+
+if ( function_exists( 'wc_get_products' ) ) {
+	$woocommerce_products = wc_get_products( array( 'status' => 'publish', 'limit' => 12, 'orderby' => 'date', 'order' => 'DESC' ) );
+	if ( $woocommerce_products ) {
+		$products = array_map(
+			static function ( $product ) {
+				$price = (float) $product->get_price();
+				$regular_price = (float) $product->get_regular_price();
+				return array( 'id' => $product->get_id(), 'discount' => $regular_price > $price ? '-' . (int) round( ( 1 - ( $price / $regular_price ) ) * 100 ) . '%' : '', 'name' => $product->get_name(), 'brand' => implode( ', ', wp_get_post_terms( $product->get_id(), 'product_cat', array( 'fields' => 'names' ) ) ), 'size' => $product->get_attribute( 'pa_concentracion' ) ?: __( 'Perfume original', 'perfumes' ), 'price' => '$ ' . number_format( $price, 0, ',', '.' ), 'oldPrice' => $regular_price > $price ? '$ ' . number_format( $regular_price, 0, ',', '.' ) : '', 'imageUrl' => wp_get_attachment_image_url( $product->get_image_id(), 'large' ) ?: '', 'url' => get_permalink( $product->get_id() ) );
+			},
+			$woocommerce_products
+		);
+	}
+	if ( function_exists( 'WC' ) && WC()->cart ) {
+		$cart_count = (string) WC()->cart->get_cart_contents_count();
+	}
+}
 ?>
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<header class="perfumes-header">
@@ -60,10 +77,10 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-
 				<span aria-hidden="true">Search</span>
 				<span><?php echo esc_html( $search_placeholder ); ?></span>
 			</div>
-			<div class="perfumes-cart" aria-label="<?php echo esc_attr__( 'Carrito', 'perfumes' ); ?>">
+			<a class="perfumes-cart" href="<?php echo esc_url( function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : '#' ); ?>" aria-label="<?php echo esc_attr__( 'Carrito', 'perfumes' ); ?>">
 				<span aria-hidden="true">Bag</span>
 				<strong data-perfumes-cart-count><?php echo esc_html( $cart_count ); ?></strong>
-			</div>
+			</a>
 		</div>
 	</header>
 
@@ -155,7 +172,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-
 								<p class="perfumes-product-card__brand"><?php echo esc_html( $product_brand ); ?></p>
 							<?php endif; ?>
 							<?php if ( $product_name ) : ?>
-								<h3><?php echo wp_kses_post( $product_name ); ?></h3>
+								<h3><a href="<?php echo esc_url( $product['url'] ?? '#' ); ?>"><?php echo wp_kses_post( $product_name ); ?></a></h3>
 							<?php endif; ?>
 							<?php if ( $product_size ) : ?>
 								<p class="perfumes-product-card__size"><?php echo esc_html( $product_size ); ?></p>
@@ -168,7 +185,8 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-
 									<span class="perfumes-product-card__old-price"><?php echo esc_html( $product_old_price ); ?></span>
 								<?php endif; ?>
 							</div>
-							<a class="perfumes-product-card__button" href="#" data-perfumes-add="<?php echo esc_attr( $product['id'] ?? sanitize_title( $product_name ) ); ?>"><?php echo esc_html__( 'Agregar al carrito', 'perfumes' ); ?></a>
+							<?php $product_id = $product['id'] ?? 0; ?>
+							<a class="perfumes-product-card__button" href="<?php echo esc_url( $product_id ? add_query_arg( 'add-to-cart', $product_id, get_permalink() ) : '#' ); ?>" data-perfumes-add="<?php echo esc_attr( $product_id ); ?>"><?php echo esc_html__( 'Agregar al carrito', 'perfumes' ); ?></a>
 						</div>
 					</article>
 				<?php endforeach; ?>

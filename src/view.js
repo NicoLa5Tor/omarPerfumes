@@ -12,13 +12,8 @@ function mountStorefront( root ) {
 	root.querySelectorAll( '[data-perfumes-add]' ).forEach( ( button ) => {
 		button.addEventListener( 'click', ( event ) => {
 			event.preventDefault();
-			const id = button.dataset.perfumesAdd;
-			const cart = getCart();
-			cart[ id ] = ( cart[ id ] || 0 ) + 1;
-			setCart( cart );
-			syncCart( root );
-			button.textContent = 'Agregado al carrito';
-			window.setTimeout( () => { button.textContent = 'Agregar al carrito'; }, 1200 );
+			if ( ! button.dataset.perfumesAdd ) return;
+			window.location.assign( button.href );
 		} );
 	} );
 	syncCart( root );
