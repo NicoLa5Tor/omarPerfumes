@@ -5,49 +5,67 @@
  * @var WP_Block $block      Block instance.
  */
 
-$eyebrow           = $attributes['eyebrow'] ?? '';
-$title             = $attributes['title'] ?? '';
-$description       = $attributes['description'] ?? '';
-$primary_cta       = $attributes['primaryCta'] ?? '';
-$secondary_cta     = $attributes['secondaryCta'] ?? '';
-$hero_image_url    = $attributes['heroImageUrl'] ?? '';
-$categories        = is_array( $attributes['categories'] ?? null ) ? $attributes['categories'] : array();
-$products          = is_array( $attributes['products'] ?? null ) ? $attributes['products'] : array();
-$promo_title       = $attributes['promoTitle'] ?? '';
-$promo_description = $attributes['promoDescription'] ?? '';
-$promo_cta         = $attributes['promoCta'] ?? '';
-$promo_image_url   = $attributes['promoImageUrl'] ?? '';
-$benefits          = is_array( $attributes['benefits'] ?? null ) ? $attributes['benefits'] : array();
+if ( ! function_exists( 'perfumes_array_attr' ) ) {
+	function perfumes_array_attr( $attributes, $key ) {
+		return is_array( $attributes[ $key ] ?? null ) ? $attributes[ $key ] : array();
+	}
+}
 
+if ( ! function_exists( 'perfumes_text_attr' ) ) {
+	function perfumes_text_attr( $attributes, $key ) {
+		return $attributes[ $key ] ?? '';
+	}
+}
+
+$site_title         = perfumes_text_attr( $attributes, 'siteTitle' );
+$tagline            = perfumes_text_attr( $attributes, 'tagline' );
+$search_placeholder = perfumes_text_attr( $attributes, 'searchPlaceholder' );
+$cart_count         = perfumes_text_attr( $attributes, 'cartCount' );
+$eyebrow            = perfumes_text_attr( $attributes, 'eyebrow' );
+$title              = perfumes_text_attr( $attributes, 'title' );
+$hero_brand         = perfumes_text_attr( $attributes, 'heroBrand' );
+$description        = perfumes_text_attr( $attributes, 'description' );
+$primary_cta        = perfumes_text_attr( $attributes, 'primaryCta' );
+$secondary_cta      = perfumes_text_attr( $attributes, 'secondaryCta' );
+$hero_price         = perfumes_text_attr( $attributes, 'heroPrice' );
+$hero_image_url     = perfumes_text_attr( $attributes, 'heroImageUrl' );
+$promo_title        = perfumes_text_attr( $attributes, 'promoTitle' );
+$promo_description  = perfumes_text_attr( $attributes, 'promoDescription' );
+$promo_cta          = perfumes_text_attr( $attributes, 'promoCta' );
+$promo_image_url    = perfumes_text_attr( $attributes, 'promoImageUrl' );
+$categories         = perfumes_array_attr( $attributes, 'categories' );
+$brands             = perfumes_array_attr( $attributes, 'brands' );
+$products           = perfumes_array_attr( $attributes, 'products' );
+$benefits           = perfumes_array_attr( $attributes, 'benefits' );
+$payment_methods    = perfumes_array_attr( $attributes, 'paymentMethods' );
 $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-landing' ) );
 ?>
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<section class="perfumes-hero">
-		<div class="perfumes-hero__content">
-			<?php if ( $eyebrow ) : ?>
-				<p class="perfumes-eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
+	<header class="perfumes-header">
+		<div class="perfumes-header__social" aria-hidden="true">
+			<span>Ig</span>
+			<span>Fb</span>
+			<span>Tk</span>
+		</div>
+		<div class="perfumes-logo">
+			<?php if ( $site_title ) : ?>
+				<div class="perfumes-logo__title"><?php echo esc_html( $site_title ); ?></div>
 			<?php endif; ?>
-			<?php if ( $title ) : ?>
-				<h1><?php echo wp_kses_post( $title ); ?></h1>
+			<?php if ( $tagline ) : ?>
+				<div class="perfumes-logo__tagline"><?php echo esc_html( $tagline ); ?></div>
 			<?php endif; ?>
-			<?php if ( $description ) : ?>
-				<p class="perfumes-hero__description"><?php echo wp_kses_post( $description ); ?></p>
-			<?php endif; ?>
-			<div class="perfumes-hero__actions">
-				<?php if ( $primary_cta ) : ?>
-					<a class="perfumes-button perfumes-button--primary" href="#perfumes-products"><?php echo esc_html( $primary_cta ); ?></a>
-				<?php endif; ?>
-				<?php if ( $secondary_cta ) : ?>
-					<a class="perfumes-button perfumes-button--ghost" href="#perfumes-products"><?php echo esc_html( $secondary_cta ); ?></a>
-				<?php endif; ?>
+		</div>
+		<div class="perfumes-header__right">
+			<div class="perfumes-search">
+				<span aria-hidden="true">Search</span>
+				<span><?php echo esc_html( $search_placeholder ); ?></span>
+			</div>
+			<div class="perfumes-cart" aria-label="<?php echo esc_attr__( 'Carrito', 'perfumes' ); ?>">
+				<span aria-hidden="true">Bag</span>
+				<strong><?php echo esc_html( $cart_count ); ?></strong>
 			</div>
 		</div>
-		<div class="perfumes-hero__media">
-			<?php if ( $hero_image_url ) : ?>
-				<img src="<?php echo esc_url( $hero_image_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>" />
-			<?php endif; ?>
-		</div>
-	</section>
+	</header>
 
 	<?php if ( $categories ) : ?>
 		<nav class="perfumes-category-nav" aria-label="<?php echo esc_attr__( 'Categorias destacadas', 'perfumes' ); ?>">
@@ -59,20 +77,69 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-
 		</nav>
 	<?php endif; ?>
 
+	<section class="perfumes-hero">
+		<div class="perfumes-hero__content">
+			<span class="perfumes-hero__rule" aria-hidden="true"></span>
+			<?php if ( $eyebrow ) : ?>
+				<p class="perfumes-eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
+			<?php endif; ?>
+			<?php if ( $title ) : ?>
+				<h1><?php echo wp_kses_post( $title ); ?></h1>
+			<?php endif; ?>
+			<?php if ( $hero_brand ) : ?>
+				<p class="perfumes-hero__brand"><?php echo esc_html( $hero_brand ); ?></p>
+			<?php endif; ?>
+			<?php if ( $description ) : ?>
+				<p class="perfumes-hero__description"><?php echo wp_kses_post( $description ); ?></p>
+			<?php endif; ?>
+			<div class="perfumes-hero__actions">
+				<?php if ( $primary_cta ) : ?>
+					<a class="perfumes-button perfumes-button--primary" href="#perfumes-products"><?php echo esc_html( $primary_cta ); ?></a>
+				<?php endif; ?>
+				<?php if ( $secondary_cta ) : ?>
+					<a class="perfumes-button perfumes-button--ghost" href="#perfumes-products"><?php echo esc_html( $secondary_cta ); ?></a>
+				<?php endif; ?>
+				<?php if ( $hero_price ) : ?>
+					<strong class="perfumes-hero__price"><?php echo esc_html( $hero_price ); ?></strong>
+				<?php endif; ?>
+			</div>
+		</div>
+		<div class="perfumes-hero__media">
+			<?php if ( $hero_image_url ) : ?>
+				<img src="<?php echo esc_url( $hero_image_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>" />
+			<?php endif; ?>
+		</div>
+	</section>
+
+	<?php if ( $brands ) : ?>
+		<section class="perfumes-brand-strip">
+			<p><?php echo esc_html__( 'Las marcas mas buscadas', 'perfumes' ); ?></p>
+			<div>
+				<?php foreach ( $brands as $brand ) : ?>
+					<?php if ( $brand ) : ?>
+						<span><?php echo esc_html( $brand ); ?></span>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</div>
+		</section>
+	<?php endif; ?>
+
 	<?php if ( $products ) : ?>
 		<section class="perfumes-products" id="perfumes-products">
 			<div class="perfumes-section-heading">
-				<p><?php echo esc_html__( 'Seleccionados', 'perfumes' ); ?></p>
 				<h2><?php echo esc_html__( 'Top en ventas', 'perfumes' ); ?></h2>
+				<a href="#"><?php echo esc_html__( 'Ver todos los productos', 'perfumes' ); ?></a>
 			</div>
 			<div class="perfumes-product-grid">
 				<?php foreach ( $products as $product ) : ?>
 					<?php
-					$product_badge = $product['badge'] ?? '';
-					$product_name  = $product['name'] ?? '';
-					$product_brand = $product['brand'] ?? '';
-					$product_price = $product['price'] ?? '';
-					$product_image = $product['imageUrl'] ?? '';
+					$product_discount  = $product['discount'] ?? '';
+					$product_name      = $product['name'] ?? '';
+					$product_brand     = $product['brand'] ?? '';
+					$product_size      = $product['size'] ?? '';
+					$product_price     = $product['price'] ?? '';
+					$product_old_price = $product['oldPrice'] ?? '';
+					$product_image     = $product['imageUrl'] ?? '';
 					?>
 					<article class="perfumes-product-card">
 						<div class="perfumes-product-card__image">
@@ -80,19 +147,29 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-
 								<img src="<?php echo esc_url( $product_image ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $product_name ) ); ?>" loading="lazy" />
 							<?php endif; ?>
 						</div>
-						<?php if ( $product_badge ) : ?>
-							<span class="perfumes-badge"><?php echo esc_html( $product_badge ); ?></span>
+						<?php if ( $product_discount ) : ?>
+							<span class="perfumes-badge"><?php echo esc_html( $product_discount ); ?></span>
 						<?php endif; ?>
-						<?php if ( $product_brand ) : ?>
-							<p class="perfumes-product-card__brand"><?php echo esc_html( $product_brand ); ?></p>
-						<?php endif; ?>
-						<?php if ( $product_name ) : ?>
-							<h3><?php echo wp_kses_post( $product_name ); ?></h3>
-						<?php endif; ?>
-						<?php if ( $product_price ) : ?>
-							<strong class="perfumes-product-card__price"><?php echo esc_html( $product_price ); ?></strong>
-						<?php endif; ?>
-						<a class="perfumes-product-card__button" href="#"><?php echo esc_html__( 'Agregar al carrito', 'perfumes' ); ?></a>
+						<div class="perfumes-product-card__body">
+							<?php if ( $product_brand ) : ?>
+								<p class="perfumes-product-card__brand"><?php echo esc_html( $product_brand ); ?></p>
+							<?php endif; ?>
+							<?php if ( $product_name ) : ?>
+								<h3><?php echo wp_kses_post( $product_name ); ?></h3>
+							<?php endif; ?>
+							<?php if ( $product_size ) : ?>
+								<p class="perfumes-product-card__size"><?php echo esc_html( $product_size ); ?></p>
+							<?php endif; ?>
+							<div class="perfumes-product-card__price-row">
+								<?php if ( $product_price ) : ?>
+									<strong class="perfumes-product-card__price"><?php echo esc_html( $product_price ); ?></strong>
+								<?php endif; ?>
+								<?php if ( $product_old_price ) : ?>
+									<span class="perfumes-product-card__old-price"><?php echo esc_html( $product_old_price ); ?></span>
+								<?php endif; ?>
+							</div>
+							<a class="perfumes-product-card__button" href="#"><?php echo esc_html__( 'Agregar al carrito', 'perfumes' ); ?></a>
+						</div>
 					</article>
 				<?php endforeach; ?>
 			</div>
@@ -101,7 +178,7 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-
 
 	<section class="perfumes-promo">
 		<div>
-			<p class="perfumes-eyebrow"><?php echo esc_html__( 'Addi', 'perfumes' ); ?></p>
+			<p class="perfumes-addi-wordmark"><?php echo esc_html__( 'addi', 'perfumes' ); ?><span></span><em><?php echo esc_html__( 'Aliado de pago', 'perfumes' ); ?></em></p>
 			<?php if ( $promo_title ) : ?>
 				<h2><?php echo wp_kses_post( $promo_title ); ?></h2>
 			<?php endif; ?>
@@ -141,6 +218,19 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-
 		</section>
 	<?php endif; ?>
 
+	<?php if ( $payment_methods ) : ?>
+		<section class="perfumes-payments">
+			<p><?php echo esc_html__( 'Medios de pago', 'perfumes' ); ?></p>
+			<div>
+				<?php foreach ( $payment_methods as $method ) : ?>
+					<?php if ( $method ) : ?>
+						<span><?php echo esc_html( $method ); ?></span>
+					<?php endif; ?>
+				<?php endforeach; ?>
+			</div>
+		</section>
+	<?php endif; ?>
+
 	<footer class="perfumes-footer-preview">
 		<div>
 			<h2><?php echo esc_html__( 'Omar Perfumes', 'perfumes' ); ?></h2>
@@ -151,8 +241,12 @@ $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-
 			<p><?php echo esc_html__( 'Politicas, envios, cambios y pagos seguros.', 'perfumes' ); ?></p>
 		</div>
 		<div>
-			<h3><?php echo esc_html__( 'Contacto', 'perfumes' ); ?></h3>
-			<p><?php echo esc_html__( 'Bogota, Colombia', 'perfumes' ); ?></p>
+			<h3><?php echo esc_html__( 'Soporte', 'perfumes' ); ?></h3>
+			<p><?php echo esc_html__( 'ventas@omarperfumes.com.co', 'perfumes' ); ?></p>
+			<p><?php echo esc_html__( '+57 314 250 8890', 'perfumes' ); ?></p>
+			<p><?php echo esc_html__( 'Bogota D.C., Colombia', 'perfumes' ); ?></p>
 		</div>
 	</footer>
+
+	<a class="perfumes-whatsapp" href="#" aria-label="<?php echo esc_attr__( 'WhatsApp', 'perfumes' ); ?>">WA</a>
 </div>

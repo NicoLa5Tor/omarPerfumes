@@ -1,10 +1,18 @@
 import { RichText } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import EditableImage from './EditableImage';
+import EditableImage from '../../components/EditableImage';
 
 export default function HeroSection( { attributes, setAttributes } ) {
-	const { eyebrow, title, description, primaryCta, secondaryCta, heroImageUrl } =
-		attributes;
+	const {
+		eyebrow,
+		title,
+		description,
+		primaryCta,
+		secondaryCta,
+		heroImageUrl,
+		heroBrand,
+		heroPrice,
+	} = attributes;
 
 	return (
 		<section className="perfumes-hero">
@@ -29,6 +37,13 @@ export default function HeroSection( { attributes, setAttributes } ) {
 					onChange={ ( value ) => setAttributes( { description: value } ) }
 					placeholder={ __( 'Descripcion principal', 'perfumes' ) }
 				/>
+				<RichText
+					tagName="p"
+					className="perfumes-hero__brand"
+					value={ heroBrand }
+					onChange={ ( value ) => setAttributes( { heroBrand: value } ) }
+					placeholder={ __( 'Marca', 'perfumes' ) }
+				/>
 				<div className="perfumes-hero__actions">
 					<RichText
 						tagName="span"
@@ -43,6 +58,13 @@ export default function HeroSection( { attributes, setAttributes } ) {
 						value={ secondaryCta }
 						onChange={ ( value ) => setAttributes( { secondaryCta: value } ) }
 						placeholder={ __( 'CTA secundario', 'perfumes' ) }
+					/>
+					<RichText
+						tagName="strong"
+						className="perfumes-hero__price"
+						value={ heroPrice }
+						onChange={ ( value ) => setAttributes( { heroPrice: value } ) }
+						placeholder={ __( 'Precio hero', 'perfumes' ) }
 					/>
 				</div>
 			</div>

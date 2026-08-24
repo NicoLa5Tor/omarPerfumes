@@ -1,6 +1,6 @@
 import { RichText } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import EditableImage from './EditableImage';
+import EditableImage from '../../components/EditableImage';
 
 export default function PromoSection( { attributes, setAttributes } ) {
 	const { promoTitle, promoDescription, promoCta, promoImageUrl } = attributes;

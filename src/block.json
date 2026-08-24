@@ -12,25 +12,49 @@
 		"align": [ "wide", "full" ]
 	},
 	"attributes": {
+		"siteTitle": {
+			"type": "string",
+			"default": "OMAR PERFUMES"
+		},
+		"tagline": {
+			"type": "string",
+			"default": "P E R F U M E R I A  D E  L U J O"
+		},
+		"searchPlaceholder": {
+			"type": "string",
+			"default": "Buscar producto..."
+		},
+		"cartCount": {
+			"type": "string",
+			"default": "2"
+		},
 		"eyebrow": {
 			"type": "string",
-			"default": "Perfumes originales"
+			"default": "PERFUMES EXCLUSIVOS"
 		},
 		"title": {
 			"type": "string",
 			"default": "Spicebomb Night Vision"
 		},
+		"heroBrand": {
+			"type": "string",
+			"default": "VIKTOR & ROLF"
+		},
 		"description": {
 			"type": "string",
-			"default": "Una seleccion premium de fragancias masculinas y femeninas para comprar facil, seguro y con entrega nacional."
+			"default": "Notas especiadas de pimienta rosa, lavanda y vetiver. Envio seguro a toda Colombia."
 		},
 		"primaryCta": {
 			"type": "string",
-			"default": "Comprar ahora"
+			"default": "Conocer mas"
 		},
 		"secondaryCta": {
 			"type": "string",
-			"default": "Ver catalogo"
+			"default": ""
+		},
+		"heroPrice": {
+			"type": "string",
+			"default": "Desde $ 389.900"
 		},
 		"heroImageUrl": {
 			"type": "string",
@@ -39,13 +63,27 @@
 		"categories": {
 			"type": "array",
 			"default": [
+				"Inicio",
+				"Marcas",
+				"Mujer",
+				"Hombre",
+				"Unisex",
+				"Perfumes Arabes",
+				"Nicho",
+				"Estuches",
+				"Descuentos"
+			]
+		},
+		"brands": {
+			"type": "array",
+			"default": [
 				"Boss",
 				"Blain",
-				"Intense",
+				"Creed",
 				"Jean Paul",
 				"Lacoste",
 				"Montale",
-				"Most Blanc",
+				"Mont Blanc",
 				"Moschino"
 			]
 		},
@@ -53,31 +91,39 @@
 			"type": "array",
 			"default": [
 				{
-					"badge": "Nuevo",
+					"discount": "-25%",
 					"name": "Good Girl Blush",
 					"brand": "Carolina Herrera",
-					"price": "$ 368.000",
+					"size": "EDP 80 ml",
+					"price": "$ 549.900",
+					"oldPrice": "$ 729.900",
 					"imageUrl": ""
 				},
 				{
-					"badge": "Nuevo",
+					"discount": "-20%",
 					"name": "Spicebomb Night Vision",
 					"brand": "Viktor&Rolf",
-					"price": "$ 489.000",
+					"size": "EDT 90 ml",
+					"price": "$ 389.900",
+					"oldPrice": "$ 489.900",
 					"imageUrl": ""
 				},
 				{
-					"badge": "Nuevo",
+					"discount": "-15%",
+					"name": "Khamrah Qahwa",
+					"brand": "Lattafa",
+					"size": "EDP 100 ml",
+					"price": "$ 209.900",
+					"oldPrice": "$ 249.900",
+					"imageUrl": ""
+				},
+				{
+					"discount": "-18%",
 					"name": "Le Male Elixir",
 					"brand": "Jean Paul Gaultier",
-					"price": "$ 420.000",
-					"imageUrl": ""
-				},
-				{
-					"badge": "Nuevo",
-					"name": "Le Male Bleu",
-					"brand": "Jean Paul Gaultier",
-					"price": "$ 450.000",
+					"size": "EDP 125 ml",
+					"price": "$ 489.900",
+					"oldPrice": "$ 599.900",
 					"imageUrl": ""
 				}
 			]
@@ -102,21 +148,36 @@
 			"type": "array",
 			"default": [
 				{
-					"title": "Pedidos 100% seguros",
-					"description": "Compra con medios de pago confiables."
+					"title": "Perfumeria 100% Original",
+					"description": "Sellados de fabrica"
 				},
 				{
-					"title": "Entrega nacional",
-					"description": "Recibe tus fragancias en Colombia."
+					"title": "Incluye Certificado",
+					"description": "de Garantia"
 				},
 				{
-					"title": "Datos protegidos",
-					"description": "Tu informacion siempre viaja cifrada."
+					"title": "Envios Seguros",
+					"description": "a TODA Colombia"
 				},
 				{
-					"title": "Soporte real",
-					"description": "Te acompanamos antes y despues de comprar."
+					"title": "TODOS los",
+					"description": "Medios de pago"
 				}
+			]
+		},
+		"paymentMethods": {
+			"type": "array",
+			"default": [
+				"Bancolombia",
+				"VISA",
+				"mastercard",
+				"PSE",
+				"addi",
+				"Sistecredito",
+				"Su Pay",
+				"Bold",
+				"Nequi",
+				"Daviplata"
 			]
 		}
 	},

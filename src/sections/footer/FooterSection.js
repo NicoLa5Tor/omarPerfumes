@@ -1,4 +1,4 @@
-export default function FooterPreview() {
+export default function FooterSection() {
 	return (
 		<footer className="perfumes-footer-preview">
 			<div>

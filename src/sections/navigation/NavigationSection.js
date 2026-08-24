@@ -1,6 +1,6 @@
 import { RichText } from '@wordpress/block-editor';
 
-export default function CategoryNav( { categories, onChange } ) {
+export default function NavigationSection( { categories, onChange } ) {
 	return (
 		<nav className="perfumes-category-nav" aria-label="Categorias destacadas">
 			{ categories.map( ( category, index ) => (

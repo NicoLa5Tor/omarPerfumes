@@ -1,51 +1,40 @@
-.wp-block-perfumes-showcase.perfumes-landing {
-	border: 1px solid #d8dee7;
-	box-shadow: 0 16px 40px rgba(6, 23, 42, 0.08);
-}
+@tailwind components;
+@tailwind utilities;
 
-.perfumes-image-placeholder {
-	align-items: center;
-	border: 1px dashed #99a7b8;
-	color: #203040;
-	display: flex;
-	font-weight: 700;
-	justify-content: center;
-	min-height: 180px;
-	width: 100%;
-}
+@layer components {
+	.wp-block-perfumes-showcase.perfumes-landing {
+		@apply border border-[#d8dee7] shadow-[0_16px_40px_rgba(6,23,42,0.08)];
+	}
 
-.perfumes-hero__media.perfumes-image-placeholder,
-.perfumes-promo__media.perfumes-image-placeholder {
-	min-height: 360px;
-}
+	.perfumes-image-placeholder {
+		@apply flex min-h-[180px] w-full items-center justify-center border border-dashed border-[#99a7b8] font-bold text-[#203040];
+	}
 
-.perfumes-product-card__image.perfumes-image-placeholder {
-	aspect-ratio: 1 / 1.12;
-	margin: -14px -14px 10px;
-	min-height: 0;
-}
+	.perfumes-hero__media.perfumes-image-placeholder,
+	.perfumes-promo__media.perfumes-image-placeholder {
+		@apply min-h-[360px];
+	}
 
-.perfumes-image-action {
-	margin: 12px;
-	position: absolute;
-	right: 0;
-	top: 0;
-	z-index: 2;
-}
+	.perfumes-product-card__image.perfumes-image-placeholder {
+		@apply m-0 mb-2.5 min-h-0;
+		aspect-ratio: 1 / 1.12;
+	}
 
-.perfumes-hero__media,
-.perfumes-product-card__image,
-.perfumes-promo__media {
-	position: relative;
-}
+	.perfumes-image-action {
+		@apply absolute right-0 top-0 z-[2] m-3;
+	}
 
-.perfumes-product-card .components-button[disabled] {
-	background: #08203a;
-	color: #ffffff;
-	opacity: 1;
-	width: 100%;
-}
+	.perfumes-hero__media,
+	.perfumes-product-card__image,
+	.perfumes-promo__media {
+		@apply relative;
+	}
 
-.perfumes-footer-preview {
-	margin-bottom: 0;
+	.perfumes-product-card .components-button[disabled] {
+		@apply w-full bg-perfumes-navy text-white opacity-100;
+	}
+
+	.perfumes-footer-preview {
+		@apply mb-0;
+	}
 }

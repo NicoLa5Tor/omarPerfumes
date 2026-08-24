@@ -1,6 +1,6 @@
 import { RichText } from '@wordpress/block-editor';
 
-export default function BenefitsBar( { benefits, onChange } ) {
+export default function TrustBarSection( { benefits, onChange } ) {
 	const updateBenefit = ( index, patch ) => {
 		const next = [ ...benefits ];
 		next[ index ] = { ...next[ index ], ...patch };

@@ -1,50 +1,61 @@
 import { useBlockProps } from '@wordpress/block-editor';
-import HeroSection from './components/HeroSection';
-import CategoryNav from './components/CategoryNav';
-import ProductGrid from './components/ProductGrid';
-import PromoSection from './components/PromoSection';
-import BenefitsBar from './components/BenefitsBar';
-import FooterPreview from './components/FooterPreview';
+import FloatingWhatsApp from './components/FloatingWhatsApp';
 import {
-	defaultBenefits,
-	defaultCategories,
-	defaultProducts,
-} from './data/defaults';
+	BrandStripSection,
+	FooterSection,
+	HeaderSection,
+	HeroSection,
+	NavigationSection,
+	PaymentMethodsSection,
+	ProductGridSection,
+	PromoSection,
+	TrustBarSection,
+} from './sections';
+import { getLandingData, updateArrayAttribute } from './utils/blockData';
 
 export default function Edit( { attributes, setAttributes } ) {
-	const categories = attributes.categories?.length
-		? attributes.categories
-		: defaultCategories;
-	const products = attributes.products?.length
-		? attributes.products
-		: defaultProducts;
-	const benefits = attributes.benefits?.length
-		? attributes.benefits
-		: defaultBenefits;
+	const { categories, brands, products, benefits, paymentMethods } =
+		getLandingData( attributes );
 
 	return (
 		<div { ...useBlockProps( { className: 'perfumes-landing' } ) }>
+			<HeaderSection
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+			/>
+			<NavigationSection
+				categories={ categories }
+				onChange={ updateArrayAttribute( setAttributes, 'categories' ) }
+			/>
 			<HeroSection
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 			/>
-			<CategoryNav
-				categories={ categories }
-				onChange={ ( value ) => setAttributes( { categories: value } ) }
+			<BrandStripSection
+				brands={ brands }
+				onChange={ updateArrayAttribute( setAttributes, 'brands' ) }
 			/>
-			<ProductGrid
+			<ProductGridSection
 				products={ products }
-				onChange={ ( value ) => setAttributes( { products: value } ) }
+				onChange={ updateArrayAttribute( setAttributes, 'products' ) }
 			/>
 			<PromoSection
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 			/>
-			<BenefitsBar
+			<TrustBarSection
 				benefits={ benefits }
-				onChange={ ( value ) => setAttributes( { benefits: value } ) }
+				onChange={ updateArrayAttribute( setAttributes, 'benefits' ) }
 			/>
-			<FooterPreview />
+			<PaymentMethodsSection
+				methods={ paymentMethods }
+				onChange={ updateArrayAttribute(
+					setAttributes,
+					'paymentMethods'
+				) }
+			/>
+			<FooterSection />
+			<FloatingWhatsApp />
 		</div>
 	);
 }
