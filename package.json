@@ -5,6 +5,7 @@
   "author": "Tu Nombre",
   "license": "GPL-2.0-or-later",
   "main": "build/index.js",
+  "packageManager": "pnpm@11.13.1",
   "scripts": {
     "build": "wp-scripts build",
     "start": "wp-scripts start",
