@@ -1,0 +1,9 @@
+Hola Mundo desde omarPerfumes 🚀
+
+Este archivo se subió automáticamente por FTP con GitHub Actions.
+
+Si estás leyendo esto en /wp-content/plugins/perfumes-block/hola-mundo.txt
+¡el deploy automático funciona correctamente!
+
+Fecha del deploy: este archivo se actualiza en cada push a main.
+Commit que generó este deploy: prueba del flujo de deploy.
