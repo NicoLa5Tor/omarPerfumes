@@ -12,22 +12,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout
+      - name:  Checkout
         uses: actions/checkout@v4
 
-      - name: ⚙️ Setup Node
+      - name:  Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
-      - name: 📦 Instalar dependencias
+      - name:  Instalar dependencias
         run: npm ci
 
-      - name: 🔨 Compilar React (wp-scripts build)
+      - name:  Compilar React (wp-scripts build)
         run: npm run build
 
-      - name: 🚀 Deploy por FTP
+      - name:  Deploy por FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
