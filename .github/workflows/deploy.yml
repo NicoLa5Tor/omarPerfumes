@@ -1,0 +1,50 @@
+name: Deploy to WordPress (FTP)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Permite ejecutarlo manualmente desde GitHub
+
+jobs:
+  deploy:
+    name: Build + Deploy por FTP
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Instalar dependencias
+        run: npm ci
+
+      - name: 🔨 Compilar React (wp-scripts build)
+        run: npm run build
+
+      - name: 🚀 Deploy por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          # Carpeta local que se sube completa
+          local-dir: ./
+          # Carpeta del servidor destino (carpeta del plugin)
+          server-dir: /wp-content/plugins/perfumes-block/
+          # Solo subimos lo necesario para producción
+          exclude: |
+            **/node_modules/**
+            **/src/**
+            **/.git/**
+            **/.github/**
+            **/build/**/*.map
+            package.json
+            package-lock.json
+            .gitignore
+            README.md

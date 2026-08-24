@@ -1,0 +1,17 @@
+# Dependencias
+node_modules/
+
+# Build de producción (se genera en CI)
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
