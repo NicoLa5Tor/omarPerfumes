@@ -68,47 +68,50 @@ function preloaderAnimation( root ) {
 	const logoImage = root.querySelector( '.logo-image' );
 	const fill = root.querySelector( '.preloader-bg' );
 	const mask = root.querySelector( '.preloader-mask' );
-	const progressBar = root.querySelector( '.preloader-progress-bar' );
 	const preloaderLogo = root.querySelector( '.preloader-logo' );
 	const heroImage = root.querySelector( '.hero-product-primary__image' );
-	const fadeTargets = [ fill, preloaderLogo, progressBar ].filter( Boolean );
+	const brandTargets = [ preloaderLogo, fill ].filter( Boolean );
 
 	timeline
-		.set( mask, { scale: 1, transformOrigin: '50% 50%' } )
+		.set( mask, { '--bubble-r': '0vmax' } )
 		.set( heroImage ? [ heroImage ] : [], { scale: 1.2 } )
 		.fromTo(
 			logoImage,
-			{ autoAlpha: 0 },
-			{ autoAlpha: 1, duration: 0.45, ease: 'power2.out' }
+			{ autoAlpha: 0, scale: 0.92 },
+			{ autoAlpha: 1, scale: 1, duration: 0.5, ease: 'power2.out' }
 		)
 		.to(
 			fill,
 			{
 				scaleX: 1,
 				ease: 'stutterEase',
-				duration: 2.8,
+				duration: 2.2,
+			},
+			'-=0.15'
+		)
+		.to(
+			brandTargets,
+			{
+				autoAlpha: 0,
+				duration: 0.4,
+				ease: 'power2.in',
+			},
+			'-=0.15'
+		)
+		.to(
+			mask,
+			{
+				'--bubble-r': '130vmax',
+				duration: 1.15,
+				ease: 'power3.inOut',
 			},
 			'-=0.1'
-		)
-		.to( mask, {
-			scale: 3,
-			duration: 0.9,
-			ease: 'expoScale(0.5,7,power1.in)',
-		} )
-		.to(
-			fadeTargets,
-			{
-				opacity: 0,
-				duration: 0.85,
-				ease: 'power2.inOut',
-			},
-			'<'
 		)
 		.to(
 			heroImage ? [ heroImage ] : [],
 			{
 				scale: 1,
-				duration: 2.85,
+				duration: 2.4,
 				ease: 'expoScale(0.5,7,power1.out)',
 			},
 			'<'

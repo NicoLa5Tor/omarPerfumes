@@ -484,32 +484,33 @@
 		pointer-events: none;
 	}
 
+	/* Transparent container that floats the brand + loading bar above the curtain. */
 	.preloader-progress-bar {
-		z-index: 100;
-		background: #071527;
+		z-index: 102;
+		background: transparent;
 	}
 
+	/* Thin gold loading bar pinned to the bottom edge. */
 	.preloader-bg {
-		z-index: 100;
-		background: #fff;
-		transform: scaleX(0.2);
+		top: auto;
+		bottom: 0;
+		z-index: 102;
+		height: 3px;
+		background: #e2bd6d;
+		transform: scaleX(0.15);
 		transform-origin: left center;
 	}
 
+	/* Dark curtain that provides the solid background and the expanding bubble. */
 	.preloader-mask {
-		z-index: 100;
-		background: #030a14;
+		--bubble-r: 0vmax;
+		z-index: 101;
+		background: #071527;
 		transform-origin: 50% 50%;
-		-webkit-mask-image: linear-gradient(#fff, #fff), var(--omar-mask);
-		-webkit-mask-position: 0 0, center;
-		-webkit-mask-repeat: no-repeat, no-repeat;
-		-webkit-mask-size: 100% 100%, 40%;
-		-webkit-mask-composite: xor;
-		mask-image: linear-gradient(#fff, #fff), var(--omar-mask);
-		mask-position: 0 0, center;
-		mask-repeat: no-repeat, no-repeat;
-		mask-size: 100% 100%, 40%;
-		mask-composite: subtract;
+		-webkit-mask-image: radial-gradient(circle at 50% 50%, transparent var(--bubble-r), #000 calc(var(--bubble-r) + 2px));
+		-webkit-mask-repeat: no-repeat;
+		mask-image: radial-gradient(circle at 50% 50%, transparent var(--bubble-r), #000 calc(var(--bubble-r) + 2px));
+		mask-repeat: no-repeat;
 	}
 
 	body.omar-initial-entry .perfumes-landing.is-intro-ready .preloader-mask,
@@ -529,9 +530,9 @@
 	.preloader-logo .logo-image {
 		display: block;
 		width: auto;
+		max-width: min(70vw, 420px);
 		height: 4rem;
 		margin: auto;
-		mix-blend-mode: difference;
 	}
 
 	.hero-section {
@@ -1061,11 +1062,6 @@
 	@media (max-width: 640px) {
 		.perfumes-landing .preloader-logo .logo-image {
 			height: 3rem;
-		}
-
-		.perfumes-landing .preloader-mask {
-			-webkit-mask-size: 100% 100%, 55%;
-			mask-size: 100% 100%, 55%;
 		}
 
 		.perfumes-landing .hero-section {

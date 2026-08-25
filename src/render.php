@@ -201,7 +201,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 			<img class="logo-image" src="<?php echo esc_url( $logo_light_url ); ?>" alt="" width="900" height="277" />
 		</div>
 	</div>
-	<div class="preloader-mask" style="--omar-mask: url('<?php echo esc_url( $logo_light_url ); ?>')" aria-hidden="true"></div>
+	<div class="preloader-mask" aria-hidden="true"></div>
 
 	<section class="hero-section">
 		<div class="hero-atmosphere" aria-hidden="true">
