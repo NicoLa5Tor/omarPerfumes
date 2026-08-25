@@ -410,8 +410,8 @@
 			height: 72px;
 		}
 
-		.home .perfumes-logo,
-		.perfumes-logo {
+		.perfumes-logo,
+		.home .perfumes-logo {
 			display: block;
 			width: 116px;
 			min-width: 116px;
