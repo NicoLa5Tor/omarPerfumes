@@ -13,7 +13,7 @@ function preloaderAnimation( root ) {
 	const heroImageTargets = heroImage ? [ heroImage ] : [];
 
 	timeline
-		.set( heroImageTargets, { scale: 1.08 } )
+		.set( heroImageTargets, { scale: 1.18 } )
 		.fromTo(
 			logoImage,
 			{ autoAlpha: 0, y: 14, scale: 0.96 },
@@ -64,8 +64,8 @@ function heroAnimation( root ) {
 	const fadeElements = [ ...root.querySelectorAll( '[data-fade-in]' ) ];
 	const headline = root.querySelector( '[data-hero-reveal]' );
 
-	timeline
-		.fromTo(
+	if ( fadeElements.length ) {
+		timeline.fromTo(
 			fadeElements,
 			{
 				autoAlpha: 0,
@@ -78,13 +78,17 @@ function heroAnimation( root ) {
 				stagger: 0.06,
 			},
 			0
-		)
-		.fromTo(
+		);
+	}
+
+	if ( headline ) {
+		timeline.fromTo(
 			headline,
 			{ autoAlpha: 0, yPercent: 108 },
 			{ autoAlpha: 1, yPercent: 0, duration: 0.88 },
 			0.08
 		);
+	}
 
 	return timeline;
 }
@@ -181,7 +185,7 @@ function runIntro( root ) {
 		} );
 		const preloaderTl = preloaderAnimation( root );
 		const heroTl = heroAnimation( root );
-		introTimeline.add( preloaderTl ).add( heroTl, '-=0.55' );
+		introTimeline.add( preloaderTl ).add( heroTl, '-=0.1' );
 	} catch ( error ) {
 		root.classList.remove( 'is-intro-ready' );
 		window.console.warn( 'Omar hero animation skipped.', error );
