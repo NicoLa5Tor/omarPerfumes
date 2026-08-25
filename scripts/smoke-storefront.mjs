@@ -97,8 +97,12 @@ expect(
 	'WhatsApp must never point to #.'
 );
 expect(
-	( home.match( /data-product_id=/g ) || [] ).length >= 10,
-	'Landing must expose WooCommerce add-to-cart buttons.'
+	( home.match( /data-product-card/g ) || [] ).length === 8,
+	'Landing must render exactly 8 best-selling product cards.'
+);
+expect(
+	( home.match( /data-product_id=/g ) || [] ).length === 8,
+	'Landing must expose one WooCommerce add-to-cart button per product card.'
 );
 
 console.log( `Storefront smoke checks passed: ${ checks.length }` );
