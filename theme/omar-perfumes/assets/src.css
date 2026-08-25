@@ -188,7 +188,7 @@
 		transition: color 180ms ease;
 	}
 
-	/* The landing stylesheet also targets nav spans; the label must follow its link state. */
+	/* Keep the label color in sync with the link, including WordPress item spans. */
 	.perfumes-category-nav .wp-block-navigation-item__label {
 		color: inherit !important;
 	}
