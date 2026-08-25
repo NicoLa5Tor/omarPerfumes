@@ -526,14 +526,11 @@
 		height: 100%;
 	}
 
-	.preloader-logo .logo-text {
+	.preloader-logo .logo-image {
+		display: block;
+		width: auto;
+		height: 4rem;
 		margin: auto;
-		font-family: "Host Grotesk", sans-serif;
-		font-size: 4rem;
-		font-weight: 500;
-		line-height: 1;
-		color: #fff;
-		text-align: center;
 		mix-blend-mode: difference;
 	}
 
@@ -1062,8 +1059,8 @@
 	}
 
 	@media (max-width: 640px) {
-		.perfumes-landing .preloader-logo .logo-text {
-			font-size: 3rem;
+		.perfumes-landing .preloader-logo .logo-image {
+			height: 3rem;
 		}
 
 		.perfumes-landing .preloader-mask {

@@ -39,43 +39,6 @@ function completeInitialEntry( root ) {
 	document.body.classList.remove( 'omar-initial-entry' );
 }
 
-function animateLogoText( el ) {
-	if ( ! el ) {
-		return;
-	}
-
-	gsap.set( el, { visibility: 'visible' } );
-	const split = SplitText.create( el, {
-		type: 'chars',
-		smartWrap: true,
-		mask: 'chars',
-	} );
-
-	split.chars.forEach( ( charEl ) => {
-		const text = charEl.textContent;
-		charEl.textContent = '';
-		const original = document.createElement( 'div' );
-		original.className = 'og-char';
-		original.textContent = text;
-		const duplicate = document.createElement( 'div' );
-		duplicate.className = 'duplicate-char';
-		duplicate.textContent = text;
-		charEl.append( original, duplicate );
-	} );
-
-	gsap.from( split.chars, {
-		yPercent: -100,
-		ease: 'power2.inOut',
-		stagger: {
-			each: 0.02,
-			from: 'random',
-		},
-		duration: 0.5,
-		repeat: 1,
-		repeatDelay: 0.75,
-	} );
-}
-
 function animateHeadline( el ) {
 	if ( ! el ) {
 		return;
@@ -102,7 +65,7 @@ function animateHeadline( el ) {
 
 function preloaderAnimation( root ) {
 	const timeline = gsap.timeline();
-	const logoText = root.querySelector( '.logo-text' );
+	const logoImage = root.querySelector( '.logo-image' );
 	const fill = root.querySelector( '.preloader-bg' );
 	const mask = root.querySelector( '.preloader-mask' );
 	const progressBar = root.querySelector( '.preloader-progress-bar' );
@@ -113,14 +76,20 @@ function preloaderAnimation( root ) {
 	timeline
 		.set( mask, { scale: 1, transformOrigin: '50% 50%' } )
 		.set( heroImage ? [ heroImage ] : [], { scale: 1.2 } )
-		.call( () => {
-			document.fonts.ready.then( () => animateLogoText( logoText ) );
-		} )
-		.to( fill, {
-			scaleX: 1,
-			ease: 'stutterEase',
-			duration: 2.8,
-		} )
+		.fromTo(
+			logoImage,
+			{ autoAlpha: 0 },
+			{ autoAlpha: 1, duration: 0.45, ease: 'power2.out' }
+		)
+		.to(
+			fill,
+			{
+				scaleX: 1,
+				ease: 'stutterEase',
+				duration: 2.8,
+			},
+			'-=0.1'
+		)
 		.to( mask, {
 			scale: 3,
 			duration: 0.9,

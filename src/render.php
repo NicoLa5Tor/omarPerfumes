@@ -198,7 +198,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 	<div class="preloader-progress-bar" aria-hidden="true">
 		<div class="preloader-bg"></div>
 		<div class="preloader-logo">
-			<p class="logo-text" data-text-anim="logoAnimation">OMAR</p>
+			<img class="logo-image" src="<?php echo esc_url( $logo_light_url ); ?>" alt="" width="900" height="277" />
 		</div>
 	</div>
 	<div class="preloader-mask" style="--omar-mask: url('<?php echo esc_url( $logo_light_url ); ?>')" aria-hidden="true"></div>
