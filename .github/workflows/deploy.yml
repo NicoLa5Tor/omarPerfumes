@@ -72,8 +72,32 @@ jobs:
 
       - name: Verificar artefactos publicados
         run: |
-          curl --fail --silent --show-error https://goldenrod-wallaby-542332.hostingersite.com/wp-content/plugins/perfumes-block/build/block.json | grep -q primaryCtaUrl
-          curl --fail --silent --show-error https://goldenrod-wallaby-542332.hostingersite.com/wp-content/themes/omar-perfumes/style.css | grep -q "Theme Name: Omar Perfumes"
+          fetch_with_retry() {
+            local url="$1" pattern="$2" label="$3"
+            for attempt in 1 2 3 4 5; do
+              body="$(curl --fail --silent --show-error \
+                --retry 2 --retry-delay 2 \
+                --connect-timeout 15 --max-time 30 \
+                -A "Mozilla/5.0 (compatible; OmarDeployCheck/1.0)" \
+                "$url" 2>/dev/null)"
+              if printf '%s' "$body" | grep -q "$pattern"; then
+                echo "OK: $label verificado (intento $attempt)"
+                return 0
+              fi
+              echo "Intento $attempt fallido para $label, reintentando..."
+              sleep $(( attempt * 3 ))
+            done
+            echo "Error: $label no verificado tras 5 intentos." >&2
+            return 1
+          }
+          fetch_with_retry \
+            "https://goldenrod-wallaby-542332.hostingersite.com/wp-content/plugins/perfumes-block/build/block.json" \
+            "primaryCtaUrl" \
+            "build/block.json"
+          fetch_with_retry \
+            "https://goldenrod-wallaby-542332.hostingersite.com/wp-content/themes/omar-perfumes/style.css" \
+            "Theme Name: Omar Perfumes" \
+            "theme/style.css"
 
       - name: Probar storefront publicado
         env:
