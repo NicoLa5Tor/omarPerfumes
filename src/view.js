@@ -108,6 +108,15 @@ function heroAnimation( root ) {
 	return timeline;
 }
 
+function heroReturnAnimation( root ) {
+	const heroSection = root.querySelector( '.hero-section' );
+	return gsap.fromTo(
+		heroSection,
+		{ autoAlpha: 0 },
+		{ autoAlpha: 1, duration: 0.34, ease: 'power2.out' }
+	);
+}
+
 function initHomeHeader() {
 	const header = document.querySelector(
 		'.perfumes-global-header.is-home-route'
@@ -214,8 +223,8 @@ function runIntro( root, { showPreloader } ) {
 				const heroImage = root.querySelector(
 					'.hero-product-primary__image'
 				);
-				gsap.set( heroImage, { clearProps: 'transform' } );
-				activeTimeline = heroAnimation( root );
+				gsap.set( heroImage, { scale: 1 } );
+				activeTimeline = heroReturnAnimation( root );
 				return;
 			}
 
