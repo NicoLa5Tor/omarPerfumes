@@ -79,7 +79,7 @@ jobs:
                 --retry 2 --retry-delay 2 \
                 --connect-timeout 15 --max-time 30 \
                 -A "Mozilla/5.0 (compatible; OmarDeployCheck/1.0)" \
-                "$url" 2>/dev/null)"
+                "$url" 2>/dev/null)" || true
               if printf '%s' "$body" | grep -q "$pattern"; then
                 echo "OK: $label verificado (intento $attempt)"
                 return 0
