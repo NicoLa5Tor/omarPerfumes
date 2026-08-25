@@ -1,9 +1,10 @@
 import { gsap } from 'gsap';
 import { CustomEase } from 'gsap/CustomEase';
 import { ExpoScaleEase } from 'gsap/EasePack';
+import { SplitText } from 'gsap/SplitText';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin( ScrollTrigger, CustomEase, ExpoScaleEase );
+gsap.registerPlugin( ScrollTrigger, CustomEase, ExpoScaleEase, SplitText );
 CustomEase.create(
 	'stutterEase',
 	'M0,0 C0,0 0.052,0.1 0.152,0.1 0.242,0.1 0.299,0.349 0.399,0.349 0.586,0.349 0.569,0.596 0.67,0.624 0.842,0.671 0.95,0.95 1,1'
@@ -22,19 +23,14 @@ let activePageCleanup = () => {};
 let mountFrame = 0;
 
 function hidePreloader( root ) {
-	const preloader = root.querySelector( '.preloader' );
-	const logoImage = root.querySelector( '.logo-image' );
 	const targets = [
-		preloader,
 		root.querySelector( '.preloader-progress-bar' ),
 		root.querySelector( '.preloader-mask' ),
-		logoImage,
+		root.querySelector( '.preloader-bg' ),
+		root.querySelector( '.preloader-logo' ),
 	].filter( Boolean );
 
-	if ( logoImage ) {
-		gsap.set( logoImage, { mixBlendMode: 'normal' } );
-	}
-	gsap.set( targets, { autoAlpha: 0, display: 'none' } );
+	gsap.set( targets, { opacity: 0, display: 'none' } );
 }
 
 function completeInitialEntry( root ) {
@@ -43,102 +39,153 @@ function completeInitialEntry( root ) {
 	document.body.classList.remove( 'omar-initial-entry' );
 }
 
+function animateLogoText( el ) {
+	if ( ! el ) {
+		return;
+	}
+
+	gsap.set( el, { visibility: 'visible' } );
+	const split = SplitText.create( el, {
+		type: 'chars',
+		smartWrap: true,
+		mask: 'chars',
+	} );
+
+	split.chars.forEach( ( charEl ) => {
+		const text = charEl.textContent;
+		charEl.textContent = '';
+		const original = document.createElement( 'div' );
+		original.className = 'og-char';
+		original.textContent = text;
+		const duplicate = document.createElement( 'div' );
+		duplicate.className = 'duplicate-char';
+		duplicate.textContent = text;
+		charEl.append( original, duplicate );
+	} );
+
+	gsap.from( split.chars, {
+		yPercent: -100,
+		ease: 'power2.inOut',
+		stagger: {
+			each: 0.02,
+			from: 'random',
+		},
+		duration: 0.5,
+		repeat: 1,
+		repeatDelay: 0.75,
+	} );
+}
+
+function animateHeadline( el ) {
+	if ( ! el ) {
+		return;
+	}
+
+	gsap.set( el, { visibility: 'visible' } );
+	const split = SplitText.create( el, {
+		type: 'chars',
+		smartWrap: true,
+		mask: 'chars',
+		charsClass: 'header-char',
+	} );
+
+	gsap.from( split.chars, {
+		xPercent: -100,
+		ease: 'power2.inOut',
+		stagger: {
+			each: 0.02,
+			from: 'random',
+		},
+		duration: 0.5,
+	} );
+}
+
 function preloaderAnimation( root ) {
 	const timeline = gsap.timeline();
-	const progressBar = root.querySelector( '.preloader-progress-bar' );
-	const logoImage = root.querySelector( '.logo-image' );
+	const logoText = root.querySelector( '.logo-text' );
 	const fill = root.querySelector( '.preloader-bg' );
 	const mask = root.querySelector( '.preloader-mask' );
+	const progressBar = root.querySelector( '.preloader-progress-bar' );
+	const preloaderLogo = root.querySelector( '.preloader-logo' );
 	const heroImage = root.querySelector( '.hero-product-primary__image' );
-	const heroImageTargets = heroImage ? [ heroImage ] : [];
+	const fadeTargets = [ fill, preloaderLogo, progressBar ].filter( Boolean );
 
 	timeline
-		.set( mask, { scale: 1, transformOrigin: '50% 50%', force3D: true } )
-		.set( heroImageTargets, { scale: 1.18 } )
-		.fromTo(
-			logoImage,
-			{ autoAlpha: 0, y: 18 },
-			{ autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out' }
-		)
-		.fromTo(
-			fill,
-			{ scaleX: 0 },
-			{ scaleX: 1, duration: 1.85, ease: 'stutterEase' },
-			'-=0.1'
-		)
-		.addLabel( 'clear' )
+		.set( mask, { scale: 1, transformOrigin: '50% 50%' } )
+		.set( heroImage ? [ heroImage ] : [], { scale: 1.2 } )
+		.call( () => {
+			document.fonts.ready.then( () => animateLogoText( logoText ) );
+		} )
+		.to( fill, {
+			scaleX: 1,
+			ease: 'stutterEase',
+			duration: 2.8,
+		} )
+		.to( mask, {
+			scale: 3,
+			duration: 0.9,
+			ease: 'expoScale(0.5,7,power1.in)',
+		} )
 		.to(
-			logoImage,
+			fadeTargets,
 			{
-				autoAlpha: 0,
-				mixBlendMode: 'normal',
-				duration: 0.28,
-				ease: 'power2.in',
+				opacity: 0,
+				duration: 0.85,
+				ease: 'power2.inOut',
 			},
-			'clear'
+			'<'
 		)
 		.to(
-			progressBar,
-			{ autoAlpha: 0, duration: 0.28, ease: 'power2.in' },
-			'clear'
-		)
-		.set( progressBar, { display: 'none' } )
-		.addLabel( 'bubble' )
-		.to(
-			mask,
-			{
-				scale: 7,
-				duration: 1.05,
-				ease: 'expoScale(0.5,7,power2.in)',
-			},
-			'bubble'
-		)
-		.to(
-			heroImageTargets,
+			heroImage ? [ heroImage ] : [],
 			{
 				scale: 1,
-				duration: 1.65,
-				ease: 'expoScale(0.5,7,power2.out)',
+				duration: 2.85,
+				ease: 'expoScale(0.5,7,power1.out)',
 			},
-			'bubble'
-		)
-		.set( mask, { autoAlpha: 0, display: 'none' } );
+			'<'
+		);
 
 	return timeline;
 }
 
 function heroAnimation( root ) {
-	const timeline = gsap.timeline( {
-		defaults: { duration: 0.72, ease: 'power3.out' },
-	} );
+	const timeline = gsap.timeline();
 	const fadeElements = [ ...root.querySelectorAll( '[data-fade-in]' ) ];
-	const headline = root.querySelector( '[data-hero-reveal]' );
+	const headline = root.querySelector( '[data-text-anim="headerAnimation"]' );
 
 	if ( fadeElements.length ) {
 		timeline.fromTo(
 			fadeElements,
 			{
-				autoAlpha: 0,
-				y: ( index, element ) =>
-					element.dataset.fadeIn === 'down' ? -18 : 22,
+				filter: 'blur(30px)',
+				opacity: 0,
+				yPercent: ( index, element ) =>
+					element.getAttribute( 'data-fade-in' ) === 'down'
+						? -100
+						: 0,
+				xPercent: ( index, element ) =>
+					element.getAttribute( 'data-fade-in' ) === 'left' ? 100 : 0,
 			},
 			{
-				autoAlpha: 1,
-				y: 0,
-				stagger: 0.06,
+				yPercent: 0,
+				xPercent: 0,
+				filter: 'blur(0px)',
+				opacity: 1,
+				duration: 1.25,
+				ease: 'power4.inOut',
+				stagger: 0.08,
 			},
 			0
 		);
 	}
 
-	if ( headline ) {
-		timeline.fromTo(
-			headline,
-			{ autoAlpha: 0, yPercent: 108 },
-			{ autoAlpha: 1, yPercent: 0, duration: 0.88 },
-			0.08
-		);
-	}
+	timeline.call(
+		() => {
+			document.fonts.ready.then( () => animateHeadline( headline ) );
+		},
+		null,
+		fadeElements.length ? 0.55 : 0
+	);
 
 	return timeline;
 }
@@ -265,10 +312,8 @@ function runIntro( root, { showPreloader } ) {
 					completeInitialEntry( root );
 				},
 			} );
-			activeTimeline.add( preloaderTl, 0 );
-			activeTimeline.add( heroTl, preloaderTl.labels.bubble );
-			failsafe = gsap.delayedCall( 6.5, () => {
-				activeTimeline?.progress( 1 );
+			activeTimeline.add( preloaderTl ).add( heroTl, '-=2.4' );
+			failsafe = gsap.delayedCall( 10, () => {
 				completeInitialEntry( root );
 			} );
 		}, root );

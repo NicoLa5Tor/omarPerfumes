@@ -110,7 +110,7 @@ function prepareHomeForClientNavigation( serverState ) {
 	}
 
 	root.querySelectorAll(
-		'.preloader, .preloader-mask, .preloader-progress-bar'
+		'.preloader-mask, .preloader-progress-bar, .preloader-bg'
 	).forEach( ( element ) => {
 		element.style.display = 'none';
 		element.style.visibility = 'hidden';

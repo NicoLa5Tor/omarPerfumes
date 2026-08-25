@@ -195,15 +195,13 @@ if ( function_exists( 'wc_get_products' ) ) {
 }
 ?>
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<div class="preloader" aria-hidden="true">
-		<div class="preloader-progress-bar">
-			<div class="preloader-bg"></div>
-			<div class="preloader-logo">
-				<img class="logo-image" src="<?php echo esc_url( $logo_light_url ); ?>" alt="" width="900" height="277" />
-			</div>
+	<div class="preloader-progress-bar" aria-hidden="true">
+		<div class="preloader-bg"></div>
+		<div class="preloader-logo">
+			<p class="logo-text" data-text-anim="logoAnimation">OMAR</p>
 		</div>
-		<div class="preloader-mask" style="--omar-mask: url('<?php echo esc_url( $logo_light_url ); ?>')"></div>
 	</div>
+	<div class="preloader-mask" style="--omar-mask: url('<?php echo esc_url( $logo_light_url ); ?>')" aria-hidden="true"></div>
 
 	<section class="hero-section">
 		<div class="hero-atmosphere" aria-hidden="true">
@@ -213,7 +211,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 		<div class="wrapper hero-layout">
 			<div class="hero-copy">
 				<p class="hero-eyebrow" data-fade-in="down"><?php echo esc_html( $eyebrow ?: __( 'Perfumería original · Colombia', 'perfumes' ) ); ?></p>
-				<h1 class="hero-headline"><span class="hero-headline__text" data-hero-reveal><?php esc_html_e( 'Tu esencia, elevada.', 'perfumes' ); ?></span></h1>
+				<h1 class="hero-headline"><span class="hero-headline__text" data-text-anim="headerAnimation"><?php esc_html_e( 'Tu esencia, elevada.', 'perfumes' ); ?></span></h1>
 				<p class="hero-featured-name" data-fade-in="left"><span><?php esc_html_e( 'Producto destacado', 'perfumes' ); ?></span><strong><?php echo esc_html( $hero_product_name ); ?></strong></p>
 				<div class="hero-product-meta" data-fade-in="left">
 					<span class="hero-availability <?php echo $hero_product && $hero_product->is_in_stock() ? 'is-in-stock' : 'is-out-of-stock'; ?>"><?php echo esc_html( $hero_availability ); ?></span>
