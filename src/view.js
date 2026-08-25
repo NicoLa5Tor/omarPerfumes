@@ -3,6 +3,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin( ScrollTrigger );
 
+const RUNTIME_KEY = '__omarPerfumesShowcaseRuntime';
+const previousRuntime = window[ RUNTIME_KEY ];
+const isReplacementRuntime = Boolean( previousRuntime );
+if ( previousRuntime ) {
+	previousRuntime.destroy();
+}
+
 let activeRoot = null;
 let activeHeader = null;
 let activePageCleanup = () => {};
@@ -198,21 +205,32 @@ function runIntro( root, { showPreloader } ) {
 		return () => {};
 	}
 
+	let activeTimeline = null;
 	try {
-		if ( ! showPreloader ) {
-			hidePreloader( root );
-			root.classList.remove( 'is-intro-ready' );
-			const revealTimeline = heroAnimation( root );
-			return () => revealTimeline.kill();
-		}
+		const context = gsap.context( () => {
+			if ( ! showPreloader ) {
+				hidePreloader( root );
+				root.classList.remove( 'is-intro-ready' );
+				const heroImage = root.querySelector(
+					'.hero-product-primary__image'
+				);
+				gsap.set( heroImage, { clearProps: 'transform' } );
+				activeTimeline = heroAnimation( root );
+				return;
+			}
 
-		const introTimeline = gsap.timeline( {
-			onComplete: () => root.classList.remove( 'is-intro-ready' ),
-		} );
-		const preloaderTl = preloaderAnimation( root );
-		const heroTl = heroAnimation( root );
-		introTimeline.add( preloaderTl ).add( heroTl, '-=0.1' );
-		return () => introTimeline.kill();
+			activeTimeline = gsap.timeline( {
+				onComplete: () => root.classList.remove( 'is-intro-ready' ),
+			} );
+			const preloaderTl = preloaderAnimation( root );
+			const heroTl = heroAnimation( root );
+			activeTimeline.add( preloaderTl ).add( heroTl, '-=0.1' );
+		}, root );
+
+		return () => {
+			activeTimeline?.kill();
+			context.revert();
+		};
 	} catch ( error ) {
 		hidePreloader( root );
 		root.classList.remove( 'is-intro-ready' );
@@ -296,25 +314,30 @@ function scheduleMount( clientNavigation ) {
 	} );
 }
 
+function handleRouteChange( event ) {
+	scheduleMount( Boolean( event.detail?.clientNavigation ) );
+}
+
+function destroyRuntime() {
+	window.cancelAnimationFrame( mountFrame );
+	document.removeEventListener( 'omar:routechange', handleRouteChange );
+	window.removeEventListener( 'pagehide', destroyRuntime );
+	activePageCleanup();
+	activePageCleanup = () => {};
+	activeRoot = null;
+	activeHeader = null;
+}
+
 if ( document.readyState === 'loading' ) {
 	document.addEventListener(
 		'DOMContentLoaded',
-		() => scheduleMount( false ),
+		() => scheduleMount( isReplacementRuntime ),
 		{ once: true }
 	);
 } else {
-	scheduleMount( false );
+	scheduleMount( isReplacementRuntime );
 }
 
-document.addEventListener( 'omar:routechange', ( event ) => {
-	scheduleMount( Boolean( event.detail?.clientNavigation ) );
-} );
-
-window.addEventListener(
-	'pagehide',
-	() => {
-		window.cancelAnimationFrame( mountFrame );
-		activePageCleanup();
-	},
-	{ once: true }
-);
+document.addEventListener( 'omar:routechange', handleRouteChange );
+window.addEventListener( 'pagehide', destroyRuntime, { once: true } );
+window[ RUNTIME_KEY ] = { destroy: destroyRuntime };
