@@ -1,179 +1,206 @@
 import { gsap } from 'gsap';
 import { CustomEase } from 'gsap/CustomEase';
+import { ExpoScaleEase } from 'gsap/EasePack';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 
-gsap.registerPlugin( CustomEase, SplitText );
+gsap.registerPlugin( CustomEase, ExpoScaleEase, ScrollTrigger, SplitText );
 
 CustomEase.create(
-	'omarReveal',
-	'M0,0 C0.12,0.05 0.18,0.32 0.34,0.4 0.56,0.51 0.62,0.88 1,1'
+	'stutterEase',
+	'M0,0 C0,0 0.052,0.1 0.152,0.1 0.242,0.1 0.299,0.349 0.399,0.349 0.586,0.349 0.569,0.596 0.67,0.624 0.842,0.671 0.95,0.95 1,1'
 );
 
-function splitText( element, type = 'chars' ) {
+const textAnimations = {
+	logoAnimation: ( element ) => {
+		const split = SplitText.create( element, {
+			type: 'chars',
+			smartWrap: true,
+			mask: 'chars',
+		} );
+
+		split.chars.forEach( ( character ) => {
+			const text = character.innerText;
+			character.innerHTML = '';
+			const original = document.createElement( 'div' );
+			original.className = 'og-char';
+			original.innerText = text;
+			const duplicate = document.createElement( 'div' );
+			duplicate.className = 'duplicate-char';
+			duplicate.innerText = text;
+			character.appendChild( original );
+			character.appendChild( duplicate );
+		} );
+
+		return gsap.from( split.chars, {
+			yPercent: -100,
+			ease: 'power2.inOut',
+			stagger: { each: 0.02, from: 'random' },
+			duration: 0.5,
+			repeat: 1,
+			repeatDelay: 0.75,
+		} );
+	},
+	headerAnimation: ( element ) => {
+		const split = SplitText.create( element, {
+			type: 'chars',
+			smartWrap: true,
+			mask: 'chars',
+			charsClass: 'header-char',
+		} );
+
+		return gsap.from( split.chars, {
+			xPercent: -100,
+			ease: 'power2.inOut',
+			stagger: { each: 0.02, from: 'random' },
+			duration: 0.5,
+		} );
+	},
+	bodyAnimation: ( element ) =>
+		SplitText.create( element, {
+			type: 'lines',
+			mask: 'lines',
+			autoSplit: true,
+			onSplit: ( split ) =>
+				gsap.from( split.lines, {
+					opacity: 0,
+					yPercent: -100,
+					duration: 0.9,
+					stagger: 0.1,
+					ease: 'power3.inOut',
+					scrollTrigger: {
+						trigger: element,
+						start: 'top 90%',
+					},
+				} ),
+		} ),
+};
+
+function animateText( element ) {
 	if ( ! element ) {
-		return null;
+		return;
 	}
 	gsap.set( element, { visibility: 'visible' } );
-	return SplitText.create( element, {
-		type,
-		mask: type,
-		charsClass: 'perfumes-split-char',
-	} );
+	const animation = textAnimations[ element.dataset.textAnim ];
+	if ( animation ) {
+		animation( element );
+	}
 }
 
-function preloaderAnimation( root, splits ) {
+function preloaderAnimation( root ) {
 	const timeline = gsap.timeline();
-	const intro = root.querySelector( '.perfumes-intro' );
-	const progress = root.querySelector( '.perfumes-intro__progress' );
-	const logo = splitText(
-		root.querySelector( '.perfumes-intro__logo' ),
-		'chars'
-	);
-	const heroImage = root.querySelector( '.perfumes-hero__media img' );
-
-	if ( logo ) {
-		splits.push( logo );
-		timeline.fromTo(
-			logo.chars,
-			{ yPercent: -120 },
-			{
-				yPercent: 0,
-				duration: 0.5,
-				repeat: 1,
-				repeatDelay: 0.7,
-				yoyo: true,
-				ease: 'power3.inOut',
-				stagger: { each: 0.04, from: 'random' },
-			}
-		);
-	}
+	const progressBar = root.querySelector( '.preloader-progress-bar' );
+	const preloaderLogo = root.querySelector( '.preloader-logo' );
+	const logoText = root.querySelector( '.logo-text' );
+	const preloaderBackground = root.querySelector( '.preloader-bg' );
+	const preloaderMask = root.querySelector( '.preloader-mask' );
+	const heroImage = root.querySelector( '.hero-img img' );
 
 	timeline
-		.to( progress, { scaleX: 1, duration: 2.45, ease: 'omarReveal' }, 0 )
-		.to(
-			intro,
-			{
-				clipPath: 'circle(0% at 50% 50%)',
-				duration: 0.9,
-				ease: 'expo.in',
-			},
-			2.05
-		);
-
-	if ( heroImage ) {
-		timeline.fromTo(
-			heroImage,
-			{ scale: 1.18 },
-			{ scale: 1, duration: 2.85, ease: 'power3.out' },
-			1.9
-		);
-	}
-
-	return timeline;
-}
-
-function heroAnimation( root, splits ) {
-	const timeline = gsap.timeline();
-	const headerElements = document.querySelectorAll(
-		'.home .perfumes-header > *, .home .perfumes-category-nav'
-	);
-	const title = splitText(
-		root.querySelector( '.perfumes-hero h1' ),
-		'chars'
-	);
-	const bodyElements = root.querySelectorAll(
-		'.perfumes-eyebrow, .perfumes-hero__subtitle'
-	);
-	const card = root.querySelector( '.perfumes-hero-card' );
-
-	bodyElements.forEach( ( element ) => {
-		gsap.set( element, { visibility: 'visible' } );
-	} );
-
-	timeline.from( headerElements, {
-		yPercent: -60,
-		opacity: 0,
-		filter: 'blur(24px)',
-		duration: 1.15,
-		stagger: 0.08,
-		ease: 'power4.inOut',
-	} );
-
-	timeline.from(
-		bodyElements,
-		{
-			yPercent: -80,
-			opacity: 0,
+		.call( animateText, [ logoText ] )
+		.to( preloaderBackground, {
+			scaleX: 1,
+			ease: 'stutterEase',
+			duration: 2.8,
+		} )
+		.to( preloaderMask, {
+			scale: 3,
 			duration: 0.9,
-			stagger: 0.12,
-			ease: 'power3.inOut',
-		},
-		'-=0.75'
-	);
-
-	if ( title ) {
-		splits.push( title );
-		timeline.from(
-			title.chars,
+			ease: 'expoScale(0.5,7,power1.in)',
+		} )
+		.to(
+			[ preloaderBackground, preloaderLogo, progressBar ],
+			{ opacity: 0, duration: 0.85, ease: 'power2.inOut' },
+			'<'
+		)
+		.to(
+			heroImage,
 			{
-				xPercent: -110,
-				opacity: 0,
-				duration: 0.7,
-				ease: 'power3.inOut',
-				stagger: { each: 0.025, from: 'random' },
+				scale: 1,
+				duration: 2.85,
+				ease: 'expoScale(0.5,7,power1.out)',
 			},
-			'-=0.55'
+			'<'
 		);
-	}
-
-	timeline.from(
-		card,
-		{
-			xPercent: 70,
-			opacity: 0,
-			filter: 'blur(24px)',
-			duration: 1.15,
-			ease: 'power4.inOut',
-		},
-		'-=0.8'
-	);
 
 	return timeline;
 }
 
-function runHeroIntro( root ) {
+function heroAnimation( root ) {
+	const timeline = gsap.timeline();
+	const tagline = document.querySelector( '.home .perfumes-logo__tagline' );
+	const divider = document.querySelector( '.home .divider' );
+	const fadeElements = [
+		...document.querySelectorAll( '.home [data-fade-in]' ),
+		...root.querySelectorAll( '[data-fade-in]' ),
+	];
+	const heading = root.querySelector( '.content-main h1' );
+	const subtitle = root.querySelector( '.sub-title' );
+
+	timeline
+		.call( animateText, [ tagline ] )
+		.fromTo(
+			divider,
+			{ scaleY: 0, transformOrigin: 'top' },
+			{ scaleY: 1, duration: 0.5, ease: 'back.inOut' },
+			'+=0.5'
+		)
+		.fromTo(
+			fadeElements,
+			{
+				filter: 'blur(30px)',
+				opacity: 0,
+				yPercent: ( index, element ) =>
+					element.dataset.fadeIn === 'down' ? -100 : 0,
+				xPercent: ( index, element ) =>
+					element.dataset.fadeIn === 'left' ? 100 : 0,
+			},
+			{
+				yPercent: 0,
+				xPercent: 0,
+				filter: 'blur(0px)',
+				opacity: 1,
+				duration: 1.25,
+				ease: 'power4.inOut',
+				stagger: 0.08,
+			},
+			'<-0.25'
+		)
+		.call( animateText, [ heading ], '<0.55' )
+		.call( animateText, [ subtitle ], '-=0.75' );
+
+	return timeline;
+}
+
+function runIntro( root ) {
 	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
 		return;
 	}
 
-	const splits = [];
 	root.classList.add( 'is-intro-ready' );
-
 	try {
 		const introTimeline = gsap.timeline( {
-			onComplete: () => {
-				root.classList.remove( 'is-intro-ready' );
-				splits.forEach( ( split ) => split.revert() );
-			},
+			onComplete: () => root.classList.remove( 'is-intro-ready' ),
 		} );
-		const preloaderTl = preloaderAnimation( root, splits );
-		const heroTl = heroAnimation( root, splits );
-
+		const preloaderTl = preloaderAnimation( root );
+		const heroTl = heroAnimation( root );
 		introTimeline.add( preloaderTl ).add( heroTl, '-=2.4' );
 	} catch ( error ) {
 		root.classList.remove( 'is-intro-ready' );
-		// Keep the storefront usable if an animation API is unavailable.
 		window.console.warn( 'Omar hero animation skipped.', error );
 	}
 }
 
 function init() {
-	const roots = document.querySelectorAll( '.perfumes-landing' );
-	const fontsReady = document.fonts?.ready || Promise.resolve();
-	if ( ! window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
-		roots.forEach( ( root ) => root.classList.add( 'is-intro-ready' ) );
+	const root = document.querySelector( '.perfumes-landing' );
+	if ( ! root ) {
+		return;
 	}
-	fontsReady.then( () => roots.forEach( runHeroIntro ) );
+	if ( ! window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
+		root.classList.add( 'is-intro-ready' );
+	}
+	const fontsReady = document.fonts?.ready || Promise.resolve();
+	fontsReady.then( () => runIntro( root ) );
 }
 
 if ( document.readyState === 'complete' ) {

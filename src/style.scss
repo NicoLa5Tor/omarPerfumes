@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap);
+
 @tailwind components;
 @tailwind utilities;
 
@@ -95,7 +97,7 @@
 	.perfumes-hero__media {
 		position: absolute;
 		inset: 0;
-		background: #071527 url(./assets/omar-hero-v2.jpg) center / cover no-repeat;
+		background: #151513;
 	}
 
 	.perfumes-hero__media img {
@@ -210,7 +212,7 @@
 		margin: 10px 10px 0;
 		overflow: hidden;
 		border-radius: 11px;
-		background: #071527 url(./assets/omar-hero-v2.jpg) center / cover no-repeat;
+		background: #151513;
 	}
 
 	.perfumes-hero-card__image img {
@@ -721,7 +723,291 @@
 		@apply py-16 text-center;
 	}
 
+	/* IronStride composition, adapted only for Omar Perfumes content and imagery. */
+	.perfumes-landing {
+		width: 100%;
+		min-height: 100%;
+		overflow-x: hidden;
+		background: #151513;
+		font-family: "Host Grotesk", sans-serif;
+		font-size: 16px;
+		line-height: 1.5;
+		letter-spacing: -0.32px;
+		color: rgba(255, 255, 255, 0.8);
+	}
+
+	.perfumes-landing .wrapper {
+		width: 100%;
+		max-width: 1440px;
+		margin-inline: auto;
+		padding-inline: 2rem;
+	}
+
+	.perfumes-landing.is-intro-ready [data-text-anim] {
+		visibility: hidden;
+	}
+
+	.duplicate-char {
+		position: absolute;
+		inset: 0;
+		transform: translateY(100%);
+	}
+
+	.preloader-mask,
+	.preloader-progress-bar,
+	.preloader-bg {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100svh;
+		pointer-events: none;
+	}
+
+	.preloader-mask,
+	.preloader-progress-bar {
+		display: none;
+	}
+
+	.preloader-mask {
+		z-index: 10001;
+		background-color: #1c1917;
+		-webkit-mask: linear-gradient(#fff, #fff), var(--omar-mask) center / 40% no-repeat;
+		mask: linear-gradient(#fff, #fff), var(--omar-mask) center / 40% no-repeat;
+		-webkit-mask-composite: xor;
+		mask-composite: subtract;
+	}
+
+	.preloader-progress-bar {
+		z-index: 10000;
+		background-color: #2d2925;
+	}
+
+	.perfumes-landing.is-intro-ready .preloader-mask,
+	.perfumes-landing.is-intro-ready .preloader-progress-bar {
+		display: block;
+	}
+
+	.preloader-bg {
+		background-color: #fff;
+		transform: scaleX(0.2);
+		transform-origin: left;
+	}
+
+	.preloader-logo {
+		position: relative;
+		display: flex;
+		width: 100%;
+		height: 100%;
+	}
+
+	.preloader-logo p {
+		margin: auto;
+		font-size: 4rem;
+		font-weight: 500;
+		line-height: 1;
+		text-align: center;
+		color: #fff;
+		mix-blend-mode: difference;
+	}
+
+	.hero-section {
+		position: relative;
+		display: flex;
+		height: 100svh;
+		min-height: 680px;
+		flex-direction: column;
+		justify-content: flex-end;
+		overflow: hidden;
+		border-radius: 3rem;
+		background: #151513;
+	}
+
+	.hero-section > .wrapper {
+		position: relative;
+		z-index: 1;
+	}
+
+	.hero-img {
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+	}
+
+	.hero-img::after {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(180deg, rgba(21, 21, 19, 0.08) 30%, rgba(21, 21, 19, 0.42) 100%);
+		content: "";
+	}
+
+	.hero-img img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transform: scale(1.2);
+		will-change: transform;
+	}
+
+	.hero-content {
+		display: flex;
+		width: 100%;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 20px;
+		padding-bottom: 24px;
+	}
+
+	.content-main {
+		min-width: 0;
+		flex: 1;
+	}
+
+	.content-main .sub-title {
+		max-width: 240px;
+		margin: 0 0 10px;
+		font-size: 22px;
+		font-weight: 700;
+		line-height: 1.3;
+		letter-spacing: -0.66px;
+		color: #fff;
+	}
+
+	.content-main h1 {
+		margin: 0 0 0 -12px;
+		font-family: "Host Grotesk", sans-serif;
+		font-size: clamp(5rem, calc(12.752vw + 2.21rem), 13.688rem);
+		font-weight: 600;
+		line-height: 0.9;
+		letter-spacing: -8.76px;
+		text-transform: none;
+		background: linear-gradient(180deg, #fff 17.73%, #f7cfb4 92.44%);
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.header-char {
+		background: linear-gradient(180deg, #fff 17.73%, #f7cfb4 92.44%);
+		background-clip: text;
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
+
+	.content-cta {
+		position: relative;
+		width: 266px;
+		max-width: 266px;
+		flex: 0 0 266px;
+		overflow: hidden;
+		border-radius: 12px;
+		background: linear-gradient(180deg, #ffe5cf 0%, rgba(255, 191, 136, 0.9) 100%);
+		box-shadow: 0 4px 54px #2b1d10;
+	}
+
+	.cta-marquee {
+		display: flex;
+		gap: 8px;
+		overflow: hidden;
+		margin-top: 10px;
+		background: #231a13;
+		font-size: 20px;
+		font-weight: 600;
+		letter-spacing: -0.6px;
+		color: #ffcba8;
+	}
+
+	.marquee-group {
+		display: flex;
+		width: max-content;
+		flex-shrink: 0;
+		align-items: center;
+		gap: 8px;
+		padding-block: 10px;
+		animation: scroll 30s linear infinite;
+		white-space: nowrap;
+	}
+
+	.marquee-item {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+	}
+
+	.marquee-symbol {
+		font-size: 14px;
+		color: #ff983f;
+	}
+
+	.img-wrapper {
+		height: 310px;
+		margin: 10px;
+		overflow: hidden;
+		border-radius: 10px;
+	}
+
+	.img-wrapper img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		border-radius: 10px;
+	}
+
+	.register-button {
+		position: absolute;
+		bottom: 20px;
+		left: 50%;
+		display: flex;
+		width: max-content;
+		min-height: 42px;
+		align-items: center;
+		gap: 6px;
+		padding: 4px 4px 4px 16px;
+		border: 0;
+		border-radius: 46px;
+		background: #ff983f;
+		font-size: 14px;
+		font-weight: 600;
+		color: #25201c;
+		text-decoration: none;
+		transform: translateX(-50%);
+	}
+
+	.register-button .btn-icon {
+		display: flex;
+		width: 34px;
+		height: 34px;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		background: #25201c;
+		color: #ff983f;
+	}
+
+	.hero-section--editor {
+		height: 720px;
+	}
+
+	.hero-section--editor .marquee-group {
+		animation-play-state: paused;
+	}
+
+	@keyframes scroll {
+		to {
+			transform: translateX(calc(-100% - 8px));
+		}
+	}
+
 	@media (max-width: 1100px) {
+		.hero-content {
+			align-items: flex-end;
+		}
+
+		.content-main h1 {
+			font-size: clamp(72px, 14vw, 150px);
+			letter-spacing: -5px;
+		}
+
 		.perfumes-header {
 			@apply grid-cols-1 justify-items-center gap-[18px];
 		}
@@ -773,6 +1059,41 @@
 	}
 
 	@media (max-width: 640px) {
+		.perfumes-landing .wrapper {
+			padding-inline: 18px;
+		}
+
+		.hero-section {
+			min-height: 760px;
+			border-radius: 28px;
+		}
+
+		.hero-content {
+			flex-direction: column;
+			align-items: stretch;
+			gap: 24px;
+		}
+
+		.content-main .sub-title {
+			font-size: 18px;
+		}
+
+		.content-main h1 {
+			margin-left: -4px;
+			font-size: clamp(68px, 25vw, 108px);
+			letter-spacing: -4px;
+		}
+
+		.content-cta {
+			width: 100%;
+			max-width: none;
+			flex-basis: auto;
+		}
+
+		.img-wrapper {
+			height: 230px;
+		}
+
 		.perfumes-header,
 		.perfumes-hero__content,
 		.perfumes-products,

@@ -11,7 +11,7 @@ module.exports = {
 					ink: '#111111',
 					navy: '#0B1F3A',
 					deep: '#071527',
-					hero: '#092E25',
+					hero: '#151513',
 					gold: '#C9A227',
 					muted: '#6B7280',
 					border: '#E5E7EB',

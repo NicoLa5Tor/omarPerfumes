@@ -78,15 +78,6 @@
 		@apply text-perfumes-gold;
 	}
 
-	.home .perfumes-global-header {
-		@apply absolute left-0 top-0 w-full bg-transparent text-white;
-		background: linear-gradient(180deg, rgba(7, 21, 39, 0.88) 0%, rgba(7, 21, 39, 0) 100%);
-	}
-
-	.home .perfumes-header {
-		@apply bg-transparent;
-	}
-
 	.home .perfumes-header__social,
 	.home .perfumes-logo__title,
 	.home .perfumes-logo__title a,
@@ -96,13 +87,16 @@
 		@apply text-white;
 	}
 
-	.home .perfumes-logo::after {
+	.perfumes-logo .divider {
+		display: none;
+	}
+
+	.home .perfumes-logo .divider {
 		display: block;
 		width: 1px;
 		height: 38px;
 		margin: 8px auto 0;
 		background: linear-gradient(180deg, #fff 0%, transparent 100%);
-		content: "";
 	}
 
 	.home .perfumes-search .wp-block-search__inside-wrapper {
@@ -115,11 +109,101 @@
 		color: rgba(255, 255, 255, 0.72);
 	}
 
+	.home .perfumes-global-header {
+		@apply absolute left-0 top-0 w-full bg-transparent text-white;
+		height: 200px;
+		background: linear-gradient(180deg, #25201c 0%, rgba(37, 32, 28, 0) 100%);
+	}
+
+	.home .perfumes-header {
+		display: grid;
+		width: 100%;
+		min-height: 0;
+		grid-template-columns: 1fr 2fr 1fr;
+		align-items: start;
+		gap: 24px;
+		margin-top: 24px;
+		padding: 0 32px;
+	}
+
+	.home .perfumes-header__social {
+		min-width: 0;
+		margin-right: auto;
+	}
+
+	.home .perfumes-header__social p {
+		margin: 0;
+		font-size: 0;
+	}
+
+	.home .perfumes-header__social p::before {
+		font-family: "Host Grotesk", sans-serif;
+		font-size: 24px;
+		font-weight: 700;
+		letter-spacing: -1px;
+		color: #fff;
+		content: "OMAR®";
+	}
+
+	.home .perfumes-logo__title {
+		display: none;
+	}
+
+	.home .perfumes-logo__tagline {
+		display: block;
+		max-width: 430px;
+		margin: 0 auto;
+		font-family: "Host Grotesk", sans-serif;
+		font-size: 13px;
+		font-weight: 700;
+		line-height: 1.5;
+		letter-spacing: -0.2px;
+		text-align: center;
+		white-space: normal;
+		color: rgba(255, 255, 255, 0.8);
+	}
+
+	.home .perfumes-header__right {
+		min-width: 0;
+		justify-self: end;
+		gap: 6px;
+		padding: 4px 4px 4px 16px;
+		border-radius: 46px;
+		background: #fff;
+		font-family: "Host Grotesk", sans-serif;
+		font-size: 14px;
+		font-weight: 600;
+		color: #25201c;
+	}
+
+	.home .perfumes-header__right::before {
+		content: "Menu";
+	}
+
+	.home .perfumes-search {
+		display: none;
+	}
+
+	.home .wc-block-mini-cart__button {
+		width: 34px;
+		height: 34px;
+		min-height: 34px;
+		margin: 0;
+		padding: 0;
+		border-radius: 50%;
+		background-color: #25201c;
+		background-image: radial-gradient(circle, #fff 0 1.5px, transparent 1.7px);
+		background-position: 9px 8px;
+		background-size: 9px 8px;
+	}
+
+	.home .wc-block-mini-cart__button svg,
+	.home .wc-block-mini-cart__badge {
+		opacity: 0;
+	}
+
 	.home .perfumes-category-nav {
-		border-top: 1px solid rgba(255, 255, 255, 0.16);
-		border-bottom: 1px solid rgba(255, 255, 255, 0.16);
-		background: rgba(7, 21, 39, 0.18);
-		backdrop-filter: blur(10px);
+		display: none;
 	}
 
 	.perfumes-content-shell {
@@ -273,6 +357,16 @@
 		.perfumes-header__right {
 			@apply min-w-0;
 		}
+
+		.home .perfumes-header {
+			display: grid;
+			grid-template-columns: 1fr 2fr 1fr;
+			justify-content: initial;
+		}
+
+		.home .perfumes-header__social {
+			display: flex;
+		}
 	}
 
 	@media (max-width: 782px) {
@@ -317,6 +411,20 @@
 
 		.perfumes-footer-preview {
 			@apply px-[22px] py-12;
+		}
+
+		.home .perfumes-header {
+			grid-template-columns: 1fr auto;
+			padding: 0 18px;
+		}
+
+		.home .perfumes-logo {
+			display: none;
+		}
+
+		.home .perfumes-header__right {
+			width: auto;
+			justify-content: flex-end;
 		}
 	}
 }

@@ -2,119 +2,84 @@ import { RichText } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import EditableImage from '../../components/EditableImage';
 
+const MarqueeGroup = ( { message, hidden = false } ) => (
+	<div className="marquee-group" aria-hidden={ hidden || undefined }>
+		{ [ 0, 1, 2, 3 ].map( ( item ) => (
+			<span className="marquee-item" key={ item }>
+				<span className="marquee-symbol" aria-hidden="true">
+					✦
+				</span>
+				<span>{ message }</span>
+			</span>
+		) ) }
+	</div>
+);
+
 export default function HeroSection( { attributes, setAttributes } ) {
 	const {
 		heroWordmark,
-		eyebrow,
 		title,
-		description,
 		primaryCta,
-		secondaryCta,
 		heroImageUrl,
+		heroCtaImageUrl,
 		heroBrand,
-		heroPrice,
 	} = attributes;
 
 	return (
-		<section className="perfumes-hero perfumes-hero--editor">
-			<EditableImage
-				className="perfumes-hero__media"
-				imageUrl={ heroImageUrl }
-				label={ __( 'Imagen de fondo del hero', 'perfumes' ) }
-				onChange={ ( value ) =>
-					setAttributes( { heroImageUrl: value } )
-				}
-			/>
-			<div className="perfumes-hero__shade" aria-hidden="true" />
-			<div className="perfumes-hero__content">
-				<div className="perfumes-hero__main">
-					<RichText
-						tagName="p"
-						className="perfumes-eyebrow"
-						value={ eyebrow }
-						onChange={ ( value ) =>
-							setAttributes( { eyebrow: value } )
-						}
-						placeholder={ __( 'Texto superior', 'perfumes' ) }
-					/>
-					<RichText
-						tagName="p"
-						className="perfumes-hero__subtitle"
-						value={ title }
-						onChange={ ( value ) =>
-							setAttributes( { title: value } )
-						}
-						placeholder={ __( 'Promesa principal', 'perfumes' ) }
-					/>
-					<RichText
-						tagName="h1"
-						value={ heroWordmark }
-						onChange={ ( value ) =>
-							setAttributes( { heroWordmark: value } )
-						}
-						placeholder={ __( 'OMAR PERFUMES', 'perfumes' ) }
-					/>
-				</div>
-				<div className="perfumes-hero-card">
-					<div className="perfumes-hero-card__marquee">
-						<div className="perfumes-hero-card__marquee-group">
-							<span aria-hidden="true">✦</span>
-							<RichText
-								tagName="strong"
-								value={ heroBrand }
-								onChange={ ( value ) =>
-									setAttributes( { heroBrand: value } )
-								}
-								placeholder={ __(
-									'Mensaje de la banda',
-									'perfumes'
-								) }
-							/>
-							<span aria-hidden="true">✦ { heroBrand }</span>
+		<section className="hero-section hero-section--editor">
+			<div className="wrapper">
+				<EditableImage
+					className="hero-img"
+					imageUrl={ heroImageUrl }
+					label={ __( 'Imagen principal del hero', 'perfumes' ) }
+					onChange={ ( value ) =>
+						setAttributes( { heroImageUrl: value } )
+					}
+				/>
+				<div className="hero-content">
+					<div className="content-main">
+						<RichText
+							tagName="p"
+							className="sub-title"
+							value={ title }
+							onChange={ ( value ) =>
+								setAttributes( { title: value } )
+							}
+							placeholder={ __(
+								'Promesa principal',
+								'perfumes'
+							) }
+						/>
+						<RichText
+							tagName="h1"
+							value={ heroWordmark }
+							onChange={ ( value ) =>
+								setAttributes( { heroWordmark: value } )
+							}
+							placeholder={ __( 'OMAR®', 'perfumes' ) }
+						/>
+					</div>
+					<div className="content-cta">
+						<div className="cta-marquee">
+							<MarqueeGroup message={ heroBrand } />
+							<MarqueeGroup message={ heroBrand } hidden />
 						</div>
-					</div>
-					<div className="perfumes-hero-card__image">
-						{ heroImageUrl && <img src={ heroImageUrl } alt="" /> }
-					</div>
-					<RichText
-						tagName="p"
-						className="perfumes-hero__description"
-						value={ description }
-						onChange={ ( value ) =>
-							setAttributes( { description: value } )
-						}
-						placeholder={ __(
-							'Descripcion principal',
-							'perfumes'
-						) }
-					/>
-					<RichText
-						tagName="strong"
-						className="perfumes-hero__price"
-						value={ heroPrice }
-						onChange={ ( value ) =>
-							setAttributes( { heroPrice: value } )
-						}
-						placeholder={ __( 'Precio hero', 'perfumes' ) }
-					/>
-					<div className="perfumes-hero__actions">
+						<EditableImage
+							className="img-wrapper"
+							imageUrl={ heroCtaImageUrl }
+							label={ __( 'Imagen de la tarjeta', 'perfumes' ) }
+							onChange={ ( value ) =>
+								setAttributes( { heroCtaImageUrl: value } )
+							}
+						/>
 						<RichText
 							tagName="span"
-							className="perfumes-button perfumes-button--primary"
+							className="register-button"
 							value={ primaryCta }
 							onChange={ ( value ) =>
 								setAttributes( { primaryCta: value } )
 							}
-							placeholder={ __( 'CTA principal', 'perfumes' ) }
-						/>
-						<RichText
-							tagName="span"
-							className="perfumes-button perfumes-button--ghost"
-							value={ secondaryCta }
-							onChange={ ( value ) =>
-								setAttributes( { secondaryCta: value } )
-							}
-							placeholder={ __( 'CTA secundario', 'perfumes' ) }
+							placeholder={ __( 'Explorar ahora', 'perfumes' ) }
 						/>
 					</div>
 				</div>

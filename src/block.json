@@ -38,11 +38,11 @@
 		},
 		"title": {
 			"type": "string",
-			"default": "Encuentra una fragancia que hable por ti"
+			"default": "Lleva tu presencia más allá—encuentra tu esencia"
 		},
 		"heroBrand": {
 			"type": "string",
-			"default": "PERFUMES 100% ORIGINALES"
+			"default": "DESCUBRE TU ESENCIA!"
 		},
 		"description": {
 			"type": "string",
@@ -50,7 +50,7 @@
 		},
 		"primaryCta": {
 			"type": "string",
-			"default": "Explorar coleccion"
+			"default": "Comprar ahora"
 		},
 		"primaryCtaUrl": {
 			"type": "string",
@@ -69,6 +69,10 @@
 			"default": "Desde $ 389.900"
 		},
 		"heroImageUrl": {
+			"type": "string",
+			"default": ""
+		},
+		"heroCtaImageUrl": {
 			"type": "string",
 			"default": ""
 		},

@@ -40,6 +40,7 @@ jobs:
           mkdir -p dist/plugin
           cp perfumes-block.php dist/plugin/
           cp -R build dist/plugin/build
+          cp -R assets dist/plugin/assets
 
       - name: Preparar artefacto del tema
         run: |
