@@ -30,7 +30,7 @@ if ( ! function_exists( 'perfumes_link_attr' ) ) {
 	}
 }
 
-$site_title         = perfumes_text_attr( $attributes, 'siteTitle' ) ?: get_bloginfo( 'name' );
+$hero_wordmark      = perfumes_text_attr( $attributes, 'heroWordmark' ) ?: 'OMAR®';
 $eyebrow            = perfumes_text_attr( $attributes, 'eyebrow' );
 $title              = perfumes_text_attr( $attributes, 'title' );
 $hero_brand         = perfumes_text_attr( $attributes, 'heroBrand' );
@@ -56,9 +56,6 @@ $shop_url           = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_p
 if ( function_exists( 'wc_get_products' ) ) {
 	$woocommerce_products = wc_get_products( array( 'status' => 'publish', 'limit' => 12, 'orderby' => 'date', 'order' => 'DESC' ) );
 	if ( $woocommerce_products ) {
-		if ( ! $hero_image_url ) {
-			$hero_image_url = wp_get_attachment_image_url( $woocommerce_products[0]->get_image_id(), 'full' ) ?: '';
-		}
 		$products = array_map(
 			static function ( $product ) {
 				$price = (float) $product->get_price();
@@ -90,7 +87,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 				<?php if ( $title ) : ?>
 					<p class="perfumes-hero__subtitle" data-text-anim="bodyAnimation"><?php echo wp_kses_post( $title ); ?></p>
 				<?php endif; ?>
-				<h1 data-text-anim="headerAnimation"><?php echo esc_html( $site_title ); ?></h1>
+				<h1 data-text-anim="headerAnimation"><?php echo esc_html( $hero_wordmark ); ?></h1>
 			</div>
 			<div class="perfumes-hero-card" data-fade-in="left">
 				<?php if ( $hero_brand ) : ?>
@@ -105,9 +102,11 @@ if ( function_exists( 'wc_get_products' ) ) {
 						</div>
 					</div>
 				<?php endif; ?>
-				<?php if ( $hero_image_url ) : ?>
-					<div class="perfumes-hero-card__image"><img src="<?php echo esc_url( $hero_image_url ); ?>" alt="" /></div>
-				<?php endif; ?>
+				<div class="perfumes-hero-card__image">
+					<?php if ( $hero_image_url ) : ?>
+						<img src="<?php echo esc_url( $hero_image_url ); ?>" alt="" />
+					<?php endif; ?>
+				</div>
 				<div class="perfumes-hero-card__body">
 					<?php if ( $description ) : ?>
 						<p class="perfumes-hero__description"><?php echo wp_kses_post( $description ); ?></p>

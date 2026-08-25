@@ -33,12 +33,19 @@ function preloaderAnimation( root, splits ) {
 
 	if ( logo ) {
 		splits.push( logo );
-		timeline.from( logo.chars, {
-			yPercent: -120,
-			duration: 0.55,
-			ease: 'power3.inOut',
-			stagger: { each: 0.045, from: 'random' },
-		} );
+		timeline.fromTo(
+			logo.chars,
+			{ yPercent: -120 },
+			{
+				yPercent: 0,
+				duration: 0.5,
+				repeat: 1,
+				repeatDelay: 0.7,
+				yoyo: true,
+				ease: 'power3.inOut',
+				stagger: { each: 0.04, from: 'random' },
+			}
+		);
 	}
 
 	timeline
@@ -46,9 +53,9 @@ function preloaderAnimation( root, splits ) {
 		.to(
 			intro,
 			{
-				clipPath: 'inset(0 0 100% 0)',
+				clipPath: 'circle(0% at 50% 50%)',
 				duration: 0.9,
-				ease: 'power4.inOut',
+				ease: 'expo.in',
 			},
 			2.05
 		);
@@ -67,6 +74,9 @@ function preloaderAnimation( root, splits ) {
 
 function heroAnimation( root, splits ) {
 	const timeline = gsap.timeline();
+	const headerElements = document.querySelectorAll(
+		'.home .perfumes-header > *, .home .perfumes-category-nav'
+	);
 	const title = splitText(
 		root.querySelector( '.perfumes-hero h1' ),
 		'chars'
@@ -80,13 +90,26 @@ function heroAnimation( root, splits ) {
 		gsap.set( element, { visibility: 'visible' } );
 	} );
 
-	timeline.from( bodyElements, {
-		yPercent: -80,
+	timeline.from( headerElements, {
+		yPercent: -60,
 		opacity: 0,
-		duration: 0.9,
-		stagger: 0.12,
-		ease: 'power3.inOut',
+		filter: 'blur(24px)',
+		duration: 1.15,
+		stagger: 0.08,
+		ease: 'power4.inOut',
 	} );
+
+	timeline.from(
+		bodyElements,
+		{
+			yPercent: -80,
+			opacity: 0,
+			duration: 0.9,
+			stagger: 0.12,
+			ease: 'power3.inOut',
+		},
+		'-=0.75'
+	);
 
 	if ( title ) {
 		splits.push( title );

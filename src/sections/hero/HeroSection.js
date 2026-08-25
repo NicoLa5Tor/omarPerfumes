@@ -4,7 +4,7 @@ import EditableImage from '../../components/EditableImage';
 
 export default function HeroSection( { attributes, setAttributes } ) {
 	const {
-		siteTitle,
+		heroWordmark,
 		eyebrow,
 		title,
 		description,
@@ -48,9 +48,9 @@ export default function HeroSection( { attributes, setAttributes } ) {
 					/>
 					<RichText
 						tagName="h1"
-						value={ siteTitle }
+						value={ heroWordmark }
 						onChange={ ( value ) =>
-							setAttributes( { siteTitle: value } )
+							setAttributes( { heroWordmark: value } )
 						}
 						placeholder={ __( 'OMAR PERFUMES', 'perfumes' ) }
 					/>
@@ -73,7 +73,9 @@ export default function HeroSection( { attributes, setAttributes } ) {
 							<span aria-hidden="true">✦ { heroBrand }</span>
 						</div>
 					</div>
-					{ heroImageUrl && <img src={ heroImageUrl } alt="" /> }
+					<div className="perfumes-hero-card__image">
+						{ heroImageUrl && <img src={ heroImageUrl } alt="" /> }
+					</div>
 					<RichText
 						tagName="p"
 						className="perfumes-hero__description"

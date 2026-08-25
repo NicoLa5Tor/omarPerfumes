@@ -78,6 +78,50 @@
 		@apply text-perfumes-gold;
 	}
 
+	.home .perfumes-global-header {
+		@apply absolute left-0 top-0 w-full bg-transparent text-white;
+		background: linear-gradient(180deg, rgba(7, 21, 39, 0.88) 0%, rgba(7, 21, 39, 0) 100%);
+	}
+
+	.home .perfumes-header {
+		@apply bg-transparent;
+	}
+
+	.home .perfumes-header__social,
+	.home .perfumes-logo__title,
+	.home .perfumes-logo__title a,
+	.home .perfumes-logo__tagline,
+	.home .perfumes-search input,
+	.home .perfumes-search button {
+		@apply text-white;
+	}
+
+	.home .perfumes-logo::after {
+		display: block;
+		width: 1px;
+		height: 38px;
+		margin: 8px auto 0;
+		background: linear-gradient(180deg, #fff 0%, transparent 100%);
+		content: "";
+	}
+
+	.home .perfumes-search .wp-block-search__inside-wrapper {
+		border-color: rgba(255, 255, 255, 0.35);
+		background: rgba(7, 21, 39, 0.25);
+		backdrop-filter: blur(14px);
+	}
+
+	.home .perfumes-search input::placeholder {
+		color: rgba(255, 255, 255, 0.72);
+	}
+
+	.home .perfumes-category-nav {
+		border-top: 1px solid rgba(255, 255, 255, 0.16);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+		background: rgba(7, 21, 39, 0.18);
+		backdrop-filter: blur(10px);
+	}
+
 	.perfumes-content-shell {
 		@apply min-h-[55vh] px-14 py-12;
 	}

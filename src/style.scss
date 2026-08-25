@@ -84,10 +84,10 @@
 	.perfumes-hero {
 		position: relative;
 		display: flex;
-		min-height: min(820px, calc(100svh - 110px));
+		min-height: 100svh;
 		align-items: flex-end;
 		overflow: hidden;
-		border-radius: 0 0 48px 48px;
+		border-radius: 48px;
 		background: #071527;
 		color: #fff;
 	}
@@ -95,7 +95,7 @@
 	.perfumes-hero__media {
 		position: absolute;
 		inset: 0;
-		background: #071527;
+		background: #071527 url(./assets/omar-hero-v2.jpg) center / cover no-repeat;
 	}
 
 	.perfumes-hero__media img {
@@ -112,8 +112,8 @@
 		position: absolute;
 		inset: 0;
 		background:
-			linear-gradient(180deg, rgba(7, 21, 39, 0.1) 0%, rgba(7, 21, 39, 0.82) 100%),
-			linear-gradient(90deg, rgba(7, 21, 39, 0.72) 0%, transparent 65%);
+			linear-gradient(180deg, rgba(7, 21, 39, 0.12) 0%, rgba(7, 21, 39, 0.78) 100%),
+			linear-gradient(90deg, rgba(7, 21, 39, 0.5) 0%, transparent 58%);
 	}
 
 	.perfumes-hero__content {
@@ -126,7 +126,7 @@
 		justify-content: space-between;
 		gap: 40px;
 		margin: 0 auto;
-		padding: 56px 32px 34px;
+		padding: 190px 32px 28px;
 	}
 
 	.perfumes-hero__main {
@@ -154,13 +154,13 @@
 	}
 
 	.perfumes-hero h1 {
-		max-width: 1050px;
-		margin: 0 0 -10px -8px;
+		max-width: none;
+		margin: 0 0 -18px -12px;
 		font-family: "Cormorant Garamond", Georgia, serif;
-		font-size: clamp(70px, 11.2vw, 170px);
+		font-size: clamp(80px, calc(12.752vw + 35px), 219px);
 		font-weight: 600;
-		line-height: 0.78;
-		letter-spacing: -0.055em;
+		line-height: 0.9;
+		letter-spacing: -0.04em;
 		text-transform: uppercase;
 		background: linear-gradient(180deg, #fff 18%, #f4d7a0 94%);
 		background-clip: text;
@@ -170,7 +170,7 @@
 
 	.perfumes-hero-card {
 		position: relative;
-		width: min(300px, 27vw);
+		width: 266px;
 		flex: 0 0 auto;
 		overflow: hidden;
 		border: 1px solid rgba(244, 199, 107, 0.5);
@@ -206,10 +206,11 @@
 	}
 
 	.perfumes-hero-card__image {
-		height: 184px;
+		height: 178px;
 		margin: 10px 10px 0;
 		overflow: hidden;
 		border-radius: 11px;
+		background: #071527 url(./assets/omar-hero-v2.jpg) center / cover no-repeat;
 	}
 
 	.perfumes-hero-card__image img {
@@ -297,7 +298,8 @@
 		z-index: 9999;
 		align-items: center;
 		justify-content: center;
-		background: #071527;
+		background: #2d2925;
+		clip-path: circle(150% at 50% 50%);
 		pointer-events: none;
 	}
 
@@ -308,8 +310,8 @@
 	.perfumes-intro__progress {
 		position: absolute;
 		inset: 0;
-		background: #f4c76b;
-		transform: scaleX(0.08);
+		background: #fff;
+		transform: scaleX(0.2);
 		transform-origin: left;
 	}
 
