@@ -34,8 +34,20 @@ function perfumes_enqueue_storefront_assets() {
 		return;
 	}
 
+	$styles = wp_styles();
 	foreach ( $block_type->style_handles as $style_handle ) {
 		wp_enqueue_style( $style_handle );
+
+		// The block CSS inherits block.json's static version, so browsers keep
+		// serving a stale file after every deploy. Bust it with the compiled
+		// file's modification time instead.
+		$registered = $styles->registered[ $style_handle ] ?? null;
+		if ( $registered && $registered->src ) {
+			$file = __DIR__ . '/build/' . basename( strtok( $registered->src, '?' ) );
+			if ( file_exists( $file ) ) {
+				$registered->ver = (string) filemtime( $file );
+			}
+		}
 	}
 
 	foreach ( $block_type->view_script_handles as $script_handle ) {
