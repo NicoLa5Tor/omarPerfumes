@@ -196,7 +196,12 @@
 
 	.home .perfumes-search .wp-block-search__inside-wrapper {
 		border-color: rgba(255, 255, 255, 0.34);
-		background: rgba(4, 13, 25, 0.3);
+		background: rgba(4, 13, 25, 0.3) !important;
+	}
+
+	.home .perfumes-search input {
+		background: transparent !important;
+		color: #fff !important;
 	}
 
 	.home .perfumes-search input::placeholder {
