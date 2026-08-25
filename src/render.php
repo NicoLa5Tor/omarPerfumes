@@ -152,7 +152,36 @@ $secondary_image    = $secondary_product ? wp_get_attachment_image_url( $seconda
 $secondary_stock    = $secondary_product && $secondary_product->is_in_stock() ? __( 'Disponible', 'perfumes' ) : __( 'Agotado', 'perfumes' );
 
 if ( function_exists( 'wc_get_products' ) ) {
-	$woocommerce_products = wc_get_products( array( 'status' => 'publish', 'limit' => 12, 'orderby' => 'date', 'order' => 'DESC' ) );
+	$woocommerce_products = wc_get_products(
+		array(
+			'status'       => 'publish',
+			'stock_status' => 'instock',
+			'limit'        => -1,
+		)
+	);
+	$woocommerce_products = array_values(
+		array_filter(
+			$woocommerce_products,
+			static function ( $product ) {
+				return $product instanceof WC_Product
+					&& $product->is_visible()
+					&& $product->is_purchasable()
+					&& $product->is_in_stock()
+					&& $product->get_image_id();
+			}
+		)
+	);
+	usort(
+		$woocommerce_products,
+		static function ( $left, $right ) {
+			$sales_comparison = (int) $right->get_total_sales() <=> (int) $left->get_total_sales();
+			if ( 0 !== $sales_comparison ) {
+				return $sales_comparison;
+			}
+			return $right->get_id() <=> $left->get_id();
+		}
+	);
+	$woocommerce_products = array_slice( $woocommerce_products, 0, 8 );
 	if ( $woocommerce_products ) {
 		$products = array_map(
 			static function ( $product ) {

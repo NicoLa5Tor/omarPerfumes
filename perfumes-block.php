@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       Perfumes Block
  * Description:       Bloque de WordPress construido con React (Gutenberg). Desarrollado localmente y desplegado por FTP con GitHub Actions.
- * Version:           0.5.1
+ * Version:           0.6.0
  * Author:            Tu Nombre
  * License:           GPL-2.0-or-later
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
@@ -72,3 +72,18 @@ function perfumes_activate_omar_theme_once() {
 	update_option( 'perfumes_omar_theme_activated', gmdate( 'c' ), false );
 }
 add_action( 'init', 'perfumes_activate_omar_theme_once', 100 );
+
+/**
+ * Publish the WooCommerce storefront after the Omar public experience ships.
+ * The versioned guard makes this a one-time deployment migration.
+ */
+function perfumes_publish_storefront_once() {
+	if ( '0.6.0' === get_option( 'perfumes_storefront_public_version' ) ) {
+		return;
+	}
+
+	update_option( 'woocommerce_coming_soon', 'no' );
+	update_option( 'woocommerce_store_pages_only', 'no' );
+	update_option( 'perfumes_storefront_public_version', '0.6.0', false );
+}
+add_action( 'init', 'perfumes_publish_storefront_once', 110 );
