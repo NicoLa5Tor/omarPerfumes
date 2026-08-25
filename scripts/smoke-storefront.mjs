@@ -24,20 +24,33 @@ const expect = ( condition, message ) => {
 	if ( ! condition ) throw new Error( message );
 };
 
+const fetchStorefrontPage = ( path ) => {
+	const url = new URL( path, `${ baseUrl }/` );
+	url.searchParams.set( 'codex_smoke', `${ Date.now() }-${ Math.random() }` );
+	return fetch( url, {
+		cache: 'no-store',
+		headers: {
+			'cache-control': 'no-cache',
+			'user-agent': 'Mozilla/5.0 CodexStorefrontSmoke/1.0',
+		},
+		redirect: 'follow',
+	} );
+};
+
 const productsResponse = await fetch( `${ baseUrl }/wp-json/wc/store/v1/products?per_page=100` );
 expect( productsResponse.ok, 'Woo Store API must respond.' );
 const products = await productsResponse.json();
 expect( products.length >= 10, 'At least 10 products must be published.' );
 
 for ( const path of [ '/', '/tienda/', '/carrito/', '/mi-cuenta/' ] ) {
-	const response = await fetch( `${ baseUrl }${ path }`, { redirect: 'follow' } );
+	const response = await fetchStorefrontPage( path );
 	const html = await response.text();
 	expect( response.ok, `${ path } must respond with HTTP 200.` );
 	expect( ( html.match( /<header[^>]*perfumes-global-header/gi ) || [] ).length === 1, `${ path } must render one global header.` );
 	expect( ( html.match( /<footer[^>]*perfumes-footer-preview/gi ) || [] ).length === 1, `${ path } must render one global footer.` );
 }
 
-const home = await ( await fetch( `${ baseUrl }/` ) ).text();
+const home = await ( await fetchStorefrontPage( '/' ) ).text();
 expect( ! /perfumes-whatsapp[^>]+href=["']#/.test( home ), 'WhatsApp must never point to #.' );
 expect( ( home.match( /data-product_id=/g ) || [] ).length >= 10, 'Landing must expose WooCommerce add-to-cart buttons.' );
 

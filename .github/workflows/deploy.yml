@@ -71,3 +71,8 @@ jobs:
         run: |
           curl --fail --silent --show-error https://goldenrod-wallaby-542332.hostingersite.com/wp-content/plugins/perfumes-block/build/block.json | grep -q primaryCtaUrl
           curl --fail --silent --show-error https://goldenrod-wallaby-542332.hostingersite.com/wp-content/themes/omar-perfumes/style.css | grep -q "Theme Name: Omar Perfumes"
+
+      - name: Probar storefront publicado
+        env:
+          STORE_URL: https://goldenrod-wallaby-542332.hostingersite.com/
+        run: pnpm run test:smoke
