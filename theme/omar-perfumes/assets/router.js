@@ -109,19 +109,12 @@ function prepareHomeForClientNavigation( serverState ) {
 		return;
 	}
 
-	root.classList.remove( 'is-intro-ready' );
 	root.querySelectorAll( '.preloader-mask, .preloader-progress-bar' ).forEach(
 		( element ) => {
 			element.style.display = 'none';
 			element.style.visibility = 'hidden';
 		}
 	);
-
-	const hero = root.querySelector( '.hero-section' );
-	if ( hero ) {
-		hero.style.opacity = '0';
-		hero.style.visibility = 'hidden';
-	}
 
 	const heroImage = root.querySelector( '.hero-product-primary__image' );
 	if ( heroImage ) {

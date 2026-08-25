@@ -83,59 +83,6 @@
 		@apply no-underline;
 	}
 
-	.perfumes-hero {
-		position: relative;
-		display: flex;
-		min-height: 100svh;
-		align-items: flex-end;
-		overflow: hidden;
-		border-radius: 48px;
-		background: #071527;
-		color: #fff;
-	}
-
-	.perfumes-hero__media {
-		position: absolute;
-		inset: 0;
-		background: #151513;
-	}
-
-	.perfumes-hero__media img {
-		display: block;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		object-position: center;
-		transform: scale(1.08);
-		will-change: transform;
-	}
-
-	.perfumes-hero__shade {
-		position: absolute;
-		inset: 0;
-		background:
-			linear-gradient(180deg, rgba(7, 21, 39, 0.12) 0%, rgba(7, 21, 39, 0.78) 100%),
-			linear-gradient(90deg, rgba(7, 21, 39, 0.5) 0%, transparent 58%);
-	}
-
-	.perfumes-hero__content {
-		position: relative;
-		z-index: 2;
-		display: flex;
-		width: 100%;
-		max-width: 1440px;
-		align-items: flex-end;
-		justify-content: space-between;
-		gap: 40px;
-		margin: 0 auto;
-		padding: 190px 32px 28px;
-	}
-
-	.perfumes-hero__main {
-		min-width: 0;
-		flex: 1;
-	}
-
 	.perfumes-eyebrow {
 		margin: 0 0 16px;
 		font-size: 12px;
@@ -143,101 +90,6 @@
 		letter-spacing: 2.4px;
 		text-transform: uppercase;
 		color: #f4c76b;
-	}
-
-	.perfumes-hero__subtitle {
-		max-width: 340px;
-		margin: 0 0 20px;
-		font-size: clamp(18px, 2vw, 25px);
-		font-weight: 700;
-		line-height: 1.2;
-		letter-spacing: -0.6px;
-		color: #fff;
-	}
-
-	.perfumes-hero h1 {
-		max-width: none;
-		margin: 0 0 -18px -12px;
-		font-family: "Cormorant Garamond", Georgia, serif;
-		font-size: clamp(80px, calc(12.752vw + 35px), 219px);
-		font-weight: 600;
-		line-height: 0.9;
-		letter-spacing: -0.04em;
-		text-transform: uppercase;
-		background: linear-gradient(180deg, #fff 18%, #f4d7a0 94%);
-		background-clip: text;
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-	}
-
-	.perfumes-hero-card {
-		position: relative;
-		width: 266px;
-		flex: 0 0 auto;
-		overflow: hidden;
-		border: 1px solid rgba(244, 199, 107, 0.5);
-		border-radius: 16px;
-		background: linear-gradient(180deg, #fff6e4 0%, #e7bd70 100%);
-		box-shadow: 0 18px 60px rgba(2, 10, 20, 0.48);
-		color: #071527;
-	}
-
-	.perfumes-hero-card__marquee {
-		display: flex;
-		overflow: hidden;
-		border-bottom: 1px solid rgba(244, 199, 107, 0.22);
-		background: #071527;
-		color: #f4c76b;
-	}
-
-	.perfumes-hero-card__marquee-group {
-		display: flex;
-		width: max-content;
-		flex-shrink: 0;
-		align-items: center;
-		gap: 10px;
-		padding: 11px 5px;
-		animation: perfumes-marquee 22s linear infinite;
-		white-space: nowrap;
-	}
-
-	.perfumes-hero-card__marquee strong {
-		font-size: 11px;
-		letter-spacing: 1.2px;
-		text-transform: uppercase;
-	}
-
-	.perfumes-hero-card__image {
-		height: 178px;
-		margin: 10px 10px 0;
-		overflow: hidden;
-		border-radius: 11px;
-		background: #151513;
-	}
-
-	.perfumes-hero-card__image img {
-		display: block;
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.perfumes-hero-card__body {
-		padding: 16px;
-	}
-
-	.perfumes-hero__description {
-		margin: 0 0 12px;
-		font-size: 13px;
-		line-height: 1.45;
-		color: rgba(7, 21, 39, 0.78);
-	}
-
-	.perfumes-hero__actions {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 8px;
-		margin-top: 14px;
 	}
 
 	.perfumes-button,
@@ -249,27 +101,8 @@
 		@apply bg-perfumes-gold text-perfumes-navy;
 	}
 
-	.perfumes-hero-card .perfumes-button--primary {
-		width: 100%;
-		justify-content: space-between;
-		background: #071527;
-		color: #fff;
-	}
-
 	.perfumes-button--ghost {
 		@apply border border-white/50 text-white;
-	}
-
-	.perfumes-hero-card .perfumes-button--ghost {
-		width: 100%;
-		border-color: rgba(7, 21, 39, 0.35);
-		color: #071527;
-	}
-
-	.perfumes-hero__price {
-		display: block;
-		font-size: 16px;
-		color: #071527;
 	}
 
 	.perfumes-promo__media {
@@ -289,56 +122,6 @@
 
 	.perfumes-promo__media img {
 		@apply block h-full w-full object-cover;
-	}
-
-	.perfumes-intro {
-		display: none;
-		position: fixed;
-		inset: 0;
-		z-index: 9999;
-		align-items: center;
-		justify-content: center;
-		background: #2d2925;
-		clip-path: circle(150% at 50% 50%);
-		pointer-events: none;
-	}
-
-	.perfumes-landing.is-intro-ready .perfumes-intro {
-		display: flex;
-	}
-
-	.perfumes-intro__progress {
-		position: absolute;
-		inset: 0;
-		background: #fff;
-		transform: scaleX(0.2);
-		transform-origin: left;
-	}
-
-	.perfumes-intro__logo {
-		position: relative;
-		margin: 0;
-		font-family: "Cormorant Garamond", Georgia, serif;
-		font-size: clamp(64px, 9vw, 138px);
-		font-weight: 600;
-		letter-spacing: 0.08em;
-		color: #fff;
-		mix-blend-mode: difference;
-	}
-
-	.perfumes-landing.is-intro-ready [data-text-anim] {
-		visibility: hidden;
-		animation: omar-text-failsafe 0s linear 9s forwards;
-	}
-
-	.perfumes-split-char {
-		display: inline-block;
-	}
-
-	@keyframes perfumes-marquee {
-		to {
-			transform: translateX(-100%);
-		}
 	}
 
 	.perfumes-brand-strip {
@@ -991,14 +774,9 @@
 		padding-inline: 2rem;
 	}
 
-	.perfumes-landing.is-intro-ready [data-text-anim] {
-		visibility: hidden;
-	}
-
-	.duplicate-char {
-		position: absolute;
-		inset: 0;
-		transform: translateY(100%);
+	.perfumes-landing.is-intro-ready [data-fade-in],
+	.perfumes-landing.is-intro-ready [data-hero-reveal] {
+		opacity: 0;
 	}
 
 	.preloader-mask,
@@ -1012,14 +790,26 @@
 		pointer-events: none;
 	}
 
-	.preloader-mask {
-		z-index: 10001;
-		overflow: hidden;
-	}
-
 	.preloader-progress-bar {
 		z-index: 10002;
-		background: transparent;
+		overflow: hidden;
+		background: #071527;
+	}
+
+	.preloader-mask {
+		z-index: 10003;
+		background: #030a14;
+		transform-origin: 50% 50%;
+		-webkit-mask-image: linear-gradient(#fff, #fff), var(--omar-mask);
+		-webkit-mask-position: center, center;
+		-webkit-mask-repeat: no-repeat, no-repeat;
+		-webkit-mask-size: 100% 100%, 42%;
+		-webkit-mask-composite: xor;
+		mask-image: linear-gradient(#fff, #fff), var(--omar-mask);
+		mask-position: center, center;
+		mask-repeat: no-repeat, no-repeat;
+		mask-size: 100% 100%, 42%;
+		mask-composite: subtract;
 	}
 
 	body.omar-initial-entry
@@ -1034,32 +824,11 @@
 
 	.preloader-bg {
 		position: absolute;
-		top: calc(50% + min(15vw, 116px));
-		left: 50%;
-		width: min(46vw, 520px);
-		height: 2px;
-		background: #e2bd6d;
-		transform: translateX(-50%) scaleX(0);
-		transform-origin: center;
+		inset: 0;
+		background: #fff;
+		transform: scaleX(0.18);
+		transform-origin: left center;
 		will-change: transform;
-	}
-
-	.preloader-panel {
-		position: absolute;
-		left: 0;
-		width: 100%;
-		height: 50.5%;
-		background: #071527;
-		backface-visibility: hidden;
-		will-change: transform;
-	}
-
-	.preloader-panel--top {
-		top: 0;
-	}
-
-	.preloader-panel--bottom {
-		bottom: 0;
 	}
 
 	.preloader-logo {
@@ -1068,15 +837,14 @@
 		display: flex;
 		width: 100%;
 		height: 100%;
+		align-items: center;
+		justify-content: center;
 	}
 
-	.preloader-logo p {
-		margin: auto;
-		font-size: 4rem;
-		font-weight: 500;
-		line-height: 1;
-		text-align: center;
-		color: #fff;
+	.preloader-logo img {
+		display: block;
+		width: min(52vw, 680px);
+		height: auto;
 		mix-blend-mode: difference;
 	}
 
@@ -1097,72 +865,6 @@
 	.hero-section > .wrapper {
 		position: relative;
 		z-index: 1;
-	}
-
-	.hero-img {
-		position: absolute;
-		inset: 0;
-		z-index: -1;
-	}
-
-	.hero-img::after {
-		position: absolute;
-		inset: 0;
-		background: linear-gradient(180deg, rgba(21, 21, 19, 0.08) 30%, rgba(21, 21, 19, 0.42) 100%);
-		content: "";
-	}
-
-	.hero-img img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transform: scale(1.2);
-		will-change: transform;
-	}
-
-	.hero-content {
-		display: flex;
-		width: 100%;
-		align-items: flex-end;
-		justify-content: space-between;
-		gap: 20px;
-		padding-bottom: 24px;
-	}
-
-	.content-main {
-		min-width: 0;
-		flex: 1;
-	}
-
-	.content-main .sub-title {
-		max-width: 240px;
-		margin: 0 0 10px;
-		font-size: 22px;
-		font-weight: 700;
-		line-height: 1.3;
-		letter-spacing: -0.66px;
-		color: #fff;
-	}
-
-	.content-main h1 {
-		margin: 0 0 0 -12px;
-		font-family: "Host Grotesk", sans-serif;
-		font-size: clamp(5rem, calc(12.752vw + 2.21rem), 13.688rem);
-		font-weight: 600;
-		line-height: 0.9;
-		letter-spacing: -8.76px;
-		text-transform: none;
-		background: linear-gradient(180deg, #fff 17.73%, #f7cfb4 92.44%);
-		background-clip: text;
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
-	}
-
-	.header-char {
-		background: linear-gradient(180deg, #fff 17.73%, #f7cfb4 92.44%);
-		background-clip: text;
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
 	}
 
 	.content-cta {
@@ -1275,22 +977,7 @@
 		}
 	}
 
-	@keyframes omar-text-failsafe {
-		to {
-			visibility: visible;
-		}
-	}
-
 	@media (max-width: 1100px) {
-		.hero-content {
-			align-items: flex-end;
-		}
-
-		.content-main h1 {
-			font-size: clamp(72px, 14vw, 150px);
-			letter-spacing: -5px;
-		}
-
 		.perfumes-header {
 			@apply grid-cols-1 justify-items-center gap-[18px];
 		}
@@ -1300,18 +987,8 @@
 			@apply justify-center;
 		}
 
-		.perfumes-hero,
 		.perfumes-promo {
 			@apply grid-cols-1;
-		}
-
-		.perfumes-hero__content {
-			align-items: flex-end;
-			gap: 24px;
-		}
-
-		.perfumes-hero-card {
-			width: 280px;
 		}
 
 		.perfumes-product-grid,
@@ -1346,27 +1023,6 @@
 			padding-inline: 18px;
 		}
 
-		.hero-section {
-			min-height: 760px;
-			border-radius: 28px;
-		}
-
-		.hero-content {
-			flex-direction: column;
-			align-items: stretch;
-			gap: 24px;
-		}
-
-		.content-main .sub-title {
-			font-size: 18px;
-		}
-
-		.content-main h1 {
-			margin-left: -4px;
-			font-size: clamp(68px, 25vw, 108px);
-			letter-spacing: -4px;
-		}
-
 		.content-cta {
 			width: 100%;
 			max-width: none;
@@ -1378,7 +1034,6 @@
 		}
 
 		.perfumes-header,
-		.perfumes-hero__content,
 		.perfumes-products,
 		.perfumes-promo > div:first-child,
 		.perfumes-benefits,
@@ -1397,33 +1052,6 @@
 
 		.perfumes-category-nav {
 			@apply px-[22px];
-		}
-
-		.perfumes-hero {
-			min-height: 760px;
-			border-radius: 0 0 28px 28px;
-		}
-
-		.perfumes-hero__content {
-			flex-direction: column;
-			align-items: stretch;
-			justify-content: flex-end;
-			padding-top: 100px;
-			padding-bottom: 22px;
-		}
-
-		.perfumes-hero h1 {
-			margin-left: -3px;
-			font-size: clamp(55px, 19vw, 86px);
-			line-height: 0.82;
-		}
-
-		.perfumes-hero-card {
-			width: 100%;
-		}
-
-		.perfumes-hero-card__image {
-			display: none;
 		}
 
 		.perfumes-product-grid,
@@ -1461,35 +1089,8 @@
 
 	/* stylelint-disable no-descending-specificity */
 
-	/* Product-led Omar hero overrides. Kept after the legacy layout so only the
-	 * current hero markup and its editor preview receive these rules. */
-	.perfumes-landing .preloader-progress-bar {
-		background: transparent;
-	}
-
-	.perfumes-landing .preloader-bg {
-		background: linear-gradient(90deg, rgba(226, 189, 109, 0.25), #e2bd6d, rgba(226, 189, 109, 0.25));
-	}
-
-	.perfumes-landing .preloader-mask {
-		background: transparent;
-	}
-
-	.perfumes-landing .preloader-panel {
-		background: linear-gradient(135deg, #071527, #030a14);
-	}
-
-	.perfumes-landing .preloader-logo {
-		z-index: 1;
-		align-items: center;
-		justify-content: center;
-	}
-
 	.perfumes-landing .preloader-logo img {
-		display: block;
 		width: min(52vw, 680px);
-		height: auto;
-		filter: drop-shadow(0 14px 36px rgba(0, 0, 0, 0.28));
 	}
 
 	.perfumes-landing .hero-section {
@@ -1621,13 +1222,6 @@
 	.perfumes-landing .hero-featured-name strong {
 		font: inherit;
 		color: inherit;
-	}
-
-	.perfumes-landing .header-char {
-		background: linear-gradient(180deg, #fff 24%, #cad8ea 100%);
-		background-clip: text;
-		-webkit-background-clip: text;
-		-webkit-text-fill-color: transparent;
 	}
 
 	.perfumes-landing .hero-product-meta {
@@ -1880,9 +1474,9 @@
 			width: min(78vw, 440px);
 		}
 
-		.perfumes-landing .preloader-bg {
-			top: calc(50% + 74px);
-			width: min(72vw, 360px);
+		.perfumes-landing .preloader-mask {
+			-webkit-mask-size: 100% 100%, 72%;
+			mask-size: 100% 100%, 72%;
 		}
 
 		.perfumes-landing .hero-section {
@@ -1953,9 +1547,9 @@
 			display: none !important;
 		}
 
-		.perfumes-landing [data-text-anim] {
-			visibility: visible !important;
-			animation: none !important;
+		.perfumes-landing.is-intro-ready [data-fade-in],
+		.perfumes-landing.is-intro-ready [data-hero-reveal] {
+			opacity: 1;
 		}
 
 		.perfumes-landing .hero-product-primary__image,
@@ -1969,17 +1563,6 @@
 	body.omar-route-transition .perfumes-landing .preloader-progress-bar {
 		display: none;
 		visibility: hidden;
-	}
-
-	body.omar-route-transition .perfumes-landing .hero-section {
-		opacity: 0;
-		visibility: hidden;
-	}
-
-	body.omar-route-transition
-		.perfumes-landing
-		.hero-product-primary__image {
-		transform: scale(1);
 	}
 	/* stylelint-enable no-descending-specificity */
 }

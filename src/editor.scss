@@ -10,7 +10,6 @@
 		@apply flex min-h-[180px] w-full items-center justify-center border border-dashed border-[#99a7b8] font-bold text-[#203040];
 	}
 
-	.perfumes-hero__media.perfumes-image-placeholder,
 	.perfumes-promo__media.perfumes-image-placeholder {
 		@apply min-h-[360px];
 	}
@@ -24,23 +23,9 @@
 		@apply absolute right-0 top-0 z-[2] m-3;
 	}
 
-	.perfumes-hero__media,
 	.perfumes-product-card__image,
 	.perfumes-promo__media {
 		@apply relative;
-	}
-
-	.perfumes-hero--editor .perfumes-hero-card__marquee-group {
-		animation: none;
-	}
-
-	.hero-section--editor .hero-img {
-		z-index: 0;
-	}
-
-	.hero-section--editor .hero-content {
-		position: relative;
-		z-index: 1;
 	}
 
 	.hero-section--editor .img-wrapper.perfumes-image-placeholder {

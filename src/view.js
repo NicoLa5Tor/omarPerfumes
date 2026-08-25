@@ -1,7 +1,13 @@
 import { gsap } from 'gsap';
+import { CustomEase } from 'gsap/CustomEase';
+import { ExpoScaleEase } from 'gsap/EasePack';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin( ScrollTrigger );
+gsap.registerPlugin( ScrollTrigger, CustomEase, ExpoScaleEase );
+CustomEase.create(
+	'stutterEase',
+	'M0,0 C0,0 0.052,0.1 0.152,0.1 0.242,0.1 0.299,0.349 0.399,0.349 0.586,0.349 0.569,0.596 0.67,0.624 0.842,0.671 0.95,0.95 1,1'
+);
 
 const RUNTIME_KEY = '__omarPerfumesShowcaseRuntime';
 const previousRuntime = window[ RUNTIME_KEY ];
@@ -22,63 +28,66 @@ function preloaderAnimation( root ) {
 	const logoImage = root.querySelector( '.logo-image' );
 	const preloaderBackground = root.querySelector( '.preloader-bg' );
 	const preloaderMask = root.querySelector( '.preloader-mask' );
-	const panelTop = root.querySelector( '.preloader-panel--top' );
-	const panelBottom = root.querySelector( '.preloader-panel--bottom' );
 	const heroImage = root.querySelector( '.hero-product-primary__image' );
 	const heroImageTargets = heroImage ? [ heroImage ] : [];
 
 	timeline
+		.set( preloaderMask, { scale: 1, transformOrigin: '50% 50%' } )
 		.set( heroImageTargets, { scale: 1.18 } )
 		.fromTo(
 			logoImage,
-			{ autoAlpha: 0, y: 14, scale: 0.96 },
+			{ autoAlpha: 0, y: 16, scale: 0.96 },
 			{
 				autoAlpha: 1,
 				y: 0,
 				scale: 1,
-				duration: 0.45,
+				duration: 0.5,
 				ease: 'power2.out',
 			}
 		)
 		.fromTo(
 			preloaderBackground,
-			{ scaleX: 0 },
-			{ scaleX: 1, duration: 0.72, ease: 'power2.inOut' },
-			'-=0.08'
+			{ scaleX: 0.18 },
+			{ scaleX: 1, duration: 2.15, ease: 'stutterEase' },
+			'-=0.12'
 		)
 		.to(
-			preloaderLogo,
-			{ autoAlpha: 0, y: -12, duration: 0.2, ease: 'power2.in' },
-			'+=0.08'
-		)
-		.to( progressBar, { autoAlpha: 0, duration: 0.12 }, '<' )
-		.to(
-			panelTop,
-			{ yPercent: -101, duration: 0.78, ease: 'power4.inOut' },
-			'<'
+			preloaderMask,
+			{
+				scale: 4.25,
+				duration: 0.95,
+				ease: 'expoScale(0.5,7,power1.in)',
+			},
+			'+=0.12'
 		)
 		.to(
-			panelBottom,
-			{ yPercent: 101, duration: 0.78, ease: 'power4.inOut' },
+			[ progressBar, preloaderLogo ],
+			{ autoAlpha: 0, duration: 0.7, ease: 'power2.inOut' },
 			'<'
 		)
 		.to(
 			heroImageTargets,
-			{ scale: 1, duration: 1.05, ease: 'power3.out' },
-			'<0.06'
+			{
+				scale: 1,
+				duration: 2.35,
+				ease: 'expoScale(0.5,7,power1.out)',
+			},
+			'<'
 		)
-		.set( [ progressBar, preloaderMask ], { display: 'none' } );
+		.set( [ progressBar, preloaderMask ], {
+			autoAlpha: 0,
+			display: 'none',
+		} );
 
 	return timeline;
 }
 
-function heroAnimation( root, { revealProduct = false } = {} ) {
+function heroAnimation( root ) {
 	const timeline = gsap.timeline( {
 		defaults: { duration: 0.72, ease: 'power3.out' },
 	} );
 	const fadeElements = [ ...root.querySelectorAll( '[data-fade-in]' ) ];
 	const headline = root.querySelector( '[data-hero-reveal]' );
-	const heroImage = root.querySelector( '.hero-product-primary__image' );
 
 	if ( fadeElements.length ) {
 		timeline.fromTo(
@@ -103,21 +112,6 @@ function heroAnimation( root, { revealProduct = false } = {} ) {
 			{ autoAlpha: 0, yPercent: 108 },
 			{ autoAlpha: 1, yPercent: 0, duration: 0.88 },
 			0.08
-		);
-	}
-
-	if ( revealProduct && heroImage ) {
-		timeline.fromTo(
-			heroImage,
-			{ autoAlpha: 0, y: 20, scale: 1.06 },
-			{
-				autoAlpha: 1,
-				y: 0,
-				scale: 1,
-				duration: 0.9,
-				ease: 'power3.out',
-			},
-			0.04
 		);
 	}
 
@@ -226,9 +220,6 @@ function runIntro( root, { showPreloader } ) {
 		gsap.set( root.querySelector( '.hero-product-primary__image' ), {
 			scale: 1,
 		} );
-		root.querySelectorAll( '[data-text-anim]' ).forEach( ( element ) => {
-			element.style.visibility = 'visible';
-		} );
 		return () => {};
 	}
 
@@ -237,17 +228,20 @@ function runIntro( root, { showPreloader } ) {
 		const context = gsap.context( () => {
 			if ( ! showPreloader ) {
 				hidePreloader( root );
-				completeInitialEntry( root );
 				gsap.set( root.querySelector( '.hero-section' ), {
 					autoAlpha: 1,
 				} );
-				const heroImage = root.querySelector(
-					'.hero-product-primary__image'
+				gsap.set(
+					root.querySelector( '.hero-product-primary__image' ),
+					{
+						scale: 1,
+						autoAlpha: 1,
+					}
 				);
-				gsap.set( heroImage, { scale: 1 } );
-				activeTimeline = heroAnimation( root, {
-					revealProduct: true,
-				} );
+				activeTimeline = heroAnimation( root );
+				activeTimeline.eventCallback( 'onComplete', () =>
+					completeInitialEntry( root )
+				);
 				return;
 			}
 
@@ -256,7 +250,7 @@ function runIntro( root, { showPreloader } ) {
 			} );
 			const preloaderTl = preloaderAnimation( root );
 			const heroTl = heroAnimation( root );
-			activeTimeline.add( preloaderTl ).add( heroTl, '-=0.1' );
+			activeTimeline.add( preloaderTl ).add( heroTl, '-=1.15' );
 		}, root );
 
 		return () => {
