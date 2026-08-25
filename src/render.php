@@ -51,12 +51,18 @@ $brands             = perfumes_array_attr( $attributes, 'brands' );
 $products           = perfumes_array_attr( $attributes, 'products' );
 $benefits           = perfumes_array_attr( $attributes, 'benefits' );
 $payment_methods    = perfumes_array_attr( $attributes, 'paymentMethods' );
-$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-landing' ) );
+$wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-landing is-intro-ready' ) );
 $shop_url           = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/tienda/' );
 $plugin_url         = plugin_dir_url( dirname( __DIR__ ) . '/perfumes-block.php' );
-$hero_bg_url        = $hero_image_url ?: $plugin_url . 'assets/hero-bg.jpg';
-$cta_image_url      = $hero_cta_image_url ?: $plugin_url . 'assets/cta-img.jpg';
-$mask_url           = $plugin_url . 'assets/omar-mask.svg';
+$plugin_path        = dirname( __DIR__ );
+$asset_url          = static function ( $filename ) use ( $plugin_path, $plugin_url ) {
+	$path    = $plugin_path . '/assets/' . $filename;
+	$version = file_exists( $path ) ? filemtime( $path ) : '0.3.0';
+	return add_query_arg( 'ver', $version, $plugin_url . 'assets/' . $filename );
+};
+$hero_bg_url        = $hero_image_url ?: $asset_url( 'hero-bg.jpg' );
+$cta_image_url      = $hero_cta_image_url ?: $asset_url( 'cta-img.jpg' );
+$mask_url           = $asset_url( 'omar-mask.svg' );
 
 if ( function_exists( 'wc_get_products' ) ) {
 	$woocommerce_products = wc_get_products( array( 'status' => 'publish', 'limit' => 12, 'orderby' => 'date', 'order' => 'DESC' ) );

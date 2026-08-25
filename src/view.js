@@ -174,10 +174,13 @@ function heroAnimation( root ) {
 
 function runIntro( root ) {
 	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
+		root.classList.remove( 'is-intro-ready' );
+		root.querySelectorAll( '[data-text-anim]' ).forEach( ( element ) => {
+			element.style.visibility = 'visible';
+		} );
 		return;
 	}
 
-	root.classList.add( 'is-intro-ready' );
 	try {
 		const introTimeline = gsap.timeline( {
 			onComplete: () => root.classList.remove( 'is-intro-ready' ),
@@ -195,9 +198,6 @@ function init() {
 	const root = document.querySelector( '.perfumes-landing' );
 	if ( ! root ) {
 		return;
-	}
-	if ( ! window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
-		root.classList.add( 'is-intro-ready' );
 	}
 	const fontsReady = document.fonts?.ready || Promise.resolve();
 	fontsReady.then( () => runIntro( root ) );
