@@ -33,8 +33,8 @@ for ( const path of [ '/', '/tienda/', '/carrito/', '/mi-cuenta/' ] ) {
 	const response = await fetch( `${ baseUrl }${ path }`, { redirect: 'follow' } );
 	const html = await response.text();
 	expect( response.ok, `${ path } must respond with HTTP 200.` );
-	expect( ( html.match( /perfumes-global-header/g ) || [] ).length === 1, `${ path } must render one global header.` );
-	expect( ( html.match( /perfumes-footer-preview/g ) || [] ).length === 1, `${ path } must render one global footer.` );
+	expect( ( html.match( /<header[^>]*perfumes-global-header/gi ) || [] ).length === 1, `${ path } must render one global header.` );
+	expect( ( html.match( /<footer[^>]*perfumes-footer-preview/gi ) || [] ).length === 1, `${ path } must render one global footer.` );
 }
 
 const home = await ( await fetch( `${ baseUrl }/` ) ).text();

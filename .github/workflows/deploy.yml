@@ -54,7 +54,7 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: ./dist/plugin/
-          server-dir: /wp-content/plugins/perfumes-block/
+          server-dir: wp-content/plugins/perfumes-block/
 
       - name: Deploy tema Omar por FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
@@ -63,4 +63,9 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: ./dist/theme/
-          server-dir: /wp-content/themes/omar-perfumes/
+          server-dir: wp-content/themes/omar-perfumes/
+
+      - name: Verificar artefactos publicados
+        run: |
+          curl --fail --silent --show-error https://goldenrod-wallaby-542332.hostingersite.com/wp-content/plugins/perfumes-block/build/block.json | grep -q primaryCtaUrl
+          curl --fail --silent --show-error https://goldenrod-wallaby-542332.hostingersite.com/wp-content/themes/omar-perfumes/style.css | grep -q "Theme Name: Omar Perfumes"
