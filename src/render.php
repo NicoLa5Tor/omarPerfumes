@@ -56,6 +56,9 @@ $shop_url           = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_p
 if ( function_exists( 'wc_get_products' ) ) {
 	$woocommerce_products = wc_get_products( array( 'status' => 'publish', 'limit' => 12, 'orderby' => 'date', 'order' => 'DESC' ) );
 	if ( $woocommerce_products ) {
+		if ( ! $hero_image_url ) {
+			$hero_image_url = wp_get_attachment_image_url( $woocommerce_products[0]->get_image_id(), 'full' ) ?: '';
+		}
 		$products = array_map(
 			static function ( $product ) {
 				$price = (float) $product->get_price();
