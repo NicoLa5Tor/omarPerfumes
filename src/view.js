@@ -132,7 +132,7 @@ function initHomeHeader() {
 			} );
 
 			timeline
-				.to( backdrop, { autoAlpha: 1, scaleY: 1 }, 0 )
+				.to( backdrop, { scaleY: isMobile ? 1 : 0.73 }, 0 )
 				.to( inner, { y: isMobile ? 0 : -9 }, 0 )
 				.to( logo, { scale: isMobile ? 1 : 0.86 }, 0 )
 				.to(
