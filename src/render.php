@@ -260,21 +260,28 @@ if ( function_exists( 'wc_get_products' ) ) {
 					$product_old_price = $product['oldPrice'] ?? '';
 					$product_image     = $product['imageUrl'] ?? '';
 					?>
-					<article class="perfumes-product-card">
-						<a class="perfumes-product-card__image" href="<?php echo esc_url( $product['url'] ?? $shop_url ); ?>">
+					<article class="perfumes-product-card" data-product-card>
+						<a class="perfumes-product-card__media" href="<?php echo esc_url( $product['url'] ?? $shop_url ); ?>">
 							<?php if ( $product_image ) : ?>
 								<img src="<?php echo esc_url( $product_image ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $product_name ) ); ?>" loading="lazy" />
 							<?php endif; ?>
+							<span class="perfumes-product-card__overlay" aria-hidden="true"></span>
+							<span class="perfumes-product-card__quickview" aria-hidden="true"><?php echo esc_html__( 'Ver producto', 'perfumes' ); ?></span>
 						</a>
 						<?php if ( $product_discount ) : ?>
-							<span class="perfumes-badge"><?php echo esc_html( $product_discount ); ?></span>
+							<span class="perfumes-product-card__badge perfumes-product-card__badge--sale"><?php echo esc_html( $product_discount ); ?></span>
+						<?php endif; ?>
+						<?php $product_id = $product['id'] ?? 0; ?>
+						<?php $is_in_stock = $product['purchasable'] ?? false; ?>
+						<?php if ( ! $is_in_stock && $product_id ) : ?>
+							<span class="perfumes-product-card__badge perfumes-product-card__badge--out"><?php echo esc_html__( 'Agotado', 'perfumes' ); ?></span>
 						<?php endif; ?>
 						<div class="perfumes-product-card__body">
 							<?php if ( $product_brand ) : ?>
 								<p class="perfumes-product-card__brand"><?php echo esc_html( $product_brand ); ?></p>
 							<?php endif; ?>
 							<?php if ( $product_name ) : ?>
-								<h3><a href="<?php echo esc_url( $product['url'] ?? '#' ); ?>"><?php echo wp_kses_post( $product_name ); ?></a></h3>
+								<h3 class="perfumes-product-card__title"><a href="<?php echo esc_url( $product['url'] ?? '#' ); ?>"><?php echo wp_kses_post( $product_name ); ?></a></h3>
 							<?php endif; ?>
 							<?php if ( $product_size ) : ?>
 								<p class="perfumes-product-card__size"><?php echo esc_html( $product_size ); ?></p>
@@ -287,11 +294,10 @@ if ( function_exists( 'wc_get_products' ) ) {
 									<span class="perfumes-product-card__old-price"><?php echo esc_html( $product_old_price ); ?></span>
 								<?php endif; ?>
 							</div>
-							<?php $product_id = $product['id'] ?? 0; ?>
-							<?php if ( $product_id && ( $product['purchasable'] ?? false ) ) : ?>
-								<a class="perfumes-product-card__button button add_to_cart_button ajax_add_to_cart" href="<?php echo esc_url( $product['addUrl'] ?? '' ); ?>" data-product_id="<?php echo esc_attr( $product_id ); ?>" data-quantity="1" rel="nofollow"><?php echo esc_html( $product['buttonText'] ?? __( 'Agregar al carrito', 'perfumes' ) ); ?></a>
+							<?php if ( $product_id && $is_in_stock ) : ?>
+								<a class="perfumes-product-card__button add_to_cart_button ajax_add_to_cart" href="<?php echo esc_url( $product['addUrl'] ?? '' ); ?>" data-product_id="<?php echo esc_attr( $product_id ); ?>" data-quantity="1" rel="nofollow"><span><?php echo esc_html( $product['buttonText'] ?? __( 'Añadir al carrito', 'perfumes' ) ); ?></span></a>
 							<?php else : ?>
-								<a class="perfumes-product-card__button" href="<?php echo esc_url( $product['url'] ?? $shop_url ); ?>"><?php echo esc_html__( 'Ver producto', 'perfumes' ); ?></a>
+								<a class="perfumes-product-card__button perfumes-product-card__button--ghost" href="<?php echo esc_url( $product['url'] ?? $shop_url ); ?>"><span><?php echo esc_html__( 'Ver producto', 'perfumes' ); ?></span></a>
 							<?php endif; ?>
 						</div>
 					</article>

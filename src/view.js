@@ -1,4 +1,7 @@
 import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin( ScrollTrigger );
 
 function preloaderAnimation( root ) {
 	const timeline = gsap.timeline();
@@ -192,6 +195,40 @@ function runIntro( root ) {
 	}
 }
 
+function initProductCards( root ) {
+	const cards = [ ...root.querySelectorAll( '[data-product-card]' ) ];
+	if ( ! cards.length ) {
+		return;
+	}
+
+	const reduceMotion = window
+		.matchMedia( '(prefers-reduced-motion: reduce)' )
+		.matches;
+
+	if ( reduceMotion ) {
+		gsap.set( cards, { autoAlpha: 1, y: 0 } );
+		return;
+	}
+
+	gsap.set( cards, { autoAlpha: 0, y: 28 } );
+
+	const grid = root.querySelector( '.perfumes-product-grid' );
+	ScrollTrigger.create( {
+		trigger: grid || cards[ 0 ],
+		start: 'top 85%',
+		once: true,
+		onEnter: () => {
+			gsap.to( cards, {
+				autoAlpha: 1,
+				y: 0,
+				duration: 0.6,
+				ease: 'power3.out',
+				stagger: 0.08,
+			} );
+		},
+	} );
+}
+
 function init() {
 	initHomeHeader();
 	const root = document.querySelector( '.perfumes-landing' );
@@ -199,6 +236,7 @@ function init() {
 		return;
 	}
 	runIntro( root );
+	initProductCards( root );
 }
 
 if ( document.readyState === 'loading' ) {
