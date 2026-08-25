@@ -1,46 +1,10 @@
 import { gsap } from 'gsap';
-import { CustomEase } from 'gsap/CustomEase';
-import { ExpoScaleEase } from 'gsap/EasePack';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 
-gsap.registerPlugin( CustomEase, ExpoScaleEase, ScrollTrigger, SplitText );
-
-CustomEase.create(
-	'stutterEase',
-	'M0,0 C0,0 0.052,0.1 0.152,0.1 0.242,0.1 0.299,0.349 0.399,0.349 0.586,0.349 0.569,0.596 0.67,0.624 0.842,0.671 0.95,0.95 1,1'
-);
+gsap.registerPlugin( ScrollTrigger, SplitText );
 
 const textAnimations = {
-	logoAnimation: ( element ) => {
-		const split = SplitText.create( element, {
-			type: 'chars',
-			smartWrap: true,
-			mask: 'chars',
-		} );
-
-		split.chars.forEach( ( character ) => {
-			const text = character.innerText;
-			character.innerHTML = '';
-			const original = document.createElement( 'div' );
-			original.className = 'og-char';
-			original.innerText = text;
-			const duplicate = document.createElement( 'div' );
-			duplicate.className = 'duplicate-char';
-			duplicate.innerText = text;
-			character.appendChild( original );
-			character.appendChild( duplicate );
-		} );
-
-		return gsap.from( split.chars, {
-			yPercent: -100,
-			ease: 'power2.inOut',
-			stagger: { each: 0.02, from: 'random' },
-			duration: 0.5,
-			repeat: 1,
-			repeatDelay: 0.75,
-		} );
-	},
 	headerAnimation: ( element ) => {
 		const split = SplitText.create( element, {
 			type: 'chars',
@@ -94,38 +58,52 @@ function preloaderAnimation( root ) {
 	const logoImage = root.querySelector( '.logo-image' );
 	const preloaderBackground = root.querySelector( '.preloader-bg' );
 	const preloaderMask = root.querySelector( '.preloader-mask' );
+	const panelTop = root.querySelector( '.preloader-panel--top' );
+	const panelBottom = root.querySelector( '.preloader-panel--bottom' );
 	const heroImage = root.querySelector( '.hero-product-primary__image' );
+	const heroImageTargets = heroImage ? [ heroImage ] : [];
 
 	timeline
+		.set( heroImageTargets, { scale: 1.08 } )
 		.fromTo(
 			logoImage,
-			{ opacity: 0, scale: 0.88 },
-			{ opacity: 1, scale: 1, duration: 0.65, ease: 'power2.out' }
-		)
-		.to( preloaderBackground, {
-			scaleX: 1,
-			ease: 'stutterEase',
-			duration: 2.8,
-		} )
-		.to( preloaderMask, {
-			scale: 3,
-			duration: 0.9,
-			ease: 'expoScale(0.5,7,power1.in)',
-		} )
-		.to(
-			[ preloaderBackground, preloaderLogo, progressBar ],
-			{ opacity: 0, duration: 0.85, ease: 'power2.inOut' },
-			'<'
-		)
-		.to(
-			heroImage,
+			{ autoAlpha: 0, y: 14, scale: 0.96 },
 			{
+				autoAlpha: 1,
+				y: 0,
 				scale: 1,
-				duration: 2.85,
-				ease: 'expoScale(0.5,7,power1.out)',
-			},
+				duration: 0.45,
+				ease: 'power2.out',
+			}
+		)
+		.fromTo(
+			preloaderBackground,
+			{ scaleX: 0 },
+			{ scaleX: 1, duration: 0.72, ease: 'power2.inOut' },
+			'-=0.08'
+		)
+		.to(
+			preloaderLogo,
+			{ autoAlpha: 0, y: -12, duration: 0.2, ease: 'power2.in' },
+			'+=0.08'
+		)
+		.to( progressBar, { autoAlpha: 0, duration: 0.12 }, '<' )
+		.to(
+			panelTop,
+			{ yPercent: -101, duration: 0.78, ease: 'power4.inOut' },
 			'<'
-		);
+		)
+		.to(
+			panelBottom,
+			{ yPercent: 101, duration: 0.78, ease: 'power4.inOut' },
+			'<'
+		)
+		.to(
+			heroImageTargets,
+			{ scale: 1, duration: 1.05, ease: 'power3.out' },
+			'<0.06'
+		)
+		.set( [ progressBar, preloaderMask ], { display: 'none' } );
 
 	return timeline;
 }
@@ -170,8 +148,14 @@ function initHomeHeader() {
 		return;
 	}
 
+	let isCompact = null;
 	const updateHeader = () => {
-		header.classList.toggle( 'is-scrolled', window.scrollY > 40 );
+		const nextCompact = window.scrollY >= 30;
+		if ( nextCompact === isCompact ) {
+			return;
+		}
+		isCompact = nextCompact;
+		header.classList.toggle( 'is-scrolled', nextCompact );
 	};
 	updateHeader();
 	window.addEventListener( 'scroll', updateHeader, { passive: true } );
@@ -192,7 +176,7 @@ function runIntro( root ) {
 		} );
 		const preloaderTl = preloaderAnimation( root );
 		const heroTl = heroAnimation( root );
-		introTimeline.add( preloaderTl ).add( heroTl, '-=2.4' );
+		introTimeline.add( preloaderTl ).add( heroTl, '-=0.55' );
 	} catch ( error ) {
 		root.classList.remove( 'is-intro-ready' );
 		window.console.warn( 'Omar hero animation skipped.', error );
@@ -205,12 +189,11 @@ function init() {
 		return;
 	}
 	initHomeHeader();
-	const fontsReady = document.fonts?.ready || Promise.resolve();
-	fontsReady.then( () => runIntro( root ) );
+	runIntro( root );
 }
 
-if ( document.readyState === 'complete' ) {
-	init();
+if ( document.readyState === 'loading' ) {
+	document.addEventListener( 'DOMContentLoaded', init, { once: true } );
 } else {
-	window.addEventListener( 'load', init, { once: true } );
+	init();
 }

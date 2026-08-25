@@ -755,33 +755,24 @@
 	}
 
 	.preloader-mask,
-	.preloader-progress-bar,
-	.preloader-bg {
+	.preloader-progress-bar {
 		position: fixed;
 		top: 0;
 		left: 0;
+		display: none;
 		width: 100%;
 		height: 100svh;
 		pointer-events: none;
 	}
 
-	.preloader-mask,
-	.preloader-progress-bar {
-		display: none;
-	}
-
 	.preloader-mask {
 		z-index: 10001;
-		background-color: #1c1917;
-		-webkit-mask: linear-gradient(#fff, #fff), var(--omar-mask) center / 40% no-repeat;
-		mask: linear-gradient(#fff, #fff), var(--omar-mask) center / 40% no-repeat;
-		-webkit-mask-composite: xor;
-		mask-composite: subtract;
+		overflow: hidden;
 	}
 
 	.preloader-progress-bar {
-		z-index: 10000;
-		background-color: #2d2925;
+		z-index: 10002;
+		background: transparent;
 	}
 
 	.perfumes-landing.is-intro-ready .preloader-mask,
@@ -791,13 +782,38 @@
 	}
 
 	.preloader-bg {
-		background-color: #fff;
-		transform: scaleX(0.2);
-		transform-origin: left;
+		position: absolute;
+		top: calc(50% + min(15vw, 116px));
+		left: 50%;
+		width: min(46vw, 520px);
+		height: 2px;
+		background: #e2bd6d;
+		transform: translateX(-50%) scaleX(0);
+		transform-origin: center;
+		will-change: transform;
+	}
+
+	.preloader-panel {
+		position: absolute;
+		left: 0;
+		width: 100%;
+		height: 50.5%;
+		background: #071527;
+		backface-visibility: hidden;
+		will-change: transform;
+	}
+
+	.preloader-panel--top {
+		top: 0;
+	}
+
+	.preloader-panel--bottom {
+		bottom: 0;
 	}
 
 	.preloader-logo {
 		position: relative;
+		z-index: 1;
 		display: flex;
 		width: 100%;
 		height: 100%;
@@ -1197,20 +1213,19 @@
 	/* Product-led Omar hero overrides. Kept after the legacy layout so only the
 	 * current hero markup and its editor preview receive these rules. */
 	.perfumes-landing .preloader-progress-bar {
-		background: #030a14;
+		background: transparent;
 	}
 
 	.perfumes-landing .preloader-bg {
-		background: #0b1f3a;
+		background: linear-gradient(90deg, rgba(226, 189, 109, 0.25), #e2bd6d, rgba(226, 189, 109, 0.25));
 	}
 
 	.perfumes-landing .preloader-mask {
-		background-color: #071527;
-		-webkit-mask: linear-gradient(#fff, #fff), var(--omar-mask) center / min(52vw, 680px) auto no-repeat;
-		mask: linear-gradient(#fff, #fff), var(--omar-mask) center / min(52vw, 680px) auto no-repeat;
-		-webkit-mask-composite: xor;
-		mask-composite: subtract;
-		transform-origin: center;
+		background: transparent;
+	}
+
+	.perfumes-landing .preloader-panel {
+		background: linear-gradient(135deg, #071527, #030a14);
 	}
 
 	.perfumes-landing .preloader-logo {
@@ -1580,14 +1595,13 @@
 	}
 
 	@media (max-width: 640px) {
-		.perfumes-landing .preloader-logo img,
-		.perfumes-landing .preloader-mask {
-			-webkit-mask-size: min(78vw, 440px) auto;
-			mask-size: min(78vw, 440px) auto;
-		}
-
 		.perfumes-landing .preloader-logo img {
 			width: min(78vw, 440px);
+		}
+
+		.perfumes-landing .preloader-bg {
+			top: calc(50% + 74px);
+			width: min(72vw, 360px);
 		}
 
 		.perfumes-landing .hero-section {

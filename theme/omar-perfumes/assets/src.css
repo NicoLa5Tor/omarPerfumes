@@ -253,17 +253,32 @@
 	}
 
 	.home .perfumes-global-header {
-		height: auto;
+		position: fixed;
+		height: 126px;
 		background: linear-gradient(180deg, rgba(3, 10, 20, 0.86) 0%, rgba(3, 10, 20, 0) 100%);
+		transition:
+			height 450ms cubic-bezier(0.22, 1, 0.36, 1),
+			background-color 300ms ease,
+			box-shadow 300ms ease;
 	}
 
 	.home .perfumes-header {
 		display: flex;
-		min-height: 104px;
+		min-height: 126px;
 		align-items: center;
 		gap: 32px;
 		margin-top: 0;
 		padding: 16px 40px;
+		transform-origin: center top;
+		transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
+		will-change: transform;
+	}
+
+	.home .perfumes-logo {
+		width: 174px;
+		min-width: 174px;
+		transform-origin: left center;
+		transition: transform 450ms cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
 	.home .perfumes-logo__image--dark {
@@ -303,6 +318,7 @@
 	.home .perfumes-search {
 		display: block;
 		width: 230px;
+		transition: width 450ms cubic-bezier(0.22, 1, 0.36, 1);
 	}
 
 	.home .perfumes-search .wp-block-search__inside-wrapper {
@@ -333,10 +349,26 @@
 	}
 
 	.home .perfumes-global-header.is-scrolled {
-		position: fixed;
+		height: 78px;
 		background: rgba(7, 21, 39, 0.96);
 		box-shadow: 0 12px 36px rgba(0, 0, 0, 0.22);
 		backdrop-filter: blur(18px);
+	}
+
+	.home .perfumes-global-header.is-scrolled .perfumes-header {
+		transform: translateY(-24px);
+	}
+
+	.home .perfumes-global-header.is-scrolled .perfumes-logo {
+		transform: scale(0.74);
+	}
+
+	.home .perfumes-global-header.is-scrolled .perfumes-category-nav .wp-block-navigation__container {
+		gap: clamp(14px, 1.7vw, 24px);
+	}
+
+	.home .perfumes-global-header.is-scrolled .perfumes-search {
+		width: 205px;
 	}
 
 	.perfumes-content-shell {
@@ -584,6 +616,16 @@
 			padding: 12px 18px;
 		}
 
+		.home .perfumes-global-header,
+		.home .perfumes-global-header.is-scrolled {
+			height: 76px;
+		}
+
+		.home .perfumes-global-header.is-scrolled .perfumes-header,
+		.home .perfumes-global-header.is-scrolled .perfumes-logo {
+			transform: none;
+		}
+
 		.home .perfumes-logo,
 		.perfumes-logo {
 			display: block;
@@ -641,6 +683,15 @@
 		.perfumes-search,
 		.home .perfumes-search {
 			display: none;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.home .perfumes-global-header,
+		.home .perfumes-header,
+		.home .perfumes-logo,
+		.home .perfumes-search {
+			transition: none;
 		}
 	}
 	/* stylelint-enable no-duplicate-selectors, no-descending-specificity */
