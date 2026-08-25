@@ -16,6 +16,7 @@ const LOADING_MESSAGES = [
 	'Seleccionando las mejores fragancias\u2026',
 	'Ya casi est\u00e1 listo\u2026',
 ];
+const ROUTE_TRANSITION_CLASS = 'omar-route-transition';
 let lastRouteUrl = '';
 let routeEventFrame = 0;
 let loadingMessageTimer = 0;
@@ -27,6 +28,7 @@ function startLoading() {
 	const sequence = navigationSequence;
 	let messageIndex = 0;
 	loadingStartedAt = Date.now();
+	document.body.classList.add( ROUTE_TRANSITION_CLASS );
 	routerState.loadingMessage = LOADING_MESSAGES[ messageIndex ];
 	routerState.isNavigating = true;
 	routerState.isIdle = false;
@@ -135,6 +137,7 @@ function emitRouteChange( serverState ) {
 	if ( clientNavigation ) {
 		prepareHomeForClientNavigation( serverState );
 	}
+	document.body.classList.remove( ROUTE_TRANSITION_CLASS );
 	lastRouteUrl = currentUrl;
 	window.cancelAnimationFrame( routeEventFrame );
 	routeEventFrame = window.requestAnimationFrame( () => {
@@ -219,6 +222,7 @@ const { state: routerState } = store( 'omar/router', {
 				yield finishLoading( sequence );
 			} catch ( error ) {
 				window.clearInterval( loadingMessageTimer );
+				document.body.classList.remove( ROUTE_TRANSITION_CLASS );
 				routerState.isNavigating = false;
 				routerState.isIdle = true;
 				window.console.warn(
@@ -262,6 +266,7 @@ const { state: routerState } = store( 'omar/router', {
 				yield finishLoading( sequence );
 			} catch ( error ) {
 				window.clearInterval( loadingMessageTimer );
+				document.body.classList.remove( ROUTE_TRANSITION_CLASS );
 				routerState.isNavigating = false;
 				routerState.isIdle = true;
 				window.console.warn(

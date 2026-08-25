@@ -1960,5 +1960,22 @@
 			transform: none !important;
 		}
 	}
+
+	body.omar-route-transition .perfumes-landing .preloader-mask,
+	body.omar-route-transition .perfumes-landing .preloader-progress-bar {
+		display: none;
+		visibility: hidden;
+	}
+
+	body.omar-route-transition .perfumes-landing .hero-section {
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	body.omar-route-transition
+		.perfumes-landing
+		.hero-product-primary__image {
+		transform: scale(1);
+	}
 	/* stylelint-enable no-descending-specificity */
 }

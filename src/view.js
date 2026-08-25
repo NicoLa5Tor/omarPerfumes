@@ -72,12 +72,13 @@ function preloaderAnimation( root ) {
 	return timeline;
 }
 
-function heroAnimation( root ) {
+function heroAnimation( root, { revealProduct = false } = {} ) {
 	const timeline = gsap.timeline( {
 		defaults: { duration: 0.72, ease: 'power3.out' },
 	} );
 	const fadeElements = [ ...root.querySelectorAll( '[data-fade-in]' ) ];
 	const headline = root.querySelector( '[data-hero-reveal]' );
+	const heroImage = root.querySelector( '.hero-product-primary__image' );
 
 	if ( fadeElements.length ) {
 		timeline.fromTo(
@@ -105,16 +106,22 @@ function heroAnimation( root ) {
 		);
 	}
 
-	return timeline;
-}
+	if ( revealProduct && heroImage ) {
+		timeline.fromTo(
+			heroImage,
+			{ autoAlpha: 0, y: 20, scale: 1.06 },
+			{
+				autoAlpha: 1,
+				y: 0,
+				scale: 1,
+				duration: 0.9,
+				ease: 'power3.out',
+			},
+			0.04
+		);
+	}
 
-function heroReturnAnimation( root ) {
-	const heroSection = root.querySelector( '.hero-section' );
-	return gsap.fromTo(
-		heroSection,
-		{ autoAlpha: 0 },
-		{ autoAlpha: 1, duration: 0.34, ease: 'power2.out' }
-	);
+	return timeline;
 }
 
 function initHomeHeader() {
@@ -226,11 +233,16 @@ function runIntro( root, { showPreloader } ) {
 			if ( ! showPreloader ) {
 				hidePreloader( root );
 				root.classList.remove( 'is-intro-ready' );
+				gsap.set( root.querySelector( '.hero-section' ), {
+					autoAlpha: 1,
+				} );
 				const heroImage = root.querySelector(
 					'.hero-product-primary__image'
 				);
 				gsap.set( heroImage, { scale: 1 } );
-				activeTimeline = heroReturnAnimation( root );
+				activeTimeline = heroAnimation( root, {
+					revealProduct: true,
+				} );
 				return;
 			}
 
