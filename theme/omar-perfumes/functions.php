@@ -40,6 +40,9 @@ add_action( 'pre_get_posts', 'omar_perfumes_product_search' );
 
 function omar_perfumes_body_class( $classes ) {
 	$classes[] = 'omar-perfumes-site';
+	if ( is_front_page() && ! is_search() ) {
+		$classes[] = 'omar-initial-entry';
+	}
 	return $classes;
 }
 add_filter( 'body_class', 'omar_perfumes_body_class' );

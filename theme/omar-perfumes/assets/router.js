@@ -17,6 +17,7 @@ const LOADING_MESSAGES = [
 	'Ya casi est\u00e1 listo\u2026',
 ];
 const ROUTE_TRANSITION_CLASS = 'omar-route-transition';
+const INITIAL_ENTRY_CLASS = 'omar-initial-entry';
 let lastRouteUrl = '';
 let routeEventFrame = 0;
 let loadingMessageTimer = 0;
@@ -28,6 +29,7 @@ function startLoading() {
 	const sequence = navigationSequence;
 	let messageIndex = 0;
 	loadingStartedAt = Date.now();
+	document.body.classList.remove( INITIAL_ENTRY_CLASS );
 	document.body.classList.add( ROUTE_TRANSITION_CLASS );
 	routerState.loadingMessage = LOADING_MESSAGES[ messageIndex ];
 	routerState.isNavigating = true;

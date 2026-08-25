@@ -1022,8 +1022,12 @@
 		background: transparent;
 	}
 
-	.perfumes-landing.is-intro-ready .preloader-mask,
-	.perfumes-landing.is-intro-ready .preloader-progress-bar {
+	body.omar-initial-entry
+		.perfumes-landing.is-intro-ready
+		.preloader-mask,
+	body.omar-initial-entry
+		.perfumes-landing.is-intro-ready
+		.preloader-progress-bar {
 		display: block;
 		animation: omar-intro-failsafe 0s linear 9s forwards;
 	}

@@ -211,10 +211,15 @@ function hidePreloader( root ) {
 	gsap.set( elements, { autoAlpha: 0, display: 'none' } );
 }
 
+function completeInitialEntry( root ) {
+	root.classList.remove( 'is-intro-ready' );
+	document.body.classList.remove( 'omar-initial-entry' );
+}
+
 function runIntro( root, { showPreloader } ) {
 	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
 		hidePreloader( root );
-		root.classList.remove( 'is-intro-ready' );
+		completeInitialEntry( root );
 		gsap.set( root.querySelector( '.hero-section' ), {
 			autoAlpha: 1,
 		} );
@@ -232,7 +237,7 @@ function runIntro( root, { showPreloader } ) {
 		const context = gsap.context( () => {
 			if ( ! showPreloader ) {
 				hidePreloader( root );
-				root.classList.remove( 'is-intro-ready' );
+				completeInitialEntry( root );
 				gsap.set( root.querySelector( '.hero-section' ), {
 					autoAlpha: 1,
 				} );
@@ -247,7 +252,7 @@ function runIntro( root, { showPreloader } ) {
 			}
 
 			activeTimeline = gsap.timeline( {
-				onComplete: () => root.classList.remove( 'is-intro-ready' ),
+				onComplete: () => completeInitialEntry( root ),
 			} );
 			const preloaderTl = preloaderAnimation( root );
 			const heroTl = heroAnimation( root );
@@ -260,7 +265,7 @@ function runIntro( root, { showPreloader } ) {
 		};
 	} catch ( error ) {
 		hidePreloader( root );
-		root.classList.remove( 'is-intro-ready' );
+		completeInitialEntry( root );
 		window.console.warn( 'Omar hero animation skipped.', error );
 		return () => {};
 	}
