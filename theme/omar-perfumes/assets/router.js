@@ -11,8 +11,49 @@ const ROUTE_CLASS_NAMES = new Set( [
 	'woocommerce-shop',
 ] );
 const ROUTE_CLASS_PREFIXES = [ 'post-type-archive', 'term-' ];
+const LOADING_MESSAGES = [
+	'Estamos preparando tu experiencia\u2026',
+	'Seleccionando las mejores fragancias\u2026',
+	'Ya casi est\u00e1 listo\u2026',
+];
 let lastRouteUrl = '';
 let routeEventFrame = 0;
+let loadingMessageTimer = 0;
+let loadingStartedAt = 0;
+let navigationSequence = 0;
+
+function startLoading() {
+	navigationSequence += 1;
+	const sequence = navigationSequence;
+	let messageIndex = 0;
+	loadingStartedAt = Date.now();
+	routerState.loadingMessage = LOADING_MESSAGES[ messageIndex ];
+	routerState.isNavigating = true;
+	routerState.isIdle = false;
+	window.clearInterval( loadingMessageTimer );
+	loadingMessageTimer = window.setInterval( () => {
+		messageIndex = ( messageIndex + 1 ) % LOADING_MESSAGES.length;
+		routerState.loadingMessage = LOADING_MESSAGES[ messageIndex ];
+	}, 1400 );
+	return sequence;
+}
+
+function finishLoading( sequence ) {
+	const minimumVisibleTime = Math.max(
+		0,
+		650 - ( Date.now() - loadingStartedAt )
+	);
+	return new Promise( ( resolve ) => {
+		window.setTimeout( () => {
+			if ( sequence === navigationSequence ) {
+				window.clearInterval( loadingMessageTimer );
+				routerState.isNavigating = false;
+				routerState.isIdle = true;
+			}
+			resolve();
+		}, minimumVisibleTime );
+	} );
+}
 
 function normalizedPath( pathname ) {
 	const path = pathname.replace( /\/+$/, '' );
@@ -114,8 +155,11 @@ function shouldUseClientNavigation( event, link, url ) {
 	);
 }
 
-store( 'omar/router', {
+const { state: routerState } = store( 'omar/router', {
 	state: {
+		isNavigating: false,
+		isIdle: true,
+		loadingMessage: LOADING_MESSAGES[ 0 ],
 		get isHome() {
 			return Boolean( getServerState().isHome );
 		},
@@ -133,12 +177,17 @@ store( 'omar/router', {
 			}
 
 			event.preventDefault();
+			const sequence = startLoading();
 			try {
 				const { actions } = yield import(
 					'@wordpress/interactivity-router'
 				);
 				yield actions.navigate( url.href );
+				yield finishLoading( sequence );
 			} catch ( error ) {
+				window.clearInterval( loadingMessageTimer );
+				routerState.isNavigating = false;
+				routerState.isIdle = true;
 				window.console.warn(
 					'Omar client navigation failed; using a full page load.',
 					error
@@ -171,12 +220,17 @@ store( 'omar/router', {
 			}
 
 			event.preventDefault();
+			const sequence = startLoading();
 			try {
 				const { actions } = yield import(
 					'@wordpress/interactivity-router'
 				);
 				yield actions.navigate( url.href );
+				yield finishLoading( sequence );
 			} catch ( error ) {
+				window.clearInterval( loadingMessageTimer );
+				routerState.isNavigating = false;
+				routerState.isIdle = true;
 				window.console.warn(
 					'Omar search navigation failed; using a full page load.',
 					error

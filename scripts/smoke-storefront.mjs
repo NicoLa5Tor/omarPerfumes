@@ -91,6 +91,12 @@ expect(
 	'Shop header must start in its solid internal state.'
 );
 expect(
+	/perfumes-route-loader/.test( home ) &&
+		/state\.loadingMessage/.test( home ) &&
+		/role=["']status["']/.test( home ),
+	'Persistent header must expose an accessible route loading indicator.'
+);
+expect(
 	/class="content-cta"/.test( home ),
 	'Landing must render the Omar CTA card.'
 );

@@ -30,6 +30,103 @@
 		display: none;
 	}
 
+	.perfumes-route-loader {
+		position: fixed;
+		top: 112px;
+		left: 50%;
+		z-index: 100;
+		display: flex;
+		min-width: min(360px, calc(100vw - 32px));
+		align-items: center;
+		gap: 12px;
+		padding: 13px 18px;
+		transform: translate(-50%, -16px);
+		border: 1px solid rgba(226, 189, 109, 0.35);
+		border-radius: 999px;
+		background: rgba(7, 21, 39, 0.96);
+		box-shadow: 0 18px 48px rgba(3, 12, 24, 0.24);
+		color: #fff;
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition:
+			opacity 180ms ease,
+			transform 220ms ease,
+			visibility 180ms ease;
+	}
+
+	.perfumes-route-loader.is-active {
+		transform: translate(-50%, 0);
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.perfumes-route-loader__spinner {
+		width: 20px;
+		height: 20px;
+		flex: 0 0 20px;
+		border: 2px solid rgba(255, 255, 255, 0.25);
+		border-top-color: #e2bd6d;
+		border-radius: 50%;
+		animation: perfumes-route-spin 750ms linear infinite;
+	}
+
+	.perfumes-route-loader__message {
+		flex: 1;
+		font-size: 13px;
+		font-weight: 650;
+		letter-spacing: 0.15px;
+		white-space: nowrap;
+	}
+
+	.perfumes-route-loader__progress {
+		position: absolute;
+		bottom: 0;
+		left: 18px;
+		height: 2px;
+		width: calc(100% - 36px);
+		overflow: hidden;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.12);
+	}
+
+	.perfumes-route-loader__progress::after {
+		display: block;
+		width: 38%;
+		height: 100%;
+		transform: translateX(-120%);
+		border-radius: inherit;
+		background: linear-gradient(90deg, transparent, #e2bd6d, transparent);
+		content: '';
+		animation: perfumes-route-progress 1.25s ease-in-out infinite;
+	}
+
+	@keyframes perfumes-route-spin {
+		to {
+			transform: rotate(360deg);
+		}
+	}
+
+	@keyframes perfumes-route-progress {
+		to {
+			transform: translateX(300%);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.perfumes-route-loader {
+			transition: none;
+		}
+
+		.perfumes-route-loader__spinner {
+			animation: none;
+		}
+
+		.perfumes-route-loader__progress {
+			display: none;
+		}
+	}
+
 	.perfumes-header {
 		position: relative;
 		z-index: 1;
@@ -757,6 +854,19 @@
 	}
 
 	@media (max-width: 782px) {
+		.perfumes-route-loader {
+			top: 82px;
+			min-width: 0;
+			width: calc(100vw - 28px);
+			padding: 12px 15px;
+		}
+
+		.perfumes-route-loader__message {
+			overflow: hidden;
+			font-size: 12px;
+			text-overflow: ellipsis;
+		}
+
 		.woocommerce ul.products {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: 22px;
