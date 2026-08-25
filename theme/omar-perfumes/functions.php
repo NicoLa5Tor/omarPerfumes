@@ -169,8 +169,7 @@ function omar_perfumes_router_block_attributes( $block_content, $block ) {
 	$class_name = $block['attrs']['className'] ?? '';
 	$is_header  = false !== strpos( $class_name, 'perfumes-global-header' );
 	$is_footer  = false !== strpos( $class_name, 'perfumes-footer-preview' );
-	$is_main    = 'main' === ( $block['attrs']['tagName'] ?? '' )
-		&& ( false !== strpos( $class_name, 'perfumes-main' ) || false !== strpos( $class_name, 'perfumes-content-shell' ) );
+	$is_main    = 'main' === ( $block['attrs']['tagName'] ?? '' );
 
 	if ( ! $is_header && ! $is_footer && ! $is_main ) {
 		return $block_content;
