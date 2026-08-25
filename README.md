@@ -1,4 +1,24 @@
-# Perfumes Block
+# Omar Perfumes storefront
+
+El repositorio contiene dos piezas desplegables:
+
+- `perfumes-block.php` + `build/`: bloque dinámico de la landing y edición Gutenberg en React.
+- `theme/omar-perfumes/`: tema de bloques global para header, footer y las vistas WooCommerce.
+
+Los productos se administran exclusivamente en WooCommerce. La landing solo administra contenido de marketing.
+
+## Pagos Addi
+
+La integración usa el plugin oficial `buy-now-pay-later-addi` y el checkout clásico de WooCommerce por compatibilidad. La activación requiere credenciales entregadas por Addi: `ally slug`, `clientId` y `clientSecret`; nunca deben versionarse.
+
+## Validación
+
+```bash
+pnpm run build
+pnpm run lint:js
+pnpm run lint:css
+pnpm run test:smoke
+```
 
 Bloque de WordPress construido con **React** (Gutenberg). Se desarrolla localmente y se despliega a tu servidor WordPress por **FTP** usando **GitHub Actions** — igual que Shopify CLI.
 

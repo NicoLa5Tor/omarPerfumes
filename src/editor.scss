@@ -37,4 +37,8 @@
 	.perfumes-footer-preview {
 		@apply mb-0;
 	}
+
+	.perfumes-woo-preview-notice {
+		@apply mx-auto max-w-[1328px] border border-dashed border-perfumes-gold bg-perfumes-soft p-8 text-center text-sm text-perfumes-muted;
+	}
 }

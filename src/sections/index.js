@@ -1,9 +1,5 @@
-export { default as HeaderSection } from './header/HeaderSection';
-export { default as NavigationSection } from './navigation/NavigationSection';
 export { default as HeroSection } from './hero/HeroSection';
 export { default as BrandStripSection } from './brands/BrandStripSection';
-export { default as ProductGridSection } from './products/ProductGridSection';
 export { default as PromoSection } from './promo/PromoSection';
 export { default as TrustBarSection } from './trust/TrustBarSection';
 export { default as PaymentMethodsSection } from './payments/PaymentMethodsSection';
-export { default as FooterSection } from './footer/FooterSection';

@@ -3,7 +3,8 @@ import { __ } from '@wordpress/i18n';
 import EditableImage from '../../components/EditableImage';
 
 export default function PromoSection( { attributes, setAttributes } ) {
-	const { promoTitle, promoDescription, promoCta, promoImageUrl } = attributes;
+	const { promoTitle, promoDescription, promoCta, promoImageUrl } =
+		attributes;
 
 	return (
 		<section className="perfumes-promo">
@@ -12,7 +13,9 @@ export default function PromoSection( { attributes, setAttributes } ) {
 				<RichText
 					tagName="h2"
 					value={ promoTitle }
-					onChange={ ( value ) => setAttributes( { promoTitle: value } ) }
+					onChange={ ( value ) =>
+						setAttributes( { promoTitle: value } )
+					}
 					placeholder={ __( 'Titulo promocional', 'perfumes' ) }
 				/>
 				<RichText
@@ -27,7 +30,9 @@ export default function PromoSection( { attributes, setAttributes } ) {
 					tagName="span"
 					className="perfumes-button perfumes-button--primary"
 					value={ promoCta }
-					onChange={ ( value ) => setAttributes( { promoCta: value } ) }
+					onChange={ ( value ) =>
+						setAttributes( { promoCta: value } )
+					}
 					placeholder={ __( 'CTA promocional', 'perfumes' ) }
 				/>
 			</div>
@@ -35,7 +40,9 @@ export default function PromoSection( { attributes, setAttributes } ) {
 				className="perfumes-promo__media"
 				imageUrl={ promoImageUrl }
 				label={ __( 'Imagen promocional', 'perfumes' ) }
-				onChange={ ( value ) => setAttributes( { promoImageUrl: value } ) }
+				onChange={ ( value ) =>
+					setAttributes( { promoImageUrl: value } )
+				}
 			/>
 		</section>
 	);

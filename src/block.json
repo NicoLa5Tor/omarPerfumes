@@ -48,7 +48,15 @@
 			"type": "string",
 			"default": "Conocer mas"
 		},
+		"primaryCtaUrl": {
+			"type": "string",
+			"default": "#perfumes-products"
+		},
 		"secondaryCta": {
+			"type": "string",
+			"default": ""
+		},
+		"secondaryCtaUrl": {
 			"type": "string",
 			"default": ""
 		},
@@ -89,7 +97,16 @@
 		},
 		"brandDirectory": {
 			"type": "array",
-			"default": [ "Armaf", "Carolina Herrera", "Dior", "Jean Paul Gaultier", "Lattafa", "Montblanc", "Orientica", "Yves Saint Laurent" ]
+			"default": [
+				"Armaf",
+				"Carolina Herrera",
+				"Dior",
+				"Jean Paul Gaultier",
+				"Lattafa",
+				"Montblanc",
+				"Orientica",
+				"Yves Saint Laurent"
+			]
 		},
 		"products": {
 			"type": "array",
@@ -144,6 +161,10 @@
 			"type": "string",
 			"default": "Conoce como pagar"
 		},
+		"promoCtaUrl": {
+			"type": "string",
+			"default": "/tienda/"
+		},
 		"promoImageUrl": {
 			"type": "string",
 			"default": ""
@@ -171,24 +192,12 @@
 		},
 		"paymentMethods": {
 			"type": "array",
-			"default": [
-				"Bancolombia",
-				"VISA",
-				"mastercard",
-				"PSE",
-				"addi",
-				"Sistecredito",
-				"Su Pay",
-				"Bold",
-				"Nequi",
-				"Daviplata"
-			]
+			"default": [ "addi", "Compra a cuotas", "Proceso 100% online" ]
 		}
 	},
 	"textdomain": "perfumes",
 	"editorScript": "file:./index.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
-	"viewScript": "file:./view.js",
 	"render": "file:./render.php"
 }

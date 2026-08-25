@@ -4,7 +4,10 @@ import StorefrontEditor from './storefront/StorefrontEditor';
 export default function Edit( { attributes, setAttributes } ) {
 	return (
 		<div { ...useBlockProps( { className: 'perfumes-landing' } ) }>
-			<StorefrontEditor attributes={ attributes } setAttributes={ setAttributes } />
+			<StorefrontEditor
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+			/>
 		</div>
 	);
 }

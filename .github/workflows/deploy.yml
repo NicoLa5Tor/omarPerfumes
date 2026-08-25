@@ -26,24 +26,41 @@ jobs:
       - name: Instalar dependencias
         run: pnpm install --no-frozen-lockfile
 
+      - name: Validar JavaScript
+        run: pnpm run lint:js
+
+      - name: Validar estilos
+        run: pnpm run lint:css
+
       - name: Compilar React (wp-scripts build)
         run: pnpm run build
 
-      - name: Deploy por FTP
+      - name: Preparar artefacto del plugin
+        run: |
+          mkdir -p dist/plugin
+          cp perfumes-block.php dist/plugin/
+          cp -R build dist/plugin/build
+
+      - name: Preparar artefacto del tema
+        run: |
+          mkdir -p dist/theme
+          cp -R theme/omar-perfumes/. dist/theme/
+          rm -f dist/theme/assets/src.css
+
+      - name: Deploy plugin por FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
-          local-dir: ./
+          local-dir: ./dist/plugin/
           server-dir: /wp-content/plugins/perfumes-block/
-          exclude: |
-            **/node_modules/**
-            **/src/**
-            **/.git/**
-            **/.github/**
-            **/build/**/*.map
-            package.json
-            pnpm-lock.yaml
-            .gitignore
-            README.md
+
+      - name: Deploy tema Omar por FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_HOST }}
+          username: ${{ secrets.FTP_USER }}
+          password: ${{ secrets.FTP_PASS }}
+          local-dir: ./dist/theme/
+          server-dir: /wp-content/themes/omar-perfumes/

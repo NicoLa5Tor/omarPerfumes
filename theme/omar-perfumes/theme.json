@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"layout": { "contentSize": "1328px", "wideSize": "1440px" },
+		"color": {
+			"palette": [
+				{ "slug": "navy", "color": "#0B1F3A", "name": "Azul Omar" },
+				{ "slug": "deep", "color": "#071527", "name": "Azul profundo" },
+				{ "slug": "gold", "color": "#C9A227", "name": "Dorado" },
+				{ "slug": "soft", "color": "#F6F6F4", "name": "Marfil" },
+				{ "slug": "white", "color": "#FFFFFF", "name": "Blanco" }
+			]
+		},
+		"typography": {
+			"fontFamilies": [
+				{ "slug": "brand", "name": "Marca", "fontFamily": "Cormorant Garamond, Georgia, serif" },
+				{ "slug": "sans", "name": "Texto", "fontFamily": "Inter, system-ui, sans-serif" }
+			]
+		}
+	},
+	"styles": {
+		"color": { "background": "#FFFFFF", "text": "#111111" },
+		"spacing": { "blockGap": "0" },
+		"typography": { "fontFamily": "var(--wp--preset--font-family--sans)", "lineHeight": "1.5" },
+		"elements": { "link": { "color": { "text": "#0B1F3A" }, "typography": { "textDecoration": "none" } } }
+	},
+	"templateParts": [
+		{ "name": "header", "title": "Header Omar", "area": "header" },
+		{ "name": "footer", "title": "Footer Omar", "area": "footer" }
+	]
+}
