@@ -2,27 +2,26 @@
 <header class="wp-block-group perfumes-global-header">
 	<!-- wp:group {"className":"perfumes-header","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"space-between"}} -->
 	<div class="wp-block-group perfumes-header">
-		<!-- wp:group {"className":"perfumes-header__social","layout":{"type":"flex","flexWrap":"nowrap"}} -->
-		<div class="wp-block-group perfumes-header__social" data-fade-in="down"><!-- wp:paragraph --><p>Perfumería original</p><!-- /wp:paragraph --></div>
-		<!-- /wp:group -->
+		<!-- wp:html -->
+		<a class="perfumes-logo" href="/" aria-label="Omar Perfumes — Inicio">
+			<img class="perfumes-logo__image perfumes-logo__image--dark" src="/wp-content/themes/omar-perfumes/assets/omar-logo-dark-v1.png" alt="Omar Perfumes" width="900" height="277" />
+			<img class="perfumes-logo__image perfumes-logo__image--light" src="/wp-content/themes/omar-perfumes/assets/omar-logo-light-v1.png" alt="" width="900" height="277" aria-hidden="true" />
+		</a>
+		<!-- /wp:html -->
 
-		<!-- wp:group {"className":"perfumes-logo","layout":{"type":"constrained"}} -->
-		<div class="wp-block-group perfumes-logo"><!-- wp:site-title {"level":0,"className":"perfumes-logo__title"} /--><!-- wp:site-tagline {"className":"perfumes-logo__tagline"} /--><!-- wp:group {"className":"divider","layout":{"type":"constrained"}} --><div class="wp-block-group divider"></div><!-- /wp:group --></div>
-		<!-- /wp:group -->
+		<!-- wp:navigation {"overlayMenu":"mobile","className":"perfumes-category-nav","layout":{"type":"flex","justifyContent":"center","flexWrap":"nowrap"}} -->
+			<!-- wp:navigation-link {"label":"Inicio","url":"/","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"Tienda","url":"/tienda/","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"Afnan","url":"/categoria-producto/afnan/","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"Orientica","url":"/categoria-producto/orientica/","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"Perfumes Árabes","url":"/categoria-producto/perfumes-arabes/","kind":"custom"} /-->
+			<!-- wp:navigation-link {"label":"Mi cuenta","url":"/mi-cuenta/","kind":"custom"} /-->
+		<!-- /wp:navigation -->
 
 		<!-- wp:group {"className":"perfumes-header__right","layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"right"}} -->
-		<div class="wp-block-group perfumes-header__right" data-fade-in="down"><!-- wp:search {"label":"Buscar productos","showLabel":false,"placeholder":"Buscar producto…","buttonText":"Buscar","buttonUseIcon":true,"className":"perfumes-search"} /--><!-- wp:woocommerce/mini-cart {"miniCartIcon":"bag","addToCartBehaviour":"open_drawer"} /--></div>
+		<div class="wp-block-group perfumes-header__right"><!-- wp:search {"label":"Buscar productos","showLabel":false,"placeholder":"Buscar producto…","buttonText":"Buscar","buttonUseIcon":true,"className":"perfumes-search"} /--><!-- wp:woocommerce/mini-cart {"miniCartIcon":"bag","addToCartBehaviour":"open_drawer"} /--></div>
 		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->
-
-	<!-- wp:navigation {"overlayMenu":"mobile","className":"perfumes-category-nav","layout":{"type":"flex","justifyContent":"center","flexWrap":"wrap"}} -->
-		<!-- wp:navigation-link {"label":"Inicio","url":"/","kind":"custom"} /-->
-		<!-- wp:navigation-link {"label":"Tienda","url":"/tienda/","kind":"custom"} /-->
-		<!-- wp:navigation-link {"label":"Afnan","url":"/categoria-producto/afnan/","kind":"custom"} /-->
-		<!-- wp:navigation-link {"label":"Orientica","url":"/categoria-producto/orientica/","kind":"custom"} /-->
-		<!-- wp:navigation-link {"label":"Perfumes Árabes","url":"/categoria-producto/perfumes-arabes/","kind":"custom"} /-->
-		<!-- wp:navigation-link {"label":"Mi cuenta","url":"/mi-cuenta/","kind":"custom"} /-->
-	<!-- /wp:navigation -->
 </header>
 <!-- /wp:group -->

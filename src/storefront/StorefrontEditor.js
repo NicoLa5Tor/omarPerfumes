@@ -1,5 +1,5 @@
 import { InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, TextControl } from '@wordpress/components';
+import { NumberControl, PanelBody, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import {
 	BrandStripSection,
@@ -16,6 +16,38 @@ export default function StorefrontEditor( { attributes, setAttributes } ) {
 	return (
 		<div className="perfumes-storefront-editor">
 			<InspectorControls>
+				<PanelBody title={ __( 'Productos del hero', 'perfumes' ) }>
+					<NumberControl
+						label={ __( 'ID del producto principal', 'perfumes' ) }
+						help={ __(
+							'Orientica Amber Rouge se usa cuando el campo queda en 0.',
+							'perfumes'
+						) }
+						min={ 0 }
+						value={ attributes.heroProductId || 0 }
+						onChange={ ( value ) =>
+							setAttributes( {
+								heroProductId:
+									Number.parseInt( value, 10 ) || 0,
+							} )
+						}
+					/>
+					<NumberControl
+						label={ __( 'ID del producto secundario', 'perfumes' ) }
+						help={ __(
+							'Afnan 9 PM se usa cuando el campo queda en 0.',
+							'perfumes'
+						) }
+						min={ 0 }
+						value={ attributes.heroSecondaryProductId || 0 }
+						onChange={ ( value ) =>
+							setAttributes( {
+								heroSecondaryProductId:
+									Number.parseInt( value, 10 ) || 0,
+							} )
+						}
+					/>
+				</PanelBody>
 				<PanelBody title={ __( 'Enlaces de la landing', 'perfumes' ) }>
 					<TextControl
 						label={ __( 'URL del CTA principal', 'perfumes' ) }

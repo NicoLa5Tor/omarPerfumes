@@ -91,13 +91,17 @@ function preloaderAnimation( root ) {
 	const timeline = gsap.timeline();
 	const progressBar = root.querySelector( '.preloader-progress-bar' );
 	const preloaderLogo = root.querySelector( '.preloader-logo' );
-	const logoText = root.querySelector( '.logo-text' );
+	const logoImage = root.querySelector( '.logo-image' );
 	const preloaderBackground = root.querySelector( '.preloader-bg' );
 	const preloaderMask = root.querySelector( '.preloader-mask' );
-	const heroImage = root.querySelector( '.hero-img img' );
+	const heroImage = root.querySelector( '.hero-product-primary__image' );
 
 	timeline
-		.call( animateText, [ logoText ] )
+		.fromTo(
+			logoImage,
+			{ opacity: 0, scale: 0.88 },
+			{ opacity: 1, scale: 1, duration: 0.65, ease: 'power2.out' }
+		)
 		.to( preloaderBackground, {
 			scaleX: 1,
 			ease: 'stutterEase',
@@ -128,23 +132,11 @@ function preloaderAnimation( root ) {
 
 function heroAnimation( root ) {
 	const timeline = gsap.timeline();
-	const tagline = document.querySelector( '.home .perfumes-logo__tagline' );
-	const divider = document.querySelector( '.home .divider' );
-	const fadeElements = [
-		...document.querySelectorAll( '.home [data-fade-in]' ),
-		...root.querySelectorAll( '[data-fade-in]' ),
-	];
-	const heading = root.querySelector( '.content-main h1' );
+	const fadeElements = [ ...root.querySelectorAll( '[data-fade-in]' ) ];
+	const heading = root.querySelector( '.hero-copy h1' );
 	const subtitle = root.querySelector( '.sub-title' );
 
 	timeline
-		.call( animateText, [ tagline ] )
-		.fromTo(
-			divider,
-			{ scaleY: 0, transformOrigin: 'top' },
-			{ scaleY: 1, duration: 0.5, ease: 'back.inOut' },
-			'+=0.5'
-		)
 		.fromTo(
 			fadeElements,
 			{
@@ -170,6 +162,19 @@ function heroAnimation( root ) {
 		.call( animateText, [ subtitle ], '-=0.75' );
 
 	return timeline;
+}
+
+function initHomeHeader() {
+	const header = document.querySelector( '.home .perfumes-global-header' );
+	if ( ! header ) {
+		return;
+	}
+
+	const updateHeader = () => {
+		header.classList.toggle( 'is-scrolled', window.scrollY > 40 );
+	};
+	updateHeader();
+	window.addEventListener( 'scroll', updateHeader, { passive: true } );
 }
 
 function runIntro( root ) {
@@ -199,6 +204,7 @@ function init() {
 	if ( ! root ) {
 		return;
 	}
+	initHomeHeader();
 	const fontsReady = document.fonts?.ready || Promise.resolve();
 	fontsReady.then( () => runIntro( root ) );
 }

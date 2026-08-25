@@ -30,7 +30,76 @@ if ( ! function_exists( 'perfumes_link_attr' ) ) {
 	}
 }
 
-$hero_wordmark      = perfumes_text_attr( $attributes, 'heroWordmark' ) ?: 'OMAR®';
+if ( ! function_exists( 'perfumes_valid_hero_product' ) ) {
+	function perfumes_valid_hero_product( $product, $exclude_id = 0, $require_available = false ) {
+		return $product instanceof WC_Product
+			&& $product->get_id() !== (int) $exclude_id
+			&& 'publish' === $product->get_status()
+			&& $product->is_visible()
+			&& $product->get_image_id()
+			&& ( ! $require_available || $product->is_in_stock() );
+	}
+}
+
+if ( ! function_exists( 'perfumes_find_hero_product' ) ) {
+	function perfumes_find_hero_product( $product_id, $search_term, $required_words, $exclude_id = 0 ) {
+		if ( ! function_exists( 'wc_get_product' ) ) {
+			return null;
+		}
+
+		if ( $product_id ) {
+			$product = wc_get_product( (int) $product_id );
+			if ( perfumes_valid_hero_product( $product, $exclude_id ) ) {
+				return $product;
+			}
+		}
+
+		$candidate_ids = get_posts(
+			array(
+				'post_type'      => 'product',
+				'post_status'    => 'publish',
+				's'              => $search_term,
+				'posts_per_page' => 30,
+				'fields'         => 'ids',
+			)
+		);
+
+		foreach ( $candidate_ids as $candidate_id ) {
+			$product = wc_get_product( $candidate_id );
+			$name    = $product ? strtolower( remove_accents( $product->get_name() ) ) : '';
+			$matches = true;
+			foreach ( $required_words as $word ) {
+				if ( false === strpos( $name, strtolower( remove_accents( $word ) ) ) ) {
+					$matches = false;
+					break;
+				}
+			}
+			if ( $matches && perfumes_valid_hero_product( $product, $exclude_id ) ) {
+				return $product;
+			}
+		}
+
+		$fallback_ids = wc_get_products(
+			array(
+				'status'       => 'publish',
+				'stock_status' => 'instock',
+				'limit'        => 50,
+				'orderby'      => 'date',
+				'order'        => 'DESC',
+				'return'       => 'ids',
+			)
+		);
+		foreach ( $fallback_ids as $fallback_id ) {
+			$product = wc_get_product( $fallback_id );
+			if ( perfumes_valid_hero_product( $product, $exclude_id, true ) ) {
+				return $product;
+			}
+		}
+
+		return null;
+	}
+}
+
 $eyebrow            = perfumes_text_attr( $attributes, 'eyebrow' );
 $title              = perfumes_text_attr( $attributes, 'title' );
 $hero_brand         = perfumes_text_attr( $attributes, 'heroBrand' );
@@ -52,17 +121,36 @@ $products           = perfumes_array_attr( $attributes, 'products' );
 $benefits           = perfumes_array_attr( $attributes, 'benefits' );
 $payment_methods    = perfumes_array_attr( $attributes, 'paymentMethods' );
 $wrapper_attributes = get_block_wrapper_attributes( array( 'class' => 'perfumes-landing is-intro-ready' ) );
+$home_url           = home_url( '/' );
 $shop_url           = function_exists( 'wc_get_page_permalink' ) ? wc_get_page_permalink( 'shop' ) : home_url( '/tienda/' );
 $plugin_url         = plugin_dir_url( dirname( __DIR__ ) . '/perfumes-block.php' );
 $plugin_path        = dirname( __DIR__ );
 $asset_url          = static function ( $filename ) use ( $plugin_path, $plugin_url ) {
 	$path    = $plugin_path . '/assets/' . $filename;
-	$version = file_exists( $path ) ? filemtime( $path ) : '0.3.0';
+	$version = file_exists( $path ) ? filemtime( $path ) : '0.4.0';
 	return add_query_arg( 'ver', $version, $plugin_url . 'assets/' . $filename );
 };
-$hero_bg_url        = $hero_image_url ?: $asset_url( 'hero-bg.jpg' );
-$cta_image_url      = $hero_cta_image_url ?: $asset_url( 'cta-img.jpg' );
-$mask_url           = $asset_url( 'omar-mask.svg' );
+$logo_light_url     = $asset_url( 'omar-logo-light-v1.png' );
+$mask_url           = $logo_light_url;
+$hero_product       = perfumes_find_hero_product(
+	absint( $attributes['heroProductId'] ?? 0 ),
+	'Amber Rouge Orientica',
+	array( 'amber', 'rouge', 'orientica' )
+);
+$secondary_product  = perfumes_find_hero_product(
+	absint( $attributes['heroSecondaryProductId'] ?? 0 ),
+	'9 PM Afnan',
+	array( '9', 'pm', 'afnan' ),
+	$hero_product ? $hero_product->get_id() : 0
+);
+$hero_product_name  = $hero_product ? $hero_product->get_name() : __( 'Perfumería original', 'perfumes' );
+$hero_product_url   = $hero_product ? $hero_product->get_permalink() : $shop_url;
+$hero_product_image = $hero_product ? wp_get_attachment_image_url( $hero_product->get_image_id(), 'full' ) : '';
+$hero_availability  = $hero_product && $hero_product->is_in_stock() ? __( 'Disponible', 'perfumes' ) : __( 'Agotado', 'perfumes' );
+$secondary_name     = $secondary_product ? $secondary_product->get_name() : '';
+$secondary_url      = $secondary_product ? $secondary_product->get_permalink() : $shop_url;
+$secondary_image    = $secondary_product ? wp_get_attachment_image_url( $secondary_product->get_image_id(), 'large' ) : '';
+$secondary_stock    = $secondary_product && $secondary_product->is_in_stock() ? __( 'Disponible', 'perfumes' ) : __( 'Agotado', 'perfumes' );
 
 if ( function_exists( 'wc_get_products' ) ) {
 	$woocommerce_products = wc_get_products( array( 'status' => 'publish', 'limit' => 12, 'orderby' => 'date', 'order' => 'DESC' ) );
@@ -81,19 +169,38 @@ if ( function_exists( 'wc_get_products' ) ) {
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="preloader-progress-bar" aria-hidden="true">
 		<div class="preloader-bg"></div>
-		<div class="preloader-logo"><p class="logo-text" data-text-anim="logoAnimation"><?php echo esc_html( $hero_wordmark ); ?></p></div>
+		<div class="preloader-logo"><img class="logo-image" src="<?php echo esc_url( $logo_light_url ); ?>" alt="" width="900" height="277" /></div>
 	</div>
 	<div class="preloader-mask" style="--omar-mask: url('<?php echo esc_url( $mask_url ); ?>')" aria-hidden="true"></div>
 
 	<section class="hero-section">
-		<div class="wrapper">
-			<div class="hero-img"><img src="<?php echo esc_url( $hero_bg_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>" /></div>
-			<div class="hero-content">
-				<div class="content-main">
-					<?php if ( $title ) : ?><p class="sub-title" data-text-anim="bodyAnimation"><?php echo wp_kses_post( $title ); ?></p><?php endif; ?>
-					<h1 data-text-anim="headerAnimation"><?php echo esc_html( $hero_wordmark ); ?></h1>
+		<div class="hero-atmosphere" aria-hidden="true">
+			<?php if ( $hero_product_image ) : ?><img class="hero-blur hero-blur--primary" src="<?php echo esc_url( $hero_product_image ); ?>" alt="" /><?php endif; ?>
+			<?php if ( $secondary_image ) : ?><img class="hero-blur hero-blur--secondary" src="<?php echo esc_url( $secondary_image ); ?>" alt="" /><?php endif; ?>
+		</div>
+		<div class="wrapper hero-layout">
+			<div class="hero-copy">
+				<p class="hero-eyebrow" data-fade-in="down"><?php echo esc_html( $eyebrow ?: __( 'Perfumería original · Colombia', 'perfumes' ) ); ?></p>
+				<?php if ( $title ) : ?><p class="sub-title" data-text-anim="bodyAnimation"><?php echo wp_kses_post( $title ); ?></p><?php endif; ?>
+				<h1 data-text-anim="headerAnimation"><?php echo esc_html( $hero_product_name ); ?></h1>
+				<div class="hero-product-meta" data-fade-in="left">
+					<span class="hero-availability <?php echo $hero_product && $hero_product->is_in_stock() ? 'is-in-stock' : 'is-out-of-stock'; ?>"><?php echo esc_html( $hero_availability ); ?></span>
+					<?php if ( $hero_product ) : ?><span class="hero-price"><?php echo wp_kses_post( $hero_product->get_price_html() ); ?></span><?php endif; ?>
 				</div>
-				<div class="content-cta" data-fade-in="left">
+				<a class="hero-primary-cta" href="<?php echo esc_url( $hero_product_url ); ?>" data-fade-in="left">
+					<span><?php echo esc_html( $primary_cta ?: __( 'Ver producto', 'perfumes' ) ); ?></span>
+					<span aria-hidden="true">↗</span>
+				</a>
+			</div>
+
+			<?php if ( $hero_product_image ) : ?>
+				<a class="hero-product-primary" href="<?php echo esc_url( $hero_product_url ); ?>" aria-label="<?php echo esc_attr( $hero_product_name ); ?>">
+					<img class="hero-product-primary__image" src="<?php echo esc_url( $hero_product_image ); ?>" alt="<?php echo esc_attr( $hero_product_name ); ?>" fetchpriority="high" />
+				</a>
+			<?php endif; ?>
+
+			<?php if ( $secondary_product ) : ?>
+				<aside class="content-cta" data-fade-in="left">
 					<?php if ( $hero_brand ) : ?>
 						<div class="cta-marquee">
 							<?php for ( $group = 0; $group < 2; $group++ ) : ?>
@@ -105,15 +212,19 @@ if ( function_exists( 'wc_get_products' ) ) {
 							<?php endfor; ?>
 						</div>
 					<?php endif; ?>
-					<div class="img-wrapper"><img src="<?php echo esc_url( $cta_image_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $primary_cta ) ); ?>" /></div>
-					<?php if ( $primary_cta && $primary_cta_url ) : ?>
-						<a class="register-button" href="<?php echo esc_url( $primary_cta_url ); ?>">
-							<span><?php echo esc_html( $primary_cta ); ?></span>
-							<span class="btn-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 12 12"><path fill="currentColor" d="M1.753.5H11.5v9.747H9.728V3.525L1.753 11.5.5 10.247l7.975-7.975H1.753V.5Z" /></svg></span>
-						</a>
-					<?php endif; ?>
-				</div>
-			</div>
+					<a class="img-wrapper" href="<?php echo esc_url( $secondary_url ); ?>">
+						<?php if ( $secondary_image ) : ?><img src="<?php echo esc_url( $secondary_image ); ?>" alt="<?php echo esc_attr( $secondary_name ); ?>" /><?php endif; ?>
+					</a>
+					<div class="secondary-product-copy">
+						<span><?php echo esc_html( $secondary_stock ); ?></span>
+						<h2><a href="<?php echo esc_url( $secondary_url ); ?>"><?php echo esc_html( $secondary_name ); ?></a></h2>
+						<div>
+							<span class="hero-price"><?php echo wp_kses_post( $secondary_product->get_price_html() ); ?></span>
+							<a class="secondary-product-link" href="<?php echo esc_url( $secondary_url ); ?>" aria-label="<?php echo esc_attr( sprintf( __( 'Ver %s', 'perfumes' ), $secondary_name ) ); ?>">↗</a>
+						</div>
+					</div>
+				</aside>
+			<?php endif; ?>
 		</div>
 	</section>
 

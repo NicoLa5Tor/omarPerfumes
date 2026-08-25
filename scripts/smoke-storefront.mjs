@@ -80,6 +80,19 @@ expect(
 	'Landing must render the intro mask.'
 );
 expect(
+	/class="logo-image"[^>]+omar-logo-light-v1\.png/.test( home ),
+	'Preloader must render the official optimized Omar logo.'
+);
+expect(
+	/class="hero-product-primary__image"/.test( home ) &&
+		/class="secondary-product-copy"/.test( home ),
+	'Hero must render two WooCommerce product presentations.'
+);
+expect(
+	! /OMAR®|IronStride/.test( home ),
+	'Landing must not render reconstructed or reference-brand copy.'
+);
+expect(
 	! /perfumes-whatsapp[^>]+href=["']#/.test( home ),
 	'WhatsApp must never point to #.'
 );

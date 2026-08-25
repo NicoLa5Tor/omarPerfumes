@@ -1,6 +1,5 @@
 import { RichText } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
-import EditableImage from '../../components/EditableImage';
+import { __, sprintf } from '@wordpress/i18n';
 
 const MarqueeGroup = ( { message, hidden = false } ) => (
 	<div className="marquee-group" aria-hidden={ hidden || undefined }>
@@ -17,72 +16,69 @@ const MarqueeGroup = ( { message, hidden = false } ) => (
 
 export default function HeroSection( { attributes, setAttributes } ) {
 	const {
-		heroWordmark,
 		title,
 		primaryCta,
-		heroImageUrl,
-		heroCtaImageUrl,
 		heroBrand,
+		heroProductId,
+		heroSecondaryProductId,
 	} = attributes;
 
 	return (
 		<section className="hero-section hero-section--editor">
-			<div className="wrapper">
-				<EditableImage
-					className="hero-img"
-					imageUrl={ heroImageUrl }
-					label={ __( 'Imagen principal del hero', 'perfumes' ) }
-					onChange={ ( value ) =>
-						setAttributes( { heroImageUrl: value } )
-					}
-				/>
-				<div className="hero-content">
-					<div className="content-main">
-						<RichText
-							tagName="p"
-							className="sub-title"
-							value={ title }
-							onChange={ ( value ) =>
-								setAttributes( { title: value } )
-							}
-							placeholder={ __(
-								'Promesa principal',
-								'perfumes'
-							) }
-						/>
-						<RichText
-							tagName="h1"
-							value={ heroWordmark }
-							onChange={ ( value ) =>
-								setAttributes( { heroWordmark: value } )
-							}
-							placeholder={ __( 'OMAR®', 'perfumes' ) }
-						/>
-					</div>
-					<div className="content-cta">
-						<div className="cta-marquee">
-							<MarqueeGroup message={ heroBrand } />
-							<MarqueeGroup message={ heroBrand } hidden />
-						</div>
-						<EditableImage
-							className="img-wrapper"
-							imageUrl={ heroCtaImageUrl }
-							label={ __( 'Imagen de la tarjeta', 'perfumes' ) }
-							onChange={ ( value ) =>
-								setAttributes( { heroCtaImageUrl: value } )
-							}
-						/>
-						<RichText
-							tagName="span"
-							className="register-button"
-							value={ primaryCta }
-							onChange={ ( value ) =>
-								setAttributes( { primaryCta: value } )
-							}
-							placeholder={ __( 'Explorar ahora', 'perfumes' ) }
-						/>
-					</div>
+			<div className="hero-atmosphere" aria-hidden="true" />
+			<div className="wrapper hero-layout">
+				<div className="hero-copy">
+					<span className="hero-eyebrow">
+						{ __( 'Perfumería original · Colombia', 'perfumes' ) }
+					</span>
+					<RichText
+						tagName="p"
+						className="sub-title"
+						value={ title }
+						onChange={ ( value ) =>
+							setAttributes( { title: value } )
+						}
+						placeholder={ __( 'Promesa principal', 'perfumes' ) }
+					/>
+					<h1>{ __( 'Orientica Amber Rouge', 'perfumes' ) }</h1>
+					<p className="hero-editor-product-id">
+						{ sprintf(
+							/* translators: %d product ID. */
+							__( 'Producto principal · ID %d', 'perfumes' ),
+							heroProductId || 0
+						) }
+					</p>
+					<RichText
+						tagName="span"
+						className="hero-primary-cta"
+						value={ primaryCta }
+						onChange={ ( value ) =>
+							setAttributes( { primaryCta: value } )
+						}
+						placeholder={ __( 'Ver producto', 'perfumes' ) }
+					/>
 				</div>
+
+				<div className="hero-product-primary" aria-hidden="true">
+					<div className="hero-editor-bottle">ORIENTICA</div>
+				</div>
+
+				<aside className="content-cta">
+					<div className="cta-marquee">
+						<MarqueeGroup message={ heroBrand } />
+						<MarqueeGroup message={ heroBrand } hidden />
+					</div>
+					<div className="img-wrapper hero-editor-secondary">
+						AFNAN 9 PM
+					</div>
+					<p className="hero-editor-product-id">
+						{ sprintf(
+							/* translators: %d product ID. */
+							__( 'Producto secundario · ID %d', 'perfumes' ),
+							heroSecondaryProductId || 0
+						) }
+					</p>
+				</aside>
 			</div>
 		</section>
 	);
