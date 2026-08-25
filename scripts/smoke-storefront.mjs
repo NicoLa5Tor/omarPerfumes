@@ -116,5 +116,9 @@ expect(
 	! /woocommerce-LoopProduct-link/.test( shop ),
 	'Shop cards must not include WooCommerce default card markup.'
 );
+expect(
+	/wp-block-post-title/.test( shop ),
+	'Shop product cards must expose visible product titles.'
+);
 
 console.log( `Storefront smoke checks passed: ${ checks.length }` );

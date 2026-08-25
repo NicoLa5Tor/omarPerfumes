@@ -436,6 +436,7 @@
 	}
 
 	.perfumes-catalog-card__badge,
+	.wc-block-product::before,
 	.woocommerce span.onsale,
 	.wc-block-components-product-sale-badge {
 		position: absolute;
@@ -454,6 +455,10 @@
 		line-height: 1.5;
 		text-transform: uppercase;
 		color: #111;
+	}
+
+	.wc-block-product::before {
+		content: "Más vendido";
 	}
 
 	.perfumes-catalog-card__body {
@@ -479,6 +484,7 @@
 	}
 
 	.woocommerce ul.products li.product .woocommerce-loop-product__title,
+	.wc-block-product .wp-block-post-title,
 	.wc-block-components-product-name,
 	.wc-block-grid__product-title {
 		display: -webkit-box;
@@ -494,9 +500,15 @@
 	}
 
 	.woocommerce ul.products li.product .woocommerce-loop-product__title a,
+	.wc-block-product .wp-block-post-title a,
 	.wc-block-components-product-name,
 	.wc-block-grid__product-title {
 		color: #fff;
+	}
+
+	.wc-block-product .wp-block-post-title {
+		padding: 2rem 1.5rem 0;
+		text-align: left;
 	}
 
 	.perfumes-catalog-card__ratings {
@@ -533,6 +545,21 @@
 		line-height: 1.2;
 		white-space: nowrap;
 		color: #fff;
+	}
+
+	.wc-block-product .wp-block-woocommerce-product-price {
+		margin: 0 !important;
+		padding: 0 1.5rem;
+		text-align: left;
+	}
+
+	.wc-block-product .wp-block-woocommerce-product-price::before {
+		display: block;
+		margin-bottom: 1rem;
+		font-size: 1rem;
+		letter-spacing: 2px;
+		color: rgba(255, 255, 255, 0.34);
+		content: "★★★★★";
 	}
 
 	.woocommerce ul.products li.product .price del {
@@ -586,6 +613,13 @@
 	.wc-block-grid__product .wp-block-button__link:hover {
 		background: #ffb900;
 		color: #071527;
+	}
+
+	.wc-block-product .wp-block-woocommerce-product-button {
+		width: 100%;
+		margin-top: auto;
+		padding: 1rem 1.5rem 1.5rem;
+		text-align: left;
 	}
 
 	.woocommerce div.product,
