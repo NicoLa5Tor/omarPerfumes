@@ -507,7 +507,7 @@
 		overflow: hidden;
 		border: 0;
 		border-radius: 1.5rem;
-		background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.82) 58%, rgba(0, 0, 0, 0) 100%);
+		background: linear-gradient(to top, #071527 0%, rgba(11, 31, 58, 0.96) 58%, rgba(11, 31, 58, 0.08) 100%);
 		box-shadow:
 			0 8px 10px -6px rgba(0, 0, 0, 0.1),
 			0 20px 25px -5px rgba(0, 0, 0, 0.1);
@@ -539,7 +539,7 @@
 		bottom: 0;
 		left: 0;
 		height: 32%;
-		background: linear-gradient(to top, #000 0%, transparent 100%);
+		background: linear-gradient(to top, #071527 0%, rgba(7, 21, 39, 0) 100%);
 		pointer-events: none;
 		content: "";
 	}
@@ -676,14 +676,14 @@
 		line-height: 1.5;
 		text-decoration: none;
 		white-space: nowrap;
-		color: #000;
+		color: #071527;
 		transition: background-color 300ms ease-in-out;
 	}
 
 	.perfumes-product-grid--featured .perfumes-product-card__button:hover,
 	.perfumes-product-grid--featured .perfumes-product-card__button--ghost:hover {
 		background: #ffb900;
-		color: #000;
+		color: #071527;
 	}
 
 	.perfumes-promo {
