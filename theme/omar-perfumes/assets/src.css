@@ -340,6 +340,11 @@
 		background-color: rgba(255, 255, 255, 0.2);
 	}
 
+	.home .wc-block-mini-cart__badge {
+		background: #fff !important;
+		color: #071527 !important;
+	}
+
 	.perfumes-content-shell {
 		@apply min-h-[55vh] px-14 py-12;
 	}
