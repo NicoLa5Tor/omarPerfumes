@@ -157,6 +157,7 @@
 	.home .perfumes-header {
 		min-height: 104px;
 		padding-block: 18px;
+		background: transparent !important;
 		will-change: transform;
 	}
 

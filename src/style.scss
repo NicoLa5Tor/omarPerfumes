@@ -1331,15 +1331,40 @@
 	}
 
 	.perfumes-landing .hero-copy h1 {
-		max-width: 660px;
+		max-width: 570px;
 		margin: 0;
+		overflow: hidden;
 		font-family: "Host Grotesk", sans-serif;
-		font-size: clamp(52px, 6.1vw, 96px);
+		font-size: clamp(58px, 5.4vw, 84px);
 		font-weight: 620;
-		line-height: 0.88;
-		letter-spacing: -0.065em;
+		line-height: 0.94;
+		letter-spacing: -0.055em;
 		text-wrap: balance;
 		color: #fff;
+	}
+
+	.perfumes-landing .hero-headline__text {
+		display: block;
+		will-change: transform, opacity;
+	}
+
+	.perfumes-landing .hero-featured-name {
+		display: grid;
+		max-width: 520px;
+		gap: 5px;
+		margin: 22px 0 0;
+		font-size: clamp(14px, 1.15vw, 17px);
+		font-weight: 560;
+		line-height: 1.35;
+		color: rgba(255, 255, 255, 0.86);
+	}
+
+	.perfumes-landing .hero-featured-name span {
+		font-size: 10px;
+		font-weight: 750;
+		letter-spacing: 1.5px;
+		text-transform: uppercase;
+		color: #e2bd6d;
 	}
 
 	.perfumes-landing .header-char {
@@ -1621,7 +1646,7 @@
 
 		.perfumes-landing .hero-copy h1 {
 			max-width: 92%;
-			font-size: clamp(44px, 13.8vw, 68px);
+			font-size: clamp(48px, 13vw, 62px);
 		}
 
 		.perfumes-landing .hero-copy .sub-title {

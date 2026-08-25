@@ -183,8 +183,8 @@ if ( function_exists( 'wc_get_products' ) ) {
 		<div class="wrapper hero-layout">
 			<div class="hero-copy">
 				<p class="hero-eyebrow" data-fade-in="down"><?php echo esc_html( $eyebrow ?: __( 'Perfumería original · Colombia', 'perfumes' ) ); ?></p>
-				<?php if ( $title ) : ?><p class="sub-title" data-text-anim="bodyAnimation"><?php echo wp_kses_post( $title ); ?></p><?php endif; ?>
-				<h1 data-text-anim="headerAnimation"><?php echo esc_html( $hero_product_name ); ?></h1>
+				<h1 class="hero-headline"><span class="hero-headline__text" data-hero-reveal><?php esc_html_e( 'Tu esencia, elevada.', 'perfumes' ); ?></span></h1>
+				<p class="hero-featured-name" data-fade-in="left"><span><?php esc_html_e( 'Producto destacado', 'perfumes' ); ?></span><?php echo esc_html( $hero_product_name ); ?></p>
 				<div class="hero-product-meta" data-fade-in="left">
 					<span class="hero-availability <?php echo $hero_product && $hero_product->is_in_stock() ? 'is-in-stock' : 'is-out-of-stock'; ?>"><?php echo esc_html( $hero_availability ); ?></span>
 					<?php if ( $hero_product ) : ?><span class="hero-price"><?php echo wp_kses_post( $hero_product->get_price_html() ); ?></span><?php endif; ?>

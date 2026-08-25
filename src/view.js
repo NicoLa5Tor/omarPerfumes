@@ -1,55 +1,4 @@
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { SplitText } from 'gsap/SplitText';
-
-gsap.registerPlugin( ScrollTrigger, SplitText );
-
-const textAnimations = {
-	headerAnimation: ( element ) => {
-		const split = SplitText.create( element, {
-			type: 'chars',
-			smartWrap: true,
-			mask: 'chars',
-			charsClass: 'header-char',
-		} );
-
-		return gsap.from( split.chars, {
-			xPercent: -100,
-			ease: 'power2.inOut',
-			stagger: { each: 0.02, from: 'random' },
-			duration: 0.5,
-		} );
-	},
-	bodyAnimation: ( element ) =>
-		SplitText.create( element, {
-			type: 'lines',
-			mask: 'lines',
-			autoSplit: true,
-			onSplit: ( split ) =>
-				gsap.from( split.lines, {
-					opacity: 0,
-					yPercent: -100,
-					duration: 0.9,
-					stagger: 0.1,
-					ease: 'power3.inOut',
-					scrollTrigger: {
-						trigger: element,
-						start: 'top 90%',
-					},
-				} ),
-		} ),
-};
-
-function animateText( element ) {
-	if ( ! element ) {
-		return;
-	}
-	gsap.set( element, { visibility: 'visible' } );
-	const animation = textAnimations[ element.dataset.textAnim ];
-	if ( animation ) {
-		animation( element );
-	}
-}
 
 function preloaderAnimation( root ) {
 	const timeline = gsap.timeline();
@@ -109,35 +58,33 @@ function preloaderAnimation( root ) {
 }
 
 function heroAnimation( root ) {
-	const timeline = gsap.timeline();
+	const timeline = gsap.timeline( {
+		defaults: { duration: 0.72, ease: 'power3.out' },
+	} );
 	const fadeElements = [ ...root.querySelectorAll( '[data-fade-in]' ) ];
-	const heading = root.querySelector( '.hero-copy h1' );
-	const subtitle = root.querySelector( '.sub-title' );
+	const headline = root.querySelector( '[data-hero-reveal]' );
 
 	timeline
 		.fromTo(
 			fadeElements,
 			{
-				filter: 'blur(30px)',
-				opacity: 0,
-				yPercent: ( index, element ) =>
-					element.dataset.fadeIn === 'down' ? -100 : 0,
-				xPercent: ( index, element ) =>
-					element.dataset.fadeIn === 'left' ? 100 : 0,
+				autoAlpha: 0,
+				y: ( index, element ) =>
+					element.dataset.fadeIn === 'down' ? -18 : 22,
 			},
 			{
-				yPercent: 0,
-				xPercent: 0,
-				filter: 'blur(0px)',
-				opacity: 1,
-				duration: 1.25,
-				ease: 'power4.inOut',
-				stagger: 0.08,
+				autoAlpha: 1,
+				y: 0,
+				stagger: 0.06,
 			},
-			'<-0.25'
+			0
 		)
-		.call( animateText, [ heading ], '<0.55' )
-		.call( animateText, [ subtitle ], '-=0.75' );
+		.fromTo(
+			headline,
+			{ autoAlpha: 0, yPercent: 108 },
+			{ autoAlpha: 1, yPercent: 0, duration: 0.88 },
+			0.08
+		);
 
 	return timeline;
 }
@@ -242,11 +189,11 @@ function runIntro( root ) {
 }
 
 function init() {
+	initHomeHeader();
 	const root = document.querySelector( '.perfumes-landing' );
 	if ( ! root ) {
 		return;
 	}
-	initHomeHeader();
 	runIntro( root );
 }
 
