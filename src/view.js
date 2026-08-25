@@ -3,6 +3,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin( ScrollTrigger );
 
+let activeRoot = null;
+let activeHeader = null;
+let activePageCleanup = () => {};
+let mountFrame = 0;
+
 function preloaderAnimation( root ) {
 	const timeline = gsap.timeline();
 	const progressBar = root.querySelector( '.preloader-progress-bar' );
@@ -97,9 +102,11 @@ function heroAnimation( root ) {
 }
 
 function initHomeHeader() {
-	const header = document.querySelector( '.home .perfumes-global-header' );
+	const header = document.querySelector(
+		'.perfumes-global-header.is-home-route'
+	);
 	if ( ! header ) {
-		return;
+		return () => {};
 	}
 
 	const backdrop = header.querySelector( '.perfumes-header__backdrop' );
@@ -107,7 +114,7 @@ function initHomeHeader() {
 	const logo = header.querySelector( '.perfumes-logo' );
 
 	if ( ! backdrop || ! inner || ! logo ) {
-		return;
+		return () => {};
 	}
 
 	const nav = header.querySelector( '.perfumes-category-nav' );
@@ -169,79 +176,145 @@ function initHomeHeader() {
 		}
 	);
 
-	window.addEventListener( 'pagehide', () => matchMedia.revert(), {
-		once: true,
-	} );
+	return () => matchMedia.revert();
 }
 
-function runIntro( root ) {
+function hidePreloader( root ) {
+	const elements = [
+		root.querySelector( '.preloader-progress-bar' ),
+		root.querySelector( '.preloader-mask' ),
+	].filter( Boolean );
+
+	gsap.set( elements, { autoAlpha: 0, display: 'none' } );
+}
+
+function runIntro( root, { showPreloader } ) {
 	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
+		hidePreloader( root );
 		root.classList.remove( 'is-intro-ready' );
 		root.querySelectorAll( '[data-text-anim]' ).forEach( ( element ) => {
 			element.style.visibility = 'visible';
 		} );
-		return;
+		return () => {};
 	}
 
 	try {
+		if ( ! showPreloader ) {
+			hidePreloader( root );
+			root.classList.remove( 'is-intro-ready' );
+			const revealTimeline = heroAnimation( root );
+			return () => revealTimeline.kill();
+		}
+
 		const introTimeline = gsap.timeline( {
 			onComplete: () => root.classList.remove( 'is-intro-ready' ),
 		} );
 		const preloaderTl = preloaderAnimation( root );
 		const heroTl = heroAnimation( root );
 		introTimeline.add( preloaderTl ).add( heroTl, '-=0.1' );
+		return () => introTimeline.kill();
 	} catch ( error ) {
+		hidePreloader( root );
 		root.classList.remove( 'is-intro-ready' );
 		window.console.warn( 'Omar hero animation skipped.', error );
+		return () => {};
 	}
 }
 
 function initProductCards( root ) {
 	const cards = [ ...root.querySelectorAll( '[data-product-card]' ) ];
 	if ( ! cards.length ) {
+		return () => {};
+	}
+
+	const context = gsap.context( () => {
+		const reduceMotion = window.matchMedia(
+			'(prefers-reduced-motion: reduce)'
+		).matches;
+
+		if ( reduceMotion ) {
+			gsap.set( cards, { autoAlpha: 1, y: 0 } );
+			return;
+		}
+
+		gsap.set( cards, { autoAlpha: 0, y: 28 } );
+
+		const grid = root.querySelector( '.perfumes-product-grid' );
+		ScrollTrigger.create( {
+			trigger: grid || cards[ 0 ],
+			start: 'top 85%',
+			once: true,
+			onEnter: () => {
+				gsap.to( cards, {
+					autoAlpha: 1,
+					y: 0,
+					duration: 0.6,
+					ease: 'power3.out',
+					stagger: 0.08,
+				} );
+			},
+		} );
+	}, root );
+
+	return () => context.revert();
+}
+
+function mountPage( { clientNavigation = false } = {} ) {
+	const header = document.querySelector( '.perfumes-global-header' );
+	const root = document.querySelector( '.perfumes-landing' );
+	if ( root === activeRoot && header === activeHeader ) {
 		return;
 	}
 
-	const reduceMotion = window.matchMedia(
-		'(prefers-reduced-motion: reduce)'
-	).matches;
+	activePageCleanup();
+	activeRoot = root;
+	activeHeader = header;
+	const cleanups = [];
 
-	if ( reduceMotion ) {
-		gsap.set( cards, { autoAlpha: 1, y: 0 } );
-		return;
+	if ( header?.classList.contains( 'is-home-route' ) ) {
+		cleanups.push( initHomeHeader() );
 	}
 
-	gsap.set( cards, { autoAlpha: 0, y: 28 } );
+	if ( root ) {
+		cleanups.push(
+			runIntro( root, { showPreloader: ! clientNavigation } )
+		);
+		cleanups.push( initProductCards( root ) );
+	}
 
-	const grid = root.querySelector( '.perfumes-product-grid' );
-	ScrollTrigger.create( {
-		trigger: grid || cards[ 0 ],
-		start: 'top 85%',
-		once: true,
-		onEnter: () => {
-			gsap.to( cards, {
-				autoAlpha: 1,
-				y: 0,
-				duration: 0.6,
-				ease: 'power3.out',
-				stagger: 0.08,
-			} );
-		},
+	activePageCleanup = () => {
+		cleanups.reverse().forEach( ( cleanup ) => cleanup() );
+	};
+
+	window.requestAnimationFrame( () => ScrollTrigger.refresh() );
+}
+
+function scheduleMount( clientNavigation ) {
+	window.cancelAnimationFrame( mountFrame );
+	mountFrame = window.requestAnimationFrame( () => {
+		mountPage( { clientNavigation } );
 	} );
 }
 
-function init() {
-	initHomeHeader();
-	const root = document.querySelector( '.perfumes-landing' );
-	if ( ! root ) {
-		return;
-	}
-	runIntro( root );
-	initProductCards( root );
+if ( document.readyState === 'loading' ) {
+	document.addEventListener(
+		'DOMContentLoaded',
+		() => scheduleMount( false ),
+		{ once: true }
+	);
+} else {
+	scheduleMount( false );
 }
 
-if ( document.readyState === 'loading' ) {
-	document.addEventListener( 'DOMContentLoaded', init, { once: true } );
-} else {
-	init();
-}
+document.addEventListener( 'omar:routechange', ( event ) => {
+	scheduleMount( Boolean( event.detail?.clientNavigation ) );
+} );
+
+window.addEventListener(
+	'pagehide',
+	() => {
+		window.cancelAnimationFrame( mountFrame );
+		activePageCleanup();
+	},
+	{ once: true }
+);

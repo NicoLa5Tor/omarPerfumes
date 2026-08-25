@@ -24,28 +24,25 @@ function perfumes_block_init() {
 add_action( 'init', 'perfumes_block_init' );
 
 /**
- * Load the same storefront styling on WooCommerce pages that use the global
- * Omar template parts. This keeps the header/footer visually identical to
- * the landing rather than inheriting theme styles.
+ * Keep the landing controller and shared storefront styles available on every
+ * route. The Interactivity Router can reach the landing from the catalog
+ * without reloading the document, so these assets cannot be route-conditional.
  */
-function perfumes_enqueue_storefront_chrome() {
-	if ( ! function_exists( 'is_woocommerce' ) ) {
+function perfumes_enqueue_storefront_assets() {
+	$block_type = WP_Block_Type_Registry::get_instance()->get_registered( 'perfumes/showcase' );
+	if ( ! $block_type ) {
 		return;
 	}
 
-	if ( ! ( is_woocommerce() || is_cart() || is_checkout() ) ) {
-		return;
+	foreach ( $block_type->style_handles as $style_handle ) {
+		wp_enqueue_style( $style_handle );
 	}
 
-	$style_path = __DIR__ . '/build/style-index.css';
-	wp_enqueue_style(
-		'perfumes-storefront-chrome',
-		plugins_url( 'build/style-index.css', __FILE__ ),
-		array(),
-		file_exists( $style_path ) ? filemtime( $style_path ) : null
-	);
+	foreach ( $block_type->view_script_handles as $script_handle ) {
+		wp_enqueue_script( $script_handle );
+	}
 }
-add_action( 'wp_enqueue_scripts', 'perfumes_enqueue_storefront_chrome' );
+add_action( 'wp_enqueue_scripts', 'perfumes_enqueue_storefront_assets' );
 
 /** Load WooCommerce's native AJAX add-to-cart behavior on the landing. */
 function perfumes_enqueue_woocommerce_cart_assets() {

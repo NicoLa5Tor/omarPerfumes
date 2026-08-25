@@ -70,10 +70,26 @@ for ( const path of [ '/', '/tienda/', '/carrito/', '/mi-cuenta/' ] ) {
 			.length === 1,
 		`${ path } must render one global footer.`
 	);
+	expect(
+		/data-wp-router-region=["']omar\/router\/main["']/.test( html ),
+		`${ path } must expose the replaceable main router region.`
+	);
+	expect(
+		/assets\/router\.js\?ver=/.test( html ),
+		`${ path } must load the progressive router module.`
+	);
 }
 
 const home = storefrontHtml.get( '/' );
 const shop = storefrontHtml.get( '/tienda/' );
+expect(
+	/<header[^>]*perfumes-global-header[^>]*is-home-route/.test( home ),
+	'Landing header must start in its transparent home state.'
+);
+expect(
+	! /<header[^>]*perfumes-global-header[^>]*is-home-route/.test( shop ),
+	'Shop header must start in its solid internal state.'
+);
 expect(
 	/class="content-cta"/.test( home ),
 	'Landing must render the Omar CTA card.'
