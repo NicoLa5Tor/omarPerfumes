@@ -56,7 +56,9 @@ jobs:
           password: ${{ secrets.FTP_PASS }}
           local-dir: ./dist/plugin/
           server-dir: wp-content/plugins/perfumes-block/
-          state-name: .ftp-deploy-plugin-state.json
+          # Reinicia el inventario remoto para no reutilizar rutas obsoletas
+          # (por ejemplo, build/images) de despliegues anteriores.
+          state-name: .ftp-deploy-plugin-state-v2.json
 
       - name: Deploy tema Omar por FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
