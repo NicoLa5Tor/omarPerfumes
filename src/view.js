@@ -201,9 +201,9 @@ function initProductCards( root ) {
 		return;
 	}
 
-	const reduceMotion = window
-		.matchMedia( '(prefers-reduced-motion: reduce)' )
-		.matches;
+	const reduceMotion = window.matchMedia(
+		'(prefers-reduced-motion: reduce)'
+	).matches;
 
 	if ( reduceMotion ) {
 		gsap.set( cards, { autoAlpha: 1, y: 0 } );
