@@ -21,63 +21,88 @@ let activeHeader = null;
 let activePageCleanup = () => {};
 let mountFrame = 0;
 
+function hidePreloader( root ) {
+	const preloader = root.querySelector( '.preloader' );
+	const logoImage = root.querySelector( '.logo-image' );
+	const targets = [
+		preloader,
+		root.querySelector( '.preloader-progress-bar' ),
+		root.querySelector( '.preloader-mask' ),
+		logoImage,
+	].filter( Boolean );
+
+	if ( logoImage ) {
+		gsap.set( logoImage, { mixBlendMode: 'normal' } );
+	}
+	gsap.set( targets, { autoAlpha: 0, display: 'none' } );
+}
+
+function completeInitialEntry( root ) {
+	hidePreloader( root );
+	root.classList.remove( 'is-intro-ready' );
+	document.body.classList.remove( 'omar-initial-entry' );
+}
+
 function preloaderAnimation( root ) {
 	const timeline = gsap.timeline();
 	const progressBar = root.querySelector( '.preloader-progress-bar' );
-	const preloaderLogo = root.querySelector( '.preloader-logo' );
 	const logoImage = root.querySelector( '.logo-image' );
-	const preloaderBackground = root.querySelector( '.preloader-bg' );
-	const preloaderMask = root.querySelector( '.preloader-mask' );
+	const fill = root.querySelector( '.preloader-bg' );
+	const mask = root.querySelector( '.preloader-mask' );
 	const heroImage = root.querySelector( '.hero-product-primary__image' );
 	const heroImageTargets = heroImage ? [ heroImage ] : [];
 
 	timeline
-		.set( preloaderMask, { scale: 1, transformOrigin: '50% 50%' } )
+		.set( mask, { scale: 1, transformOrigin: '50% 50%', force3D: true } )
 		.set( heroImageTargets, { scale: 1.18 } )
 		.fromTo(
 			logoImage,
-			{ autoAlpha: 0, y: 16, scale: 0.96 },
-			{
-				autoAlpha: 1,
-				y: 0,
-				scale: 1,
-				duration: 0.5,
-				ease: 'power2.out',
-			}
+			{ autoAlpha: 0, y: 18 },
+			{ autoAlpha: 1, y: 0, duration: 0.45, ease: 'power2.out' }
 		)
 		.fromTo(
-			preloaderBackground,
-			{ scaleX: 0.18 },
-			{ scaleX: 1, duration: 2.15, ease: 'stutterEase' },
-			'-=0.12'
+			fill,
+			{ scaleX: 0 },
+			{ scaleX: 1, duration: 1.85, ease: 'stutterEase' },
+			'-=0.1'
 		)
+		.addLabel( 'clear' )
 		.to(
-			preloaderMask,
+			logoImage,
 			{
-				scale: 4.25,
-				duration: 0.95,
-				ease: 'expoScale(0.5,7,power1.in)',
+				autoAlpha: 0,
+				mixBlendMode: 'normal',
+				duration: 0.28,
+				ease: 'power2.in',
 			},
-			'+=0.12'
+			'clear'
 		)
 		.to(
-			[ progressBar, preloaderLogo ],
-			{ autoAlpha: 0, duration: 0.7, ease: 'power2.inOut' },
-			'<'
+			progressBar,
+			{ autoAlpha: 0, duration: 0.28, ease: 'power2.in' },
+			'clear'
+		)
+		.set( progressBar, { display: 'none' } )
+		.addLabel( 'bubble' )
+		.to(
+			mask,
+			{
+				scale: 7,
+				duration: 1.05,
+				ease: 'expoScale(0.5,7,power2.in)',
+			},
+			'bubble'
 		)
 		.to(
 			heroImageTargets,
 			{
 				scale: 1,
-				duration: 2.35,
-				ease: 'expoScale(0.5,7,power1.out)',
+				duration: 1.65,
+				ease: 'expoScale(0.5,7,power2.out)',
 			},
-			'<'
+			'bubble'
 		)
-		.set( [ progressBar, preloaderMask ], {
-			autoAlpha: 0,
-			display: 'none',
-		} );
+		.set( mask, { autoAlpha: 0, display: 'none' } );
 
 	return timeline;
 }
@@ -196,20 +221,6 @@ function initHomeHeader() {
 	return () => matchMedia.revert();
 }
 
-function hidePreloader( root ) {
-	const elements = [
-		root.querySelector( '.preloader-progress-bar' ),
-		root.querySelector( '.preloader-mask' ),
-	].filter( Boolean );
-
-	gsap.set( elements, { autoAlpha: 0, display: 'none' } );
-}
-
-function completeInitialEntry( root ) {
-	root.classList.remove( 'is-intro-ready' );
-	document.body.classList.remove( 'omar-initial-entry' );
-}
-
 function runIntro( root, { showPreloader } ) {
 	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
 		hidePreloader( root );
@@ -224,6 +235,7 @@ function runIntro( root, { showPreloader } ) {
 	}
 
 	let activeTimeline = null;
+	let failsafe = null;
 	try {
 		const context = gsap.context( () => {
 			if ( ! showPreloader ) {
@@ -245,15 +257,24 @@ function runIntro( root, { showPreloader } ) {
 				return;
 			}
 
-			activeTimeline = gsap.timeline( {
-				onComplete: () => completeInitialEntry( root ),
-			} );
 			const preloaderTl = preloaderAnimation( root );
 			const heroTl = heroAnimation( root );
-			activeTimeline.add( preloaderTl ).add( heroTl, '-=1.15' );
+			activeTimeline = gsap.timeline( {
+				onComplete: () => {
+					failsafe?.kill();
+					completeInitialEntry( root );
+				},
+			} );
+			activeTimeline.add( preloaderTl, 0 );
+			activeTimeline.add( heroTl, preloaderTl.labels.bubble );
+			failsafe = gsap.delayedCall( 6.5, () => {
+				activeTimeline?.progress( 1 );
+				completeInitialEntry( root );
+			} );
 		}, root );
 
 		return () => {
+			failsafe?.kill();
 			activeTimeline?.kill();
 			context.revert();
 		};

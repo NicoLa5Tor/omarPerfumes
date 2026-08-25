@@ -6,7 +6,7 @@
 @layer components {
 	.wp-block-perfumes-showcase.perfumes-landing,
 	.perfumes-landing {
-		@apply relative overflow-hidden bg-white font-sans text-perfumes-ink;
+		@apply relative bg-white font-sans text-perfumes-ink;
 	}
 
 	.perfumes-landing * {
@@ -443,7 +443,6 @@
 	.perfumes-landing {
 		width: 100%;
 		min-height: 100%;
-		overflow-x: hidden;
 		background: #151513;
 		font-family: "Host Grotesk", sans-serif;
 		font-size: 16px;
@@ -464,47 +463,50 @@
 		opacity: 0;
 	}
 
-	.preloader-mask,
-	.preloader-progress-bar {
+	.preloader {
 		position: fixed;
-		top: 0;
-		left: 0;
+		inset: 0;
+		z-index: 10000;
 		display: none;
 		width: 100%;
 		height: 100svh;
 		pointer-events: none;
 	}
 
+	.preloader-mask,
 	.preloader-progress-bar {
-		z-index: 10002;
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+	.preloader-progress-bar {
+		z-index: 2;
 		overflow: hidden;
 		background: #071527;
 	}
 
 	.preloader-mask {
-		z-index: 10003;
+		z-index: 1;
 		background: #030a14;
 		transform-origin: 50% 50%;
+		will-change: transform;
 		-webkit-mask-image: linear-gradient(#fff, #fff), var(--omar-mask);
 		-webkit-mask-position: center, center;
 		-webkit-mask-repeat: no-repeat, no-repeat;
-		-webkit-mask-size: 100% 100%, 42%;
+		-webkit-mask-size: 100% 100%, min(52vw, 680px) auto;
 		-webkit-mask-composite: xor;
 		mask-image: linear-gradient(#fff, #fff), var(--omar-mask);
+		mask-mode: luminance, alpha;
 		mask-position: center, center;
 		mask-repeat: no-repeat, no-repeat;
-		mask-size: 100% 100%, 42%;
+		mask-size: 100% 100%, min(52vw, 680px) auto;
 		mask-composite: subtract;
 	}
 
-	body.omar-initial-entry
-		.perfumes-landing.is-intro-ready
-		.preloader-mask,
-	body.omar-initial-entry
-		.perfumes-landing.is-intro-ready
-		.preloader-progress-bar {
+	body.omar-initial-entry .perfumes-landing.is-intro-ready .preloader {
 		display: block;
-		animation: omar-intro-failsafe 0s linear 9s forwards;
 	}
 
 	.preloader-bg {
@@ -622,12 +624,6 @@
 	@keyframes scroll {
 		to {
 			transform: translateX(calc(-100% - 8px));
-		}
-	}
-
-	@keyframes omar-intro-failsafe {
-		to {
-			visibility: hidden;
 		}
 	}
 
@@ -1068,8 +1064,8 @@
 		}
 
 		.perfumes-landing .preloader-mask {
-			-webkit-mask-size: 100% 100%, 72%;
-			mask-size: 100% 100%, 72%;
+			-webkit-mask-size: 100% 100%, min(78vw, 440px) auto;
+			mask-size: 100% 100%, min(78vw, 440px) auto;
 		}
 
 		.perfumes-landing .hero-section {
@@ -1135,8 +1131,7 @@
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.perfumes-landing .preloader-mask,
-		.perfumes-landing .preloader-progress-bar {
+		.perfumes-landing .preloader {
 			display: none !important;
 		}
 
@@ -1152,8 +1147,7 @@
 		}
 	}
 
-	body.omar-route-transition .perfumes-landing .preloader-mask,
-	body.omar-route-transition .perfumes-landing .preloader-progress-bar {
+	body.omar-route-transition .perfumes-landing .preloader {
 		display: none;
 		visibility: hidden;
 	}

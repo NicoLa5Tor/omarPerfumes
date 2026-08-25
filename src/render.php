@@ -130,8 +130,7 @@ $asset_url          = static function ( $filename ) use ( $plugin_path, $plugin_
 	$version = file_exists( $path ) ? filemtime( $path ) : '0.5.1';
 	return add_query_arg( 'ver', $version, $plugin_url . 'assets/' . $filename );
 };
-$logo_light_url     = $asset_url( 'omar-logo-light-v1.png' );
-$preloader_mask_url = $asset_url( 'omar-mask.svg' );
+$logo_light_url = $asset_url( 'omar-logo-light-v1.png' );
 $hero_product       = perfumes_find_hero_product(
 	absint( $attributes['heroProductId'] ?? 0 ),
 	'Amber Rouge Orientica',
@@ -196,13 +195,15 @@ if ( function_exists( 'wc_get_products' ) ) {
 }
 ?>
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
-	<div class="preloader-progress-bar" aria-hidden="true">
-		<div class="preloader-bg"></div>
-		<div class="preloader-logo">
-			<img class="logo-image" src="<?php echo esc_url( $logo_light_url ); ?>" alt="" width="900" height="277" />
+	<div class="preloader" aria-hidden="true">
+		<div class="preloader-progress-bar">
+			<div class="preloader-bg"></div>
+			<div class="preloader-logo">
+				<img class="logo-image" src="<?php echo esc_url( $logo_light_url ); ?>" alt="" width="900" height="277" />
+			</div>
 		</div>
+		<div class="preloader-mask" style="--omar-mask: url('<?php echo esc_url( $logo_light_url ); ?>')"></div>
 	</div>
-	<div class="preloader-mask" style="--omar-mask: url('<?php echo esc_url( $preloader_mask_url ); ?>')" aria-hidden="true"></div>
 
 	<section class="hero-section">
 		<div class="hero-atmosphere" aria-hidden="true">
