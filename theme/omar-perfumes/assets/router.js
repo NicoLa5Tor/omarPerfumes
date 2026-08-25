@@ -95,6 +95,36 @@ function syncBodyClasses( nextClasses = [] ) {
 	} );
 }
 
+function prepareHomeForClientNavigation( serverState ) {
+	if ( ! serverState.isHome ) {
+		return;
+	}
+
+	const root = document.querySelector( '.perfumes-landing' );
+	if ( ! root ) {
+		return;
+	}
+
+	root.classList.remove( 'is-intro-ready' );
+	root.querySelectorAll( '.preloader-mask, .preloader-progress-bar' ).forEach(
+		( element ) => {
+			element.style.display = 'none';
+			element.style.visibility = 'hidden';
+		}
+	);
+
+	const hero = root.querySelector( '.hero-section' );
+	if ( hero ) {
+		hero.style.opacity = '0';
+		hero.style.visibility = 'hidden';
+	}
+
+	const heroImage = root.querySelector( '.hero-product-primary__image' );
+	if ( heroImage ) {
+		heroImage.style.transform = 'scale(1)';
+	}
+}
+
 function emitRouteChange( serverState ) {
 	const currentUrl = window.location.href;
 	if ( currentUrl === lastRouteUrl ) {
@@ -102,6 +132,9 @@ function emitRouteChange( serverState ) {
 	}
 
 	const clientNavigation = lastRouteUrl !== '';
+	if ( clientNavigation ) {
+		prepareHomeForClientNavigation( serverState );
+	}
 	lastRouteUrl = currentUrl;
 	window.cancelAnimationFrame( routeEventFrame );
 	routeEventFrame = window.requestAnimationFrame( () => {

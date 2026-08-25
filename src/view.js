@@ -208,6 +208,12 @@ function runIntro( root, { showPreloader } ) {
 	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
 		hidePreloader( root );
 		root.classList.remove( 'is-intro-ready' );
+		gsap.set( root.querySelector( '.hero-section' ), {
+			autoAlpha: 1,
+		} );
+		gsap.set( root.querySelector( '.hero-product-primary__image' ), {
+			scale: 1,
+		} );
 		root.querySelectorAll( '[data-text-anim]' ).forEach( ( element ) => {
 			element.style.visibility = 'visible';
 		} );
