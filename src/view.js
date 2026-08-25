@@ -151,13 +151,13 @@ function initHomeHeader() {
 	const backdrop = header.querySelector( '.perfumes-header__backdrop' );
 	const inner = header.querySelector( '.perfumes-header' );
 	const logo = header.querySelector( '.perfumes-logo' );
-	const nav = header.querySelector( '.perfumes-category-nav' );
-	const actions = header.querySelector( '.perfumes-header__right' );
 
 	if ( ! backdrop || ! inner || ! logo ) {
 		return;
 	}
 
+	const nav = header.querySelector( '.perfumes-category-nav' );
+	const actions = header.querySelector( '.perfumes-header__right' );
 	const matchMedia = gsap.matchMedia();
 	matchMedia.add(
 		{
@@ -204,7 +204,9 @@ function initHomeHeader() {
 				timeline[ nextCompact ? 'play' : 'reverse' ]();
 			};
 
-			window.addEventListener( 'scroll', updateHeader, { passive: true } );
+			window.addEventListener( 'scroll', updateHeader, {
+				passive: true,
+			} );
 			return () => {
 				window.removeEventListener( 'scroll', updateHeader );
 				timeline.kill();
