@@ -127,7 +127,7 @@ $plugin_url         = plugin_dir_url( dirname( __DIR__ ) . '/perfumes-block.php'
 $plugin_path        = dirname( __DIR__ );
 $asset_url          = static function ( $filename ) use ( $plugin_path, $plugin_url ) {
 	$path    = $plugin_path . '/assets/' . $filename;
-	$version = file_exists( $path ) ? filemtime( $path ) : '0.4.0';
+	$version = file_exists( $path ) ? filemtime( $path ) : '0.5.0';
 	return add_query_arg( 'ver', $version, $plugin_url . 'assets/' . $filename );
 };
 $logo_light_url     = $asset_url( 'omar-logo-light-v1.png' );
