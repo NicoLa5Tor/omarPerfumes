@@ -148,17 +148,73 @@ function initHomeHeader() {
 		return;
 	}
 
-	let isCompact = null;
-	const updateHeader = () => {
-		const nextCompact = window.scrollY >= 30;
-		if ( nextCompact === isCompact ) {
-			return;
+	const backdrop = header.querySelector( '.perfumes-header__backdrop' );
+	const inner = header.querySelector( '.perfumes-header' );
+	const logo = header.querySelector( '.perfumes-logo' );
+	const nav = header.querySelector( '.perfumes-category-nav' );
+	const actions = header.querySelector( '.perfumes-header__right' );
+
+	if ( ! backdrop || ! inner || ! logo ) {
+		return;
+	}
+
+	const matchMedia = gsap.matchMedia();
+	matchMedia.add(
+		{
+			isMobile: '(max-width: 782px)',
+			reduceMotion: '(prefers-reduced-motion: reduce)',
+		},
+		( context ) => {
+			const { isMobile, reduceMotion } = context.conditions;
+			const secondaryElements = [ nav, actions ].filter( Boolean );
+			const timeline = gsap.timeline( {
+				paused: true,
+				defaults: {
+					duration: reduceMotion ? 0 : 0.42,
+					ease: 'power3.inOut',
+					overwrite: 'auto',
+				},
+			} );
+
+			timeline
+				.to( backdrop, { autoAlpha: 1, scaleY: 1 }, 0 )
+				.to( inner, { y: isMobile ? 0 : -9 }, 0 )
+				.to( logo, { scale: isMobile ? 1 : 0.86 }, 0 )
+				.to(
+					secondaryElements,
+					{ y: isMobile ? 0 : -6, scale: isMobile ? 1 : 0.96 },
+					0
+				);
+
+			let isCompact = window.scrollY >= 30;
+			timeline.progress( isCompact ? 1 : 0 );
+
+			const updateHeader = () => {
+				const nextCompact = window.scrollY >= 30;
+				if ( nextCompact === isCompact ) {
+					return;
+				}
+
+				isCompact = nextCompact;
+				if ( reduceMotion ) {
+					timeline.progress( nextCompact ? 1 : 0 );
+					return;
+				}
+
+				timeline[ nextCompact ? 'play' : 'reverse' ]();
+			};
+
+			window.addEventListener( 'scroll', updateHeader, { passive: true } );
+			return () => {
+				window.removeEventListener( 'scroll', updateHeader );
+				timeline.kill();
+			};
 		}
-		isCompact = nextCompact;
-		header.classList.toggle( 'is-scrolled', nextCompact );
-	};
-	updateHeader();
-	window.addEventListener( 'scroll', updateHeader, { passive: true } );
+	);
+
+	window.addEventListener( 'pagehide', () => matchMedia.revert(), {
+		once: true,
+	} );
 }
 
 function runIntro( root ) {
