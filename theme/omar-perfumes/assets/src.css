@@ -117,7 +117,8 @@
 	}
 
 	.perfumes-account a,
-	.wc-block-customer-account a {
+	.wc-block-customer-account a,
+	.wc-block-customer-account__link {
 		display: inline-flex;
 		min-height: 42px;
 		align-items: center;
@@ -132,7 +133,8 @@
 	}
 
 	.perfumes-account a::after,
-	.wc-block-customer-account a::after {
+	.wc-block-customer-account a::after,
+	.wc-block-customer-account__link::after {
 		content: "Mi cuenta";
 	}
 
@@ -192,6 +194,7 @@
 	body:not(.home) .perfumes-search input,
 	body:not(.home) .perfumes-search button,
 	body:not(.home) .wc-block-customer-account a,
+	body:not(.home) .wc-block-customer-account__link,
 	body:not(.home) .wc-block-mini-cart__button {
 		color: #071527 !important;
 	}
@@ -248,8 +251,9 @@
 	.home .perfumes-search input,
 	.home .perfumes-search button,
 	.home .wc-block-customer-account a,
+	.home .wc-block-customer-account__link,
 	.home .wc-block-mini-cart__button {
-		color: #fff;
+		color: #fff !important;
 	}
 
 	.home .perfumes-category-nav,
@@ -743,6 +747,7 @@
 
 		.perfumes-account a,
 		.wc-block-customer-account a,
+		.wc-block-customer-account__link,
 		.wc-block-mini-cart__button {
 			width: 42px;
 			min-width: 42px;
@@ -752,6 +757,7 @@
 
 		.perfumes-account a::after,
 		.wc-block-customer-account a::after,
+		.wc-block-customer-account__link::after,
 		.wc-block-mini-cart__button::after {
 			display: none;
 		}

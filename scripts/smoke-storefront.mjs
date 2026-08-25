@@ -54,9 +54,11 @@ expect( productsResponse.ok, 'Woo Store API must respond.' );
 const products = await productsResponse.json();
 expect( products.length >= 10, 'At least 10 products must be published.' );
 
+const storefrontHtml = new Map();
 for ( const path of [ '/', '/tienda/', '/carrito/', '/mi-cuenta/' ] ) {
 	const response = await fetchStorefrontPage( path );
 	const html = await response.text();
+	storefrontHtml.set( path, html );
 	expect( response.ok, `${ path } must respond with HTTP 200.` );
 	expect(
 		( html.match( /<header[^>]*perfumes-global-header/gi ) || [] )
@@ -70,7 +72,8 @@ for ( const path of [ '/', '/tienda/', '/carrito/', '/mi-cuenta/' ] ) {
 	);
 }
 
-const home = await ( await fetchStorefrontPage( '/' ) ).text();
+const home = storefrontHtml.get( '/' );
+const shop = storefrontHtml.get( '/tienda/' );
 expect(
 	/class="content-cta"/.test( home ),
 	'Landing must render the Omar CTA card.'
@@ -103,6 +106,15 @@ expect(
 expect(
 	( home.match( /data-product_id=/g ) || [] ).length === 8,
 	'Landing must expose one WooCommerce add-to-cart button per product card.'
+);
+expect(
+	( shop.match( /perfumes-catalog-card__media/g ) || [] ).length ===
+		( shop.match( /perfumes-catalog-card__body/g ) || [] ).length,
+	'Shop cards must render one image and one body per product.'
+);
+expect(
+	! /woocommerce-LoopProduct-link/.test( shop ),
+	'Shop cards must not include WooCommerce default card markup.'
 );
 
 console.log( `Storefront smoke checks passed: ${ checks.length }` );

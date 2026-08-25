@@ -115,6 +115,7 @@ function initHomeHeader() {
 	const matchMedia = gsap.matchMedia();
 	matchMedia.add(
 		{
+			isDesktop: '(min-width: 783px)',
 			isMobile: '(max-width: 782px)',
 			reduceMotion: '(prefers-reduced-motion: reduce)',
 		},
