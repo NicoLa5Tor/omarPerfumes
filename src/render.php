@@ -30,6 +30,7 @@ if ( ! function_exists( 'perfumes_link_attr' ) ) {
 	}
 }
 
+$site_title         = perfumes_text_attr( $attributes, 'siteTitle' ) ?: get_bloginfo( 'name' );
 $eyebrow            = perfumes_text_attr( $attributes, 'eyebrow' );
 $title              = perfumes_text_attr( $attributes, 'title' );
 $hero_brand         = perfumes_text_attr( $attributes, 'heroBrand' );
@@ -67,37 +68,60 @@ if ( function_exists( 'wc_get_products' ) ) {
 }
 ?>
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+	<div class="perfumes-intro" aria-hidden="true">
+		<div class="perfumes-intro__progress"></div>
+		<p class="perfumes-intro__logo" data-text-anim="logoAnimation">OMAR</p>
+	</div>
 	<section class="perfumes-hero">
-		<div class="perfumes-hero__content">
-			<span class="perfumes-hero__rule" aria-hidden="true"></span>
-			<?php if ( $eyebrow ) : ?>
-				<p class="perfumes-eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
-			<?php endif; ?>
-			<?php if ( $title ) : ?>
-				<h1><?php echo wp_kses_post( $title ); ?></h1>
-			<?php endif; ?>
-			<?php if ( $hero_brand ) : ?>
-				<p class="perfumes-hero__brand"><?php echo esc_html( $hero_brand ); ?></p>
-			<?php endif; ?>
-			<?php if ( $description ) : ?>
-				<p class="perfumes-hero__description"><?php echo wp_kses_post( $description ); ?></p>
-			<?php endif; ?>
-			<div class="perfumes-hero__actions">
-				<?php if ( $primary_cta && $primary_cta_url ) : ?>
-					<a class="perfumes-button perfumes-button--primary" href="<?php echo esc_url( $primary_cta_url ); ?>"><?php echo esc_html( $primary_cta ); ?></a>
-				<?php endif; ?>
-				<?php if ( $secondary_cta && $secondary_cta_url ) : ?>
-					<a class="perfumes-button perfumes-button--ghost" href="<?php echo esc_url( $secondary_cta_url ); ?>"><?php echo esc_html( $secondary_cta ); ?></a>
-				<?php endif; ?>
-				<?php if ( $hero_price ) : ?>
-					<strong class="perfumes-hero__price"><?php echo esc_html( $hero_price ); ?></strong>
-				<?php endif; ?>
-			</div>
-		</div>
 		<div class="perfumes-hero__media">
 			<?php if ( $hero_image_url ) : ?>
 				<img src="<?php echo esc_url( $hero_image_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $title ) ); ?>" />
 			<?php endif; ?>
+		</div>
+		<div class="perfumes-hero__shade" aria-hidden="true"></div>
+		<div class="perfumes-hero__content">
+			<div class="perfumes-hero__main">
+				<?php if ( $eyebrow ) : ?>
+					<p class="perfumes-eyebrow" data-text-anim="bodyAnimation"><?php echo esc_html( $eyebrow ); ?></p>
+				<?php endif; ?>
+				<?php if ( $title ) : ?>
+					<p class="perfumes-hero__subtitle" data-text-anim="bodyAnimation"><?php echo wp_kses_post( $title ); ?></p>
+				<?php endif; ?>
+				<h1 data-text-anim="headerAnimation"><?php echo esc_html( $site_title ); ?></h1>
+			</div>
+			<div class="perfumes-hero-card" data-fade-in="left">
+				<?php if ( $hero_brand ) : ?>
+					<div class="perfumes-hero-card__marquee">
+						<div class="perfumes-hero-card__marquee-group">
+							<span aria-hidden="true">✦</span><strong><?php echo esc_html( $hero_brand ); ?></strong>
+							<span aria-hidden="true">✦</span><strong><?php echo esc_html( $hero_brand ); ?></strong>
+						</div>
+						<div class="perfumes-hero-card__marquee-group" aria-hidden="true">
+							<span>✦</span><strong><?php echo esc_html( $hero_brand ); ?></strong>
+							<span>✦</span><strong><?php echo esc_html( $hero_brand ); ?></strong>
+						</div>
+					</div>
+				<?php endif; ?>
+				<?php if ( $hero_image_url ) : ?>
+					<div class="perfumes-hero-card__image"><img src="<?php echo esc_url( $hero_image_url ); ?>" alt="" /></div>
+				<?php endif; ?>
+				<div class="perfumes-hero-card__body">
+					<?php if ( $description ) : ?>
+						<p class="perfumes-hero__description"><?php echo wp_kses_post( $description ); ?></p>
+					<?php endif; ?>
+					<?php if ( $hero_price ) : ?>
+						<strong class="perfumes-hero__price"><?php echo esc_html( $hero_price ); ?></strong>
+					<?php endif; ?>
+					<div class="perfumes-hero__actions">
+						<?php if ( $primary_cta && $primary_cta_url ) : ?>
+							<a class="perfumes-button perfumes-button--primary" href="<?php echo esc_url( $primary_cta_url ); ?>"><?php echo esc_html( $primary_cta ); ?><span aria-hidden="true">↗</span></a>
+						<?php endif; ?>
+						<?php if ( $secondary_cta && $secondary_cta_url ) : ?>
+							<a class="perfumes-button perfumes-button--ghost" href="<?php echo esc_url( $secondary_cta_url ); ?>"><?php echo esc_html( $secondary_cta ); ?></a>
+						<?php endif; ?>
+					</div>
+				</div>
+			</div>
 		</div>
 	</section>
 

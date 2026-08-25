@@ -30,23 +30,23 @@
 		},
 		"eyebrow": {
 			"type": "string",
-			"default": "PERFUMES EXCLUSIVOS"
+			"default": "PERFUMERIA DE LUJO · COLOMBIA"
 		},
 		"title": {
 			"type": "string",
-			"default": "Spicebomb Night Vision"
+			"default": "Encuentra una fragancia que hable por ti"
 		},
 		"heroBrand": {
 			"type": "string",
-			"default": "VIKTOR & ROLF"
+			"default": "PERFUMES 100% ORIGINALES"
 		},
 		"description": {
 			"type": "string",
-			"default": "Notas especiadas de pimienta rosa, lavanda y vetiver. Envio seguro a toda Colombia."
+			"default": "Fragancias originales seleccionadas para dejar una impresion inolvidable. Envio seguro a toda Colombia."
 		},
 		"primaryCta": {
 			"type": "string",
-			"default": "Conocer mas"
+			"default": "Explorar coleccion"
 		},
 		"primaryCtaUrl": {
 			"type": "string",
@@ -197,6 +197,7 @@
 	},
 	"textdomain": "perfumes",
 	"editorScript": "file:./index.js",
+	"viewScript": "file:./view.js",
 	"editorStyle": "file:./index.css",
 	"style": "file:./style-index.css",
 	"render": "file:./render.php"

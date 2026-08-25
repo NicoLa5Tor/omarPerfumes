@@ -51,6 +51,7 @@ for ( const path of [ '/', '/tienda/', '/carrito/', '/mi-cuenta/' ] ) {
 }
 
 const home = await ( await fetchStorefrontPage( '/' ) ).text();
+expect( /perfumes-hero-card/.test( home ), 'Landing must render the Omar hero card.' );
 expect( ! /perfumes-whatsapp[^>]+href=["']#/.test( home ), 'WhatsApp must never point to #.' );
 expect( ( home.match( /data-product_id=/g ) || [] ).length >= 10, 'Landing must expose WooCommerce add-to-cart buttons.' );
 

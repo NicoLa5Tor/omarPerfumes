@@ -12,7 +12,7 @@
     "build:theme": "tailwindcss -c tailwind.config.js -i ./theme/omar-perfumes/assets/src.css -o ./theme/omar-perfumes/assets/theme.css --minify",
     "start": "wp-scripts start",
     "format": "wp-scripts format",
-		"lint:css": "wp-scripts lint-style \"src/**/*.scss\" \"theme/omar-perfumes/assets/src.css\"",
+    "lint:css": "wp-scripts lint-style \"src/**/*.scss\" \"theme/omar-perfumes/assets/src.css\"",
     "lint:js": "wp-scripts lint-js",
     "test:smoke": "node scripts/smoke-storefront.mjs",
     "plugin-zip": "wp-scripts plugin-zip"
@@ -25,5 +25,8 @@
     "postcss": "8.5.6",
     "tailwindcss": "3.4.17",
     "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "gsap": "^3.15.0"
   }
 }

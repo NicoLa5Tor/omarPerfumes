@@ -30,6 +30,10 @@
 		@apply relative;
 	}
 
+	.perfumes-hero--editor .perfumes-hero-card__marquee-group {
+		animation: none;
+	}
+
 	.perfumes-product-card .components-button[disabled] {
 		@apply w-full bg-perfumes-navy text-white opacity-100;
 	}
