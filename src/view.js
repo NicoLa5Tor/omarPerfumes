@@ -24,36 +24,15 @@ let mountFrame = 0;
 let scrollUnlockTimer = null;
 
 const SCROLL_LOCK_CLASS = 'omar-scroll-locked';
-const PRELOADER_SEEN_KEY = 'omar-preloader-seen';
-
-function hasSeenPreloader() {
-	try {
-		return window.sessionStorage.getItem( PRELOADER_SEEN_KEY ) === '1';
-	} catch {
-		return false;
-	}
-}
-
-function markPreloaderSeen() {
-	try {
-		window.sessionStorage.setItem( PRELOADER_SEEN_KEY, '1' );
-	} catch {
-		// Ignore storage failures in private browsing.
-	}
-}
 
 function shouldShowPreloader( clientNavigation ) {
 	return (
 		! clientNavigation &&
-		! hasSeenPreloader() &&
 		document.body.classList.contains( 'omar-initial-entry' )
 	);
 }
 
-if ( hasSeenPreloader() ) {
-	document.body.classList.remove( 'omar-initial-entry', SCROLL_LOCK_CLASS );
-	document.documentElement.classList.remove( SCROLL_LOCK_CLASS );
-} else if ( document.body.classList.contains( SCROLL_LOCK_CLASS ) ) {
+if ( document.body.classList.contains( SCROLL_LOCK_CLASS ) ) {
 	document.documentElement.classList.add( SCROLL_LOCK_CLASS );
 }
 
@@ -338,7 +317,6 @@ function runIntro( root, { clientNavigation = false } = {} ) {
 				return;
 			}
 
-			markPreloaderSeen();
 			lockScroll();
 			const preloaderTl = preloaderAnimation( root );
 			const heroTl = heroAnimation( root );
