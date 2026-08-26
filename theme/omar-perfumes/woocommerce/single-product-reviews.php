@@ -10,15 +10,18 @@ defined( 'ABSPATH' ) || exit;
 
 global $product;
 
+if ( ! $product instanceof WC_Product && function_exists( 'wc_get_product' ) ) {
+	$product = wc_get_product();
+}
+
+if ( ! $product instanceof WC_Product ) {
+	return;
+}
+
 $review_comments = function_exists( 'omar_perfumes_get_product_reviews' )
 	? omar_perfumes_get_product_reviews( $product )
 	: array();
 $count           = count( $review_comments );
-
-if ( function_exists( 'omar_perfumes_product_review_stats' ) ) {
-	$stats = omar_perfumes_product_review_stats( $product );
-	$count = (int) $stats['count'];
-}
 
 if ( ! comments_open() && ! $count ) {
 	return;
@@ -49,8 +52,10 @@ if ( ! comments_open() && ! $count ) {
 					apply_filters(
 						'woocommerce_product_review_list_args',
 						array(
-							'callback' => 'woocommerce_comments',
-							'style'    => 'ol',
+							'callback'          => 'woocommerce_comments',
+							'style'             => 'ol',
+							'type'              => 'all',
+							'reverse_top_level' => false,
 						)
 					),
 					$review_comments

@@ -413,27 +413,125 @@ function omar_perfumes_product_badge( $product ) {
 }
 
 /**
- * Approved product reviews/comments for a product.
+ * Resolve a product ID from a product object, ID, or the current request.
  *
- * @param WC_Product|int $product Product object or ID.
+ * @param WC_Product|int|null $product Product object or ID.
+ * @return int
+ */
+function omar_perfumes_resolve_product_id( $product ) {
+	global $post;
+
+	if ( $product instanceof WC_Product ) {
+		return (int) $product->get_id();
+	}
+
+	if ( is_numeric( $product ) && (int) $product > 0 ) {
+		return (int) $product;
+	}
+
+	if ( function_exists( 'wc_get_product' ) ) {
+		$current = wc_get_product();
+		if ( $current instanceof WC_Product ) {
+			return (int) $current->get_id();
+		}
+	}
+
+	if ( $post instanceof WP_Post && 'product' === $post->post_type ) {
+		return (int) $post->ID;
+	}
+
+	$queried = get_queried_object_id();
+	if ( $queried && 'product' === get_post_type( $queried ) ) {
+		return (int) $queried;
+	}
+
+	return 0;
+}
+
+/**
+ * Load approved product comments from the comments table.
+ *
+ * Matches WooCommerce_Comments::get_review_counts_for_product_ids() so reviews
+ * are not lost to comments_clauses / mixed type__in queries.
+ *
+ * @param int  $product_id Product ID.
+ * @param bool $strict     Use WooCommerce's review types and top-level only.
  * @return WP_Comment[]
  */
-function omar_perfumes_get_product_reviews( $product ) {
-	$product_id = $product instanceof WC_Product ? (int) $product->get_id() : (int) $product;
+function omar_perfumes_query_product_comment_rows( $product_id, $strict = true ) {
+	global $wpdb;
+
+	$product_id = absint( $product_id );
 	if ( $product_id < 1 ) {
 		return array();
 	}
 
-	return get_comments(
-		array(
-			'post_id'  => $product_id,
-			'status'   => 'approve',
-			'type__in' => array( 'review', 'comment', '' ),
-			'orderby'  => 'comment_date_gmt',
-			'order'    => 'DESC',
-			'number'   => 200,
-		)
-	);
+	if ( $strict ) {
+		$sql = $wpdb->prepare(
+			"SELECT * FROM {$wpdb->comments}
+			WHERE comment_post_ID = %d
+				AND comment_parent = 0
+				AND comment_approved = '1'
+				AND comment_type IN ( 'review', 'comment', '' )
+			ORDER BY comment_date_gmt DESC
+			LIMIT 200",
+			$product_id
+		);
+	} else {
+		$sql = $wpdb->prepare(
+			"SELECT * FROM {$wpdb->comments}
+			WHERE comment_post_ID = %d
+				AND comment_approved = '1'
+				AND comment_type NOT IN ( 'order_note', 'webhook_delivery', 'action_log', 'pingback', 'trackback' )
+			ORDER BY comment_date_gmt DESC
+			LIMIT 200",
+			$product_id
+		);
+	}
+
+	$rows = $sql ? $wpdb->get_results( $sql ) : array();
+	if ( ! $rows ) {
+		return array();
+	}
+
+	$comments = array();
+	foreach ( $rows as $row ) {
+		$comments[] = new WP_Comment( $row );
+	}
+
+	return $comments;
+}
+
+/**
+ * Approved product reviews for a product.
+ *
+ * WooCommerce stores reviews as comment_type = review. Generic get_comments()
+ * and comments_template() often miss them in block themes, so we query the
+ * same way WooCommerce counts reviews, then fall back to a wider read.
+ *
+ * @param WC_Product|int|null $product Product object or ID.
+ * @return WP_Comment[]
+ */
+function omar_perfumes_get_product_reviews( $product ) {
+	static $cache = array();
+
+	$product_id = omar_perfumes_resolve_product_id( $product );
+	if ( $product_id < 1 ) {
+		return array();
+	}
+
+	if ( isset( $cache[ $product_id ] ) ) {
+		return $cache[ $product_id ];
+	}
+
+	$comments = omar_perfumes_query_product_comment_rows( $product_id, true );
+	if ( ! $comments ) {
+		$comments = omar_perfumes_query_product_comment_rows( $product_id, false );
+	}
+
+	$cache[ $product_id ] = $comments;
+
+	return $cache[ $product_id ];
 }
 
 /**
@@ -460,14 +558,14 @@ function omar_perfumes_product_review_stats( $product ) {
 		return $cache[ $product_id ];
 	}
 
-	$stored_rating = (float) $product->get_average_rating();
-	$stored_count  = (int) $product->get_review_count();
+	$stored_rating = (float) get_post_meta( $product_id, '_wc_average_rating', true );
+	$stored_count  = (int) get_post_meta( $product_id, '_wc_review_count', true );
 	$values        = array();
 	$review_count  = 0;
 	$comments      = omar_perfumes_get_product_reviews( $product );
 
 	foreach ( $comments as $comment ) {
-		if ( in_array( $comment->comment_type, array( 'pingback', 'trackback' ), true ) ) {
+		if ( in_array( $comment->comment_type, array( 'pingback', 'trackback', 'order_note' ), true ) ) {
 			continue;
 		}
 
@@ -479,10 +577,10 @@ function omar_perfumes_product_review_stats( $product ) {
 	}
 
 	$rating = $values ? array_sum( $values ) / count( $values ) : $stored_rating;
-	$count  = max( $review_count, $stored_count );
+	$count  = max( $review_count, $stored_count, count( $values ) );
 
-	if ( ( $values || $review_count ) && class_exists( 'WC_Comments' ) ) {
-		WC_Comments::clear_transients( $product_id );
+	if ( $values || $review_count ) {
+		omar_perfumes_sync_product_review_meta( $product_id, $rating, $count, $values );
 	}
 
 	$cache[ $product_id ] = array(
@@ -491,6 +589,34 @@ function omar_perfumes_product_review_stats( $product ) {
 	);
 
 	return $cache[ $product_id ];
+}
+
+/**
+ * Keep WooCommerce product rating meta in sync with approved comments.
+ *
+ * @param int   $product_id Product ID.
+ * @param float $rating     Average rating.
+ * @param int   $count      Review count.
+ * @param int[] $values     Individual ratings.
+ */
+function omar_perfumes_sync_product_review_meta( $product_id, $rating, $count, $values ) {
+	$product_id = absint( $product_id );
+	if ( $product_id < 1 ) {
+		return;
+	}
+
+	$formatted = function_exists( 'wc_format_decimal' )
+		? wc_format_decimal( $rating, 2 )
+		: number_format( (float) $rating, 2, '.', '' );
+
+	update_post_meta( $product_id, '_wc_average_rating', $formatted );
+	update_post_meta( $product_id, '_wc_review_count', (int) $count );
+
+	if ( $values ) {
+		$rating_counts = array_count_values( array_map( 'intval', $values ) );
+		ksort( $rating_counts );
+		update_post_meta( $product_id, '_wc_rating_count', $rating_counts );
+	}
 }
 
 /**
@@ -569,23 +695,6 @@ function omar_perfumes_star_rating_markup( $product, $args = array() ) {
 }
 
 /**
- * Include both WooCommerce reviews and standard comments on product pages.
- *
- * @param array $args Comment query args.
- * @return array
- */
-function omar_perfumes_product_comments_query_args( $args ) {
-	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
-		return $args;
-	}
-
-	unset( $args['type'] );
-	$args['type__in'] = array( 'review', 'comment', '' );
-	return $args;
-}
-add_filter( 'comments_template_query_args', 'omar_perfumes_product_comments_query_args' );
-
-/**
  * Ensure product reviews are saved with the correct comment type and rating.
  *
  * @param array $comment_data Comment data.
@@ -645,6 +754,87 @@ function omar_perfumes_save_product_review_rating( $comment_id, $comment_approve
 	}
 }
 add_action( 'comment_post', 'omar_perfumes_save_product_review_rating', 10, 3 );
+
+/**
+ * Ask WordPress for product reviews, not generic comments.
+ *
+ * @param array $comment_args Comments template query args.
+ * @return array
+ */
+function omar_perfumes_product_comments_query_args( $comment_args ) {
+	$post_id = isset( $comment_args['post_id'] ) ? absint( $comment_args['post_id'] ) : get_queried_object_id();
+	if ( ! $post_id || 'product' !== get_post_type( $post_id ) ) {
+		return $comment_args;
+	}
+
+	$comment_args['type']   = 'review';
+	$comment_args['status'] = 'approve';
+	unset( $comment_args['type__in'], $comment_args['type__not_in'] );
+
+	return $comment_args;
+}
+add_filter( 'comments_template_query_args', 'omar_perfumes_product_comments_query_args' );
+
+/**
+ * Always load the WooCommerce product reviews template for products.
+ *
+ * @param string $template Comments template path.
+ * @return string
+ */
+function omar_perfumes_comments_template( $template ) {
+	if ( 'product' !== get_post_type() ) {
+		return $template;
+	}
+
+	$file = get_stylesheet_directory() . '/woocommerce/single-product-reviews.php';
+	return file_exists( $file ) ? $file : $template;
+}
+add_filter( 'comments_template', 'omar_perfumes_comments_template', 99 );
+
+/**
+ * Do not let WooCommerce's review-list walker drop legacy product comments.
+ *
+ * @param array $args wp_list_comments args.
+ * @return array
+ */
+function omar_perfumes_review_list_args( $args ) {
+	$args['type']  = 'all';
+	$args['style'] = 'ol';
+	return $args;
+}
+add_filter( 'woocommerce_product_review_list_args', 'omar_perfumes_review_list_args', 20 );
+
+/**
+ * Keep review rows in comment queries for the current product.
+ *
+ * @param array            $clauses       SQL clauses.
+ * @param WP_Comment_Query $comment_query Query.
+ * @return array
+ */
+function omar_perfumes_keep_product_reviews_in_comment_queries( $clauses, $comment_query ) {
+	$post_id = 0;
+	if ( isset( $comment_query->query_vars['post_id'] ) ) {
+		$post_id = absint( $comment_query->query_vars['post_id'] );
+	}
+
+	if ( ! $post_id || 'product' !== get_post_type( $post_id ) || empty( $clauses['where'] ) ) {
+		return $clauses;
+	}
+
+	$clauses['where'] = preg_replace( "/\\s+AND\\s+comment_type\\s*!=\\s*'review'/i", '', $clauses['where'] );
+	$clauses['where'] = preg_replace( '/\\s+AND\\s+comment_type\\s*<>\\s*\'review\'/i', '', $clauses['where'] );
+
+	return $clauses;
+}
+add_filter( 'comments_clauses', 'omar_perfumes_keep_product_reviews_in_comment_queries', 99, 2 );
+
+/**
+ * Product reviews are comments; keep that support registered.
+ */
+function omar_perfumes_product_comments_support() {
+	add_post_type_support( 'product', 'comments' );
+}
+add_action( 'init', 'omar_perfumes_product_comments_support', 20 );
 
 /**
  * Show feedback after a review is submitted.

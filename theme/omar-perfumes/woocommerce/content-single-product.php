@@ -98,13 +98,18 @@ if ( post_password_required() ) {
 	<?php endif; ?>
 
 	<?php
-	global $post;
-	$product_post = get_post( $product->get_id() );
+	global $post, $withcomments;
+	$withcomments   = true;
+	$product_post   = get_post( $product->get_id() );
 	if ( $product_post instanceof WP_Post ) {
 		$post = $product_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 		setup_postdata( $post );
 	}
-	comments_template();
+	if ( function_exists( 'wc_get_template' ) ) {
+		wc_get_template( 'single-product-reviews.php' );
+	} else {
+		comments_template();
+	}
 	if ( $product_post instanceof WP_Post ) {
 		wp_reset_postdata();
 	}
