@@ -39,18 +39,16 @@ if ( post_password_required() ) {
 <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'perfumes-pdp', $product ); ?>>
 	<div class="perfumes-pdp__card">
 		<div class="perfumes-pdp__media">
-			<?php if ( count( $gallery_ids ) > 1 ) : ?>
-				<div class="perfumes-pdp__thumbs" role="tablist" aria-label="<?php esc_attr_e( 'Galería del producto', 'omar-perfumes' ); ?>">
-					<?php foreach ( $gallery_ids as $index => $attachment_id ) : ?>
-						<button
-							type="button"
-							class="perfumes-pdp__thumb<?php echo 0 === $index ? ' is-active' : ''; ?>"
-							data-src="<?php echo esc_url( wp_get_attachment_image_url( $attachment_id, 'full' ) ); ?>"
-							aria-label="<?php echo esc_attr( sprintf( __( 'Imagen %d', 'omar-perfumes' ), $index + 1 ) ); ?>"
-						></button>
-					<?php endforeach; ?>
-				</div>
-			<?php endif; ?>
+			<div class="perfumes-pdp__thumbs" role="tablist" aria-label="<?php esc_attr_e( 'Galería del producto', 'omar-perfumes' ); ?>">
+				<?php foreach ( $gallery_ids as $index => $attachment_id ) : ?>
+					<button
+						type="button"
+						class="perfumes-pdp__thumb<?php echo 0 === $index ? ' is-active' : ''; ?>"
+						data-src="<?php echo esc_url( wp_get_attachment_image_url( $attachment_id, 'full' ) ); ?>"
+						aria-label="<?php echo esc_attr( sprintf( __( 'Imagen %d', 'omar-perfumes' ), $index + 1 ) ); ?>"
+					></button>
+				<?php endforeach; ?>
+			</div>
 			<img
 				class="perfumes-pdp__image"
 				src="<?php echo esc_url( $main_image ); ?>"
