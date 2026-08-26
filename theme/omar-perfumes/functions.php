@@ -409,6 +409,64 @@ function omar_perfumes_product_badge( $product ) {
 }
 
 /**
+ * Average stars and review count from approved product comments.
+ *
+ * WooCommerce product meta (_wc_average_rating) is often stale or empty
+ * when reviews were saved as comments, so we read the comment ratings too.
+ *
+ * @param WC_Product $product Product.
+ * @return array{rating: float, count: int}
+ */
+function omar_perfumes_product_review_stats( $product ) {
+	static $cache = array();
+
+	if ( ! $product instanceof WC_Product ) {
+		return array(
+			'rating' => 0.0,
+			'count'  => 0,
+		);
+	}
+
+	$product_id = (int) $product->get_id();
+	if ( isset( $cache[ $product_id ] ) ) {
+		return $cache[ $product_id ];
+	}
+
+	$stored_rating = (float) $product->get_average_rating();
+	$stored_count  = (int) $product->get_review_count();
+	$values        = array();
+	$comments      = get_comments(
+		array(
+			'post_id'  => $product_id,
+			'status'   => 'approve',
+			'type__in' => array( 'review', 'comment', '' ),
+			'number'   => 200,
+		)
+	);
+
+	foreach ( $comments as $comment ) {
+		$value = (int) get_comment_meta( $comment->comment_ID, 'rating', true );
+		if ( $value >= 1 && $value <= 5 ) {
+			$values[] = $value;
+		}
+	}
+
+	$rating = $values ? array_sum( $values ) / count( $values ) : $stored_rating;
+	$count  = $values ? count( $values ) : max( $stored_count, count( $comments ) );
+
+	if ( $values && $stored_rating <= 0 && class_exists( 'WC_Comments' ) ) {
+		WC_Comments::clear_transients( $product_id );
+	}
+
+	$cache[ $product_id ] = array(
+		'rating' => min( 5, max( 0, (float) $rating ) ),
+		'count'  => (int) $count,
+	);
+
+	return $cache[ $product_id ];
+}
+
+/**
  * Stars from WooCommerce review ratings (average of approved product comments).
  *
  * @param WC_Product $product Product.
@@ -428,13 +486,9 @@ function omar_perfumes_star_rating_markup( $product, $args = array() ) {
 			'show_count' => false,
 		)
 	);
-	$rating = 0.0;
-	$count  = 0;
-
-	if ( ! function_exists( 'wc_review_ratings_enabled' ) || wc_review_ratings_enabled() ) {
-		$rating = min( 5, max( 0, (float) $product->get_average_rating() ) );
-		$count  = (int) $product->get_review_count();
-	}
+	$stats  = omar_perfumes_product_review_stats( $product );
+	$rating = $stats['rating'];
+	$count  = $stats['count'];
 
 	$filled = (int) round( $rating );
 	$label  = $count
@@ -486,6 +540,23 @@ function omar_perfumes_star_rating_markup( $product, $args = array() ) {
 	endif;
 	return (string) ob_get_clean();
 }
+
+/**
+ * Include both WooCommerce reviews and standard comments on product pages.
+ *
+ * @param array $args Comment query args.
+ * @return array
+ */
+function omar_perfumes_product_comments_query_args( $args ) {
+	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+		return $args;
+	}
+
+	unset( $args['type'] );
+	$args['type__in'] = array( 'review', 'comment', '' );
+	return $args;
+}
+add_filter( 'comments_template_query_args', 'omar_perfumes_product_comments_query_args' );
 
 /**
  * Prefer the same brand category, then the parent family, ordered by sales.

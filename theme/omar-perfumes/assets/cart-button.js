@@ -79,17 +79,30 @@
 			return;
 		}
 		form.dataset.omarCartBound = '1';
+		const button = form.querySelector( '.add-to-cart-button' );
+		const qtyInput = form.querySelector( 'input.qty' );
+		if ( qtyInput && button ) {
+			const syncQuantity = () => {
+				button.setAttribute(
+					'data-quantity',
+					qtyInput.value || '1'
+				);
+			};
+			qtyInput.addEventListener( 'input', syncQuantity );
+			qtyInput.addEventListener( 'change', syncQuantity );
+			syncQuantity();
+		}
 		form.addEventListener( 'submit', ( event ) => {
-			const button = form.querySelector( '.add-to-cart-button' );
-			if ( button?.classList.contains( 'is-in-cart' ) ) {
+			const submitButton = form.querySelector( '.add-to-cart-button' );
+			if ( submitButton?.classList.contains( 'is-in-cart' ) ) {
 				event.preventDefault();
 				window.location.href =
 					window.omarPerfumesCart?.cartUrl || '/carrito/';
 				return;
 			}
 			if (
-				! button ||
-				button.classList.contains( 'is-added' ) ||
+				! submitButton ||
+				submitButton.classList.contains( 'is-added' ) ||
 				! window.jQuery
 			) {
 				event.preventDefault();
@@ -102,11 +115,11 @@
 				'add_to_cart'
 			);
 			const productId =
-				button.getAttribute( 'value' ) ||
-				button.getAttribute( 'data-product_id' );
+				submitButton.getAttribute( 'value' ) ||
+				submitButton.getAttribute( 'data-product_id' );
 			const quantity =
 				form.querySelector( 'input.qty' )?.value ||
-				button.getAttribute( 'data-quantity' ) ||
+				submitButton.getAttribute( 'data-quantity' ) ||
 				'1';
 			if ( ! ajaxUrl || ! productId ) {
 				return;
@@ -128,7 +141,7 @@
 						.trigger( 'added_to_cart', [
 							response.fragments,
 							response.cart_hash,
-							window.jQuery( button ),
+							window.jQuery( submitButton ),
 						] );
 				}
 			);

@@ -62,7 +62,7 @@ if ( post_password_required() ) {
 		</div>
 
 		<div class="perfumes-pdp__panel">
-			<div class="perfumes-pdp__meta">
+			<div class="perfumes-pdp__rating">
 				<?php
 				if ( function_exists( 'omar_perfumes_star_rating_markup' ) ) {
 					echo omar_perfumes_star_rating_markup( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -75,6 +75,9 @@ if ( post_password_required() ) {
 					);
 				}
 				?>
+			</div>
+
+			<div class="perfumes-pdp__price-row">
 				<span class="perfumes-pdp__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
 			</div>
 
