@@ -28,7 +28,7 @@ const PRELOADER_SEEN_KEY = 'omar-preloader-seen';
 
 function hasSeenPreloader() {
 	try {
-		return sessionStorage.getItem( PRELOADER_SEEN_KEY ) === '1';
+		return window.sessionStorage.getItem( PRELOADER_SEEN_KEY ) === '1';
 	} catch {
 		return false;
 	}
@@ -36,7 +36,7 @@ function hasSeenPreloader() {
 
 function markPreloaderSeen() {
 	try {
-		sessionStorage.setItem( PRELOADER_SEEN_KEY, '1' );
+		window.sessionStorage.setItem( PRELOADER_SEEN_KEY, '1' );
 	} catch {
 		// Ignore storage failures in private browsing.
 	}
@@ -300,8 +300,6 @@ function initHomeHeader() {
 }
 
 function runIntro( root, { clientNavigation = false } = {} ) {
-	const showPreloader = shouldShowPreloader( clientNavigation );
-
 	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
 		hidePreloader( root );
 		completeInitialEntry( root );
@@ -313,6 +311,8 @@ function runIntro( root, { clientNavigation = false } = {} ) {
 		} );
 		return () => {};
 	}
+
+	const showPreloader = shouldShowPreloader( clientNavigation );
 
 	let activeTimeline = null;
 	let failsafe = null;
