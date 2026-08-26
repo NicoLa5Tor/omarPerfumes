@@ -678,13 +678,13 @@
 
 	/* stylelint-disable no-descending-specificity */
 
-	/* Source artwork is 1672 x 941. We use a much shorter box and anchor the
-	   image to the bottom so most of the empty top is cropped and the marble
-	   floor sits high enough for the product to stand on it. */
+	/* The artwork is pre-cropped (1672 x 731) so the empty top is already gone.
+	   We fill the viewport height and cover from the bottom, so the marble floor
+	   stays anchored and the next section never peeks in on tall screens. */
 	.perfumes-landing .hero-section {
-		height: auto;
-		min-height: 0;
-		aspect-ratio: 1672 / 720;
+		height: 100svh;
+		min-height: 620px;
+		max-height: 960px;
 		justify-content: stretch;
 		border-radius: 0 0 40px 40px;
 		background-color: #071527;
@@ -878,11 +878,11 @@
 	.perfumes-landing .hero-product-primary {
 		position: absolute;
 		z-index: 2;
-		bottom: 8%;
+		bottom: 12%;
 		left: 50%;
 		display: flex;
-		width: 30%;
-		height: 80%;
+		width: 32%;
+		height: 66%;
 		align-items: flex-end;
 		justify-content: center;
 		text-decoration: none;
@@ -1025,8 +1025,7 @@
 
 	@media (max-width: 1100px) {
 		.perfumes-landing .hero-section {
-			aspect-ratio: auto;
-			min-height: 760px;
+			min-height: 720px;
 		}
 
 		.perfumes-landing .hero-layout {
@@ -1035,9 +1034,9 @@
 		}
 
 		.perfumes-landing .hero-product-primary {
-			bottom: 9%;
-			width: min(58vw, 420px);
-			height: 62%;
+			bottom: 11%;
+			width: min(52vw, 400px);
+			height: 60%;
 		}
 
 		.perfumes-landing .hero-section .content-cta {
@@ -1062,9 +1061,9 @@
 		}
 
 		.perfumes-landing .hero-section {
-			aspect-ratio: auto;
-			height: auto;
-			min-height: 860px;
+			height: 100svh;
+			min-height: 720px;
+			max-height: none;
 			border-radius: 0 0 26px 26px;
 		}
 
