@@ -358,12 +358,20 @@ function omar_perfumes_add_to_cart_button( $product_id, $url, $name = '' ) {
 		aria-label="<?php echo esc_attr( $label ); ?>"
 		rel="nofollow"
 	>
-		<svg class="add-to-cart-box box-1" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect width="24" height="24" rx="2" fill="currentColor"/></svg>
-		<svg class="add-to-cart-box box-2" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect width="24" height="24" rx="2" fill="currentColor"/></svg>
-		<svg class="cart-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-		<svg class="tick" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM9.29 16.29L5.7 12.7c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0L10 14.17l6.88-6.88c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-7.59 7.59c-.38.39-1.02.39-1.41 0z"/></svg>
-		<span class="add-to-cart"><?php esc_html_e( 'Añadir', 'omar-perfumes' ); ?></span>
-		<span class="added-to-cart"><?php esc_html_e( 'Añadido', 'omar-perfumes' ); ?></span>
+		<span class="add-to-cart-button__label add-to-cart-button__label--idle"><?php esc_html_e( 'Añadir', 'omar-perfumes' ); ?></span>
+		<span class="add-to-cart-button__label add-to-cart-button__label--added"><?php esc_html_e( 'Añadido', 'omar-perfumes' ); ?></span>
+		<span class="add-to-cart-button__cart" aria-hidden="true">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+				<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10V6a3 3 0 0 1 3-3 3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z" />
+			</svg>
+		</span>
+		<span class="add-to-cart-button__box" aria-hidden="true">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+				<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M21 8 12 3 3 8l9 5 9-5Z" />
+				<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M3 8v8l9 5 9-5V8" />
+				<path stroke="currentColor" stroke-width="2" d="M12 13v8" />
+			</svg>
+		</span>
 	</a>
 	<?php
 	return (string) ob_get_clean();
