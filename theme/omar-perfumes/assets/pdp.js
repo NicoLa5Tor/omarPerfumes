@@ -21,4 +21,4 @@
 			thumb.classList.add( 'is-active' );
 		} );
 	} );
-}() );
+} )();
