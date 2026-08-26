@@ -58,6 +58,7 @@ function omar_perfumes_body_class( $classes ) {
 	$classes[] = 'omar-perfumes-site';
 	if ( is_front_page() && ! is_search() ) {
 		$classes[] = 'omar-initial-entry';
+		$classes[] = 'omar-scroll-locked';
 	}
 	return $classes;
 }
@@ -331,6 +332,160 @@ function omar_perfumes_force_catalog_templates( $query_result, $query, $template
 	return $query_result;
 }
 add_filter( 'get_block_templates', 'omar_perfumes_force_catalog_templates', 99, 3 );
+
+/**
+ * Top-selling product IDs for this request, ranked by WooCommerce total_sales.
+ *
+ * @param int $limit How many IDs to return.
+ * @return int[]
+ */
+function omar_perfumes_top_selling_ids( $limit = 8 ) {
+	static $cache = array();
+
+	$limit = max( 1, (int) $limit );
+	if ( isset( $cache[ $limit ] ) ) {
+		return $cache[ $limit ];
+	}
+
+	if ( ! function_exists( 'wc_get_products' ) ) {
+		$cache[ $limit ] = array();
+		return $cache[ $limit ];
+	}
+
+	$ids = wc_get_products(
+		array(
+			'status'  => 'publish',
+			'limit'   => $limit,
+			'orderby' => 'popularity',
+			'order'   => 'DESC',
+			'return'  => 'ids',
+		)
+	);
+
+	$cache[ $limit ] = array_values( array_filter( array_map( 'intval', (array) $ids ) ) );
+	return $cache[ $limit ];
+}
+
+/**
+ * Whether the product is in the live top sellers and has at least one sale.
+ *
+ * @param int $product_id Product ID.
+ * @return bool
+ */
+function omar_perfumes_is_bestseller( $product_id ) {
+	$product_id = (int) $product_id;
+	if ( $product_id < 1 || ! in_array( $product_id, omar_perfumes_top_selling_ids( 8 ), true ) ) {
+		return false;
+	}
+
+	$product = wc_get_product( $product_id );
+	return $product instanceof WC_Product && (int) $product->get_total_sales() > 0;
+}
+
+/**
+ * Card badge from live stock, sales rank and sale price.
+ *
+ * @param WC_Product $product Product.
+ * @return string
+ */
+function omar_perfumes_product_badge( $product ) {
+	if ( ! $product instanceof WC_Product ) {
+		return '';
+	}
+
+	if ( ! $product->is_in_stock() ) {
+		return __( 'Agotado', 'omar-perfumes' );
+	}
+
+	if ( omar_perfumes_is_bestseller( $product->get_id() ) ) {
+		return __( 'Más vendido', 'omar-perfumes' );
+	}
+
+	if ( $product->is_on_sale() ) {
+		return __( 'Oferta', 'omar-perfumes' );
+	}
+
+	return '';
+}
+
+/**
+ * Stars from WooCommerce review ratings (average of approved product comments).
+ *
+ * @param WC_Product $product Product.
+ * @param array      $args    Optional class, href and show_count.
+ * @return string
+ */
+function omar_perfumes_star_rating_markup( $product, $args = array() ) {
+	if ( ! $product instanceof WC_Product ) {
+		return '';
+	}
+
+	$args   = wp_parse_args(
+		$args,
+		array(
+			'class'      => 'perfumes-product-card__ratings',
+			'href'       => '',
+			'show_count' => false,
+		)
+	);
+	$rating = 0.0;
+	$count  = 0;
+
+	if ( ! function_exists( 'wc_review_ratings_enabled' ) || wc_review_ratings_enabled() ) {
+		$rating = min( 5, max( 0, (float) $product->get_average_rating() ) );
+		$count  = (int) $product->get_review_count();
+	}
+
+	$filled = (int) round( $rating );
+	$label  = $count
+		? sprintf(
+			/* translators: 1: average rating 2: review count */
+			__( 'Valoración: %1$s de 5, %2$s opiniones', 'omar-perfumes' ),
+			number_format_i18n( $rating, 1 ),
+			number_format_i18n( $count )
+		)
+		: __( 'Sin valoraciones todavía', 'omar-perfumes' );
+
+	ob_start();
+	if ( $args['href'] ) :
+		?>
+	<a class="<?php echo esc_attr( $args['class'] ); ?>" href="<?php echo esc_url( $args['href'] ); ?>" aria-label="<?php echo esc_attr( $label ); ?>">
+		<?php else : ?>
+	<div class="<?php echo esc_attr( $args['class'] ); ?>" aria-label="<?php echo esc_attr( $label ); ?>">
+		<?php
+	endif;
+	for ( $star = 1; $star <= 5; $star++ ) :
+		?>
+		<span class="<?php echo $star <= $filled ? 'is-active' : ''; ?>" aria-hidden="true">★</span>
+		<?php
+	endfor;
+	if ( ! empty( $args['show_count'] ) ) :
+		?>
+		<span class="perfumes-star-rating__count">
+			<?php
+			if ( $count ) {
+				echo esc_html( number_format_i18n( $rating, 1 ) );
+				echo ' · ';
+				printf(
+					esc_html( _n( '%s opinión', '%s opiniones', $count, 'omar-perfumes' ) ),
+					esc_html( number_format_i18n( $count ) )
+				);
+			} else {
+				esc_html_e( 'Sin opiniones', 'omar-perfumes' );
+			}
+			?>
+		</span>
+		<?php
+	endif;
+	if ( $args['href'] ) :
+		?>
+	</a>
+		<?php else : ?>
+	</div>
+		<?php
+	endif;
+	return (string) ob_get_clean();
+}
 
 /**
  * Prefer the same brand category, then the parent family, ordered by sales.

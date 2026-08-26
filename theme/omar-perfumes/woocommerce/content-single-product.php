@@ -63,7 +63,18 @@ if ( post_password_required() ) {
 
 		<div class="perfumes-pdp__panel">
 			<div class="perfumes-pdp__meta">
-				<span class="perfumes-pdp__stars" aria-hidden="true">★★★★★</span>
+				<?php
+				if ( function_exists( 'omar_perfumes_star_rating_markup' ) ) {
+					echo omar_perfumes_star_rating_markup( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						$product,
+						array(
+							'class'      => 'perfumes-pdp__stars',
+							'href'       => '#reviews',
+							'show_count' => true,
+						)
+					);
+				}
+				?>
 				<span class="perfumes-pdp__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
 			</div>
 

@@ -152,42 +152,31 @@ $secondary_image    = $secondary_product ? wp_get_attachment_image_url( $seconda
 $secondary_stock    = $secondary_product && $secondary_product->is_in_stock() ? __( 'Disponible', 'perfumes' ) : __( 'Agotado', 'perfumes' );
 
 if ( function_exists( 'wc_get_products' ) ) {
-	$woocommerce_products = wc_get_products(
-		array(
-			'status'       => 'publish',
-			'stock_status' => 'instock',
-			'limit'        => -1,
-		)
-	);
-	$woocommerce_products = array_values(
-		array_filter(
-			$woocommerce_products,
-			static function ( $product ) {
-				return $product instanceof WC_Product
-					&& $product->is_visible()
-					&& $product->is_purchasable()
-					&& $product->is_in_stock()
-					&& $product->get_image_id();
-			}
-		)
-	);
-	usort(
-		$woocommerce_products,
-		static function ( $left, $right ) {
-			$sales_comparison = (int) $right->get_total_sales() <=> (int) $left->get_total_sales();
-			if ( 0 !== $sales_comparison ) {
-				return $sales_comparison;
-			}
-			return $right->get_id() <=> $left->get_id();
+	$top_ids = function_exists( 'omar_perfumes_top_selling_ids' )
+		? omar_perfumes_top_selling_ids( 8 )
+		: wc_get_products(
+			array(
+				'status'  => 'publish',
+				'limit'   => 8,
+				'orderby' => 'popularity',
+				'order'   => 'DESC',
+				'return'  => 'ids',
+			)
+		);
+	$woocommerce_products = array();
+	foreach ( (array) $top_ids as $top_id ) {
+		$product = wc_get_product( (int) $top_id );
+		if ( $product instanceof WC_Product && $product->is_visible() && $product->get_image_id() ) {
+			$woocommerce_products[] = $product;
 		}
-	);
-	$woocommerce_products = array_slice( $woocommerce_products, 0, 8 );
+	}
 	if ( $woocommerce_products ) {
 		$products = array_map(
 			static function ( $product ) {
 				$price         = (float) $product->get_price();
 				$regular_price = (float) $product->get_regular_price();
-				return array( 'id' => $product->get_id(), 'discount' => $regular_price > $price ? '-' . (int) round( ( 1 - ( $price / $regular_price ) ) * 100 ) . '%' : '', 'name' => $product->get_name(), 'brand' => implode( ', ', wp_get_post_terms( $product->get_id(), 'product_cat', array( 'fields' => 'names' ) ) ), 'size' => $product->get_attribute( 'pa_concentracion' ) ?: __( 'Perfume original', 'perfumes' ), 'price' => '$ ' . number_format( $price, 0, ',', '.' ), 'oldPrice' => $regular_price > $price ? '$ ' . number_format( $regular_price, 0, ',', '.' ) : '', 'rating' => (float) $product->get_average_rating(), 'ratingCount' => (int) $product->get_rating_count(), 'imageUrl' => wp_get_attachment_image_url( $product->get_image_id(), 'large' ) ?: '', 'url' => get_permalink( $product->get_id() ), 'addUrl' => $product->add_to_cart_url(), 'buttonText' => $product->add_to_cart_text(), 'purchasable' => $product->is_purchasable() && $product->is_in_stock() );
+				$badge         = function_exists( 'omar_perfumes_product_badge' ) ? omar_perfumes_product_badge( $product ) : '';
+				return array( 'id' => $product->get_id(), 'discount' => $regular_price > $price ? '-' . (int) round( ( 1 - ( $price / $regular_price ) ) * 100 ) . '%' : '', 'name' => $product->get_name(), 'brand' => implode( ', ', wp_get_post_terms( $product->get_id(), 'product_cat', array( 'fields' => 'names' ) ) ), 'size' => $product->get_attribute( 'pa_concentracion' ) ?: __( 'Perfume original', 'perfumes' ), 'price' => '$ ' . number_format( $price, 0, ',', '.' ), 'oldPrice' => $regular_price > $price ? '$ ' . number_format( $regular_price, 0, ',', '.' ) : '', 'rating' => (float) $product->get_average_rating(), 'ratingCount' => (int) $product->get_review_count(), 'imageUrl' => wp_get_attachment_image_url( $product->get_image_id(), 'large' ) ?: '', 'url' => get_permalink( $product->get_id() ), 'addUrl' => $product->add_to_cart_url(), 'buttonText' => $product->add_to_cart_text(), 'purchasable' => $product->is_purchasable() && $product->is_in_stock(), 'badge' => $badge );
 			},
 			$woocommerce_products
 		);
@@ -277,20 +266,20 @@ if ( function_exists( 'wc_get_products' ) ) {
 			<div class="perfumes-product-grid perfumes-product-grid--featured">
 				<?php foreach ( $products as $product ) : ?>
 					<?php
-					$product_discount  = $product['discount'] ?? '';
 					$product_name      = $product['name'] ?? '';
 					$product_brand     = $product['brand'] ?? '';
-					$product_size      = $product['size'] ?? '';
 					$product_price     = $product['price'] ?? '';
 					$product_old_price = $product['oldPrice'] ?? '';
 					$product_image     = $product['imageUrl'] ?? '';
-					$product_rating    = min( 5, max( 0, (float) ( $product['rating'] ?? 0 ) ) );
 					$product_id        = $product['id'] ?? 0;
 					$is_in_stock       = $product['purchasable'] ?? false;
-					$product_label     = $is_in_stock ? ( $product_discount ? __( 'Oferta', 'perfumes' ) : __( 'Más vendido', 'perfumes' ) ) : __( 'Agotado', 'perfumes' );
+					$product_label     = $product['badge'] ?? '';
+					$wc_product        = $product_id && function_exists( 'wc_get_product' ) ? wc_get_product( (int) $product_id ) : null;
 					?>
 					<article class="perfumes-product-card" data-product-card>
+						<?php if ( $product_label ) : ?>
 						<span class="perfumes-product-card__badge<?php echo $is_in_stock ? '' : ' perfumes-product-card__badge--out'; ?>"><?php echo esc_html( $product_label ); ?></span>
+						<?php endif; ?>
 						<a class="perfumes-product-card__media" href="<?php echo esc_url( $product['url'] ?? $shop_url ); ?>">
 							<?php if ( $product_image ) : ?>
 								<img src="<?php echo esc_url( $product_image ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $product_name ) ); ?>" loading="lazy" />
@@ -301,11 +290,11 @@ if ( function_exists( 'wc_get_products' ) ) {
 							<?php if ( $product_name ) : ?>
 								<h3 class="perfumes-product-card__title"><a href="<?php echo esc_url( $product['url'] ?? '#' ); ?>"><?php echo wp_kses_post( $product_name ); ?></a></h3>
 							<?php endif; ?>
-							<div class="perfumes-product-card__ratings" aria-label="<?php echo esc_attr( $product_rating > 0 ? sprintf( __( 'Valoración: %s de 5', 'perfumes' ), number_format_i18n( $product_rating, 1 ) ) : __( 'Sin valoraciones todavía', 'perfumes' ) ); ?>">
-								<?php for ( $star = 1; $star <= 5; $star++ ) : ?>
-									<span class="<?php echo $star <= round( $product_rating ) ? 'is-active' : ''; ?>" aria-hidden="true">★</span>
-								<?php endfor; ?>
-							</div>
+							<?php
+							if ( $wc_product instanceof WC_Product && function_exists( 'omar_perfumes_star_rating_markup' ) ) {
+								echo omar_perfumes_star_rating_markup( $wc_product ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+							}
+							?>
 							<div class="perfumes-product-card__footer">
 								<div class="perfumes-product-card__price-row">
 									<?php if ( $product_price ) : ?><strong class="perfumes-product-card__price"><?php echo esc_html( $product_price ); ?></strong><?php endif; ?>

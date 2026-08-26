@@ -8,6 +8,13 @@
 		@apply m-0 bg-white font-sans text-perfumes-ink;
 	}
 
+	html.omar-scroll-locked,
+	body.omar-scroll-locked {
+		overflow: hidden;
+		overscroll-behavior: none;
+		touch-action: none;
+	}
+
 	.omar-perfumes-site *,
 	.omar-perfumes-site *::before,
 	.omar-perfumes-site *::after {
@@ -1315,9 +1322,30 @@
 	}
 
 	.perfumes-pdp__stars {
+		display: inline-flex;
+		align-items: center;
+		gap: 2px;
 		font-size: 1.15em;
 		letter-spacing: 2px;
+		text-decoration: none;
+		color: rgba(7, 21, 39, 0.28);
+	}
+
+	.perfumes-pdp__stars span {
+		line-height: 1;
+	}
+
+	.perfumes-pdp__stars .is-active {
 		color: #e2bd6d;
+	}
+
+	.perfumes-pdp__stars .perfumes-star-rating__count {
+		margin-left: 8px;
+		font-family: Inter, system-ui, sans-serif;
+		font-size: 0.78rem;
+		font-weight: 500;
+		letter-spacing: 0;
+		color: #667085;
 	}
 
 	.woocommerce div.product.perfumes-pdp .perfumes-pdp__price,
