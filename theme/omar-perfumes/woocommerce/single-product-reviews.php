@@ -10,14 +10,18 @@ defined( 'ABSPATH' ) || exit;
 
 global $product;
 
-if ( ! comments_open() && ! get_comments_number() ) {
-	return;
-}
+$review_comments = function_exists( 'omar_perfumes_get_product_reviews' )
+	? omar_perfumes_get_product_reviews( $product )
+	: array();
+$count           = count( $review_comments );
 
-$count = $product->get_review_count();
 if ( function_exists( 'omar_perfumes_product_review_stats' ) ) {
 	$stats = omar_perfumes_product_review_stats( $product );
 	$count = (int) $stats['count'];
+}
+
+if ( ! comments_open() && ! $count ) {
+	return;
 }
 ?>
 <section id="reviews" class="woocommerce-Reviews perfumes-pdp-reviews">
@@ -38,7 +42,7 @@ if ( function_exists( 'omar_perfumes_product_review_stats' ) ) {
 			?>
 		</h2>
 
-		<?php if ( have_comments() ) : ?>
+		<?php if ( $review_comments ) : ?>
 			<ol class="commentlist perfumes-chat">
 				<?php
 				wp_list_comments(
@@ -48,14 +52,19 @@ if ( function_exists( 'omar_perfumes_product_review_stats' ) ) {
 							'callback' => 'woocommerce_comments',
 							'style'    => 'ol',
 						)
-					)
+					),
+					$review_comments
 				);
 				?>
 			</ol>
 			<?php
-			if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) {
+			if ( get_comment_pages_count( $review_comments ) > 1 && get_option( 'page_comments' ) ) {
 				echo '<nav class="woocommerce-pagination">';
-				paginate_comments_links();
+				paginate_comments_links(
+					array(
+						'type' => 'list',
+					)
+				);
 				echo '</nav>';
 			}
 			?>
@@ -70,7 +79,7 @@ if ( function_exists( 'omar_perfumes_product_review_stats' ) ) {
 				<?php
 				$commenter = wp_get_current_commenter();
 				$comment_form = array(
-					'title_reply'          => have_comments() ? __( 'Escribe una opinión', 'omar-perfumes' ) : __( 'Sé el primero en opinar', 'omar-perfumes' ),
+					'title_reply'          => $review_comments ? __( 'Escribe una opinión', 'omar-perfumes' ) : __( 'Sé el primero en opinar', 'omar-perfumes' ),
 					'title_reply_to'       => __( 'Responder a %s', 'omar-perfumes' ),
 					'title_reply_before'   => '<span id="reply-title" class="comment-reply-title">',
 					'title_reply_after'    => '</span>',

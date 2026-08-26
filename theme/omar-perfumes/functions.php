@@ -413,6 +413,30 @@ function omar_perfumes_product_badge( $product ) {
 }
 
 /**
+ * Approved product reviews/comments for a product.
+ *
+ * @param WC_Product|int $product Product object or ID.
+ * @return WP_Comment[]
+ */
+function omar_perfumes_get_product_reviews( $product ) {
+	$product_id = $product instanceof WC_Product ? (int) $product->get_id() : (int) $product;
+	if ( $product_id < 1 ) {
+		return array();
+	}
+
+	return get_comments(
+		array(
+			'post_id'  => $product_id,
+			'status'   => 'approve',
+			'type__in' => array( 'review', 'comment', '' ),
+			'orderby'  => 'comment_date_gmt',
+			'order'    => 'DESC',
+			'number'   => 200,
+		)
+	);
+}
+
+/**
  * Average stars and review count from approved product comments.
  *
  * WooCommerce product meta (_wc_average_rating) is often stale or empty
@@ -439,19 +463,15 @@ function omar_perfumes_product_review_stats( $product ) {
 	$stored_rating = (float) $product->get_average_rating();
 	$stored_count  = (int) $product->get_review_count();
 	$values        = array();
-	$comments      = get_comments(
-		array(
-			'post_id' => $product_id,
-			'status'  => 'approve',
-			'type'    => 'all',
-			'number'  => 200,
-		)
-	);
+	$review_count  = 0;
+	$comments      = omar_perfumes_get_product_reviews( $product );
 
 	foreach ( $comments as $comment ) {
 		if ( in_array( $comment->comment_type, array( 'pingback', 'trackback' ), true ) ) {
 			continue;
 		}
+
+		++$review_count;
 		$value = (int) get_comment_meta( $comment->comment_ID, 'rating', true );
 		if ( $value >= 1 && $value <= 5 ) {
 			$values[] = $value;
@@ -459,9 +479,9 @@ function omar_perfumes_product_review_stats( $product ) {
 	}
 
 	$rating = $values ? array_sum( $values ) / count( $values ) : $stored_rating;
-	$count  = $values ? count( $values ) : max( $stored_count, count( $comments ) );
+	$count  = max( $review_count, $stored_count );
 
-	if ( $values && $stored_rating <= 0 && class_exists( 'WC_Comments' ) ) {
+	if ( ( $values || $review_count ) && class_exists( 'WC_Comments' ) ) {
 		WC_Comments::clear_transients( $product_id );
 	}
 
@@ -559,8 +579,8 @@ function omar_perfumes_product_comments_query_args( $args ) {
 		return $args;
 	}
 
-	unset( $args['type'], $args['type__in'] );
-	$args['type'] = 'all';
+	unset( $args['type'] );
+	$args['type__in'] = array( 'review', 'comment', '' );
 	return $args;
 }
 add_filter( 'comments_template_query_args', 'omar_perfumes_product_comments_query_args' );

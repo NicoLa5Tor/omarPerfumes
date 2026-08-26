@@ -1583,6 +1583,21 @@
 	.perfumes-chat__item,
 	.woocommerce .perfumes-pdp-reviews #comments ol.commentlist li.perfumes-chat__item {
 		margin: 0 0 16px;
+		opacity: 0;
+		transform: translateY(18px);
+	}
+
+	.perfumes-pdp-reviews.is-reviews-revealed .perfumes-chat__item,
+	.perfumes-pdp-reviews.is-reviews-revealed
+		#comments
+		ol.commentlist
+		li.perfumes-chat__item {
+		opacity: 1;
+		transform: translateY(0);
+		transition:
+			opacity 0.55s ease,
+			transform 0.55s ease;
+		transition-delay: calc(var(--review-index, 0) * 90ms);
 	}
 
 	.perfumes-chat__row {
