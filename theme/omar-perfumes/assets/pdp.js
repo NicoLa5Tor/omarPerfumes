@@ -74,12 +74,17 @@
 		const scrollBehavior = reduceMotion ? 'auto' : 'smooth';
 
 		prev.addEventListener( 'click', () => {
-			viewport.scrollBy( { left: -cardStep(), behavior: scrollBehavior } );
+			viewport.scrollBy( {
+				left: -cardStep(),
+				behavior: scrollBehavior,
+			} );
 		} );
 		next.addEventListener( 'click', () => {
 			viewport.scrollBy( { left: cardStep(), behavior: scrollBehavior } );
 		} );
-		viewport.addEventListener( 'scroll', updateControls, { passive: true } );
+		viewport.addEventListener( 'scroll', updateControls, {
+			passive: true,
+		} );
 		window.addEventListener( 'resize', updateControls );
 		updateControls();
 	};
@@ -115,7 +120,7 @@
 			return;
 		}
 
-		const observer = new IntersectionObserver(
+		const observer = new window.IntersectionObserver(
 			( entries ) => {
 				entries.forEach( ( entry ) => {
 					if ( ! entry.isIntersecting ) {
