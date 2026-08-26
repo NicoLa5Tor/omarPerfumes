@@ -678,13 +678,13 @@
 
 	/* stylelint-disable no-descending-specificity */
 
-	/* Source artwork is 1672 x 941. We use a slightly shorter box and anchor
-	   the image to the bottom so the empty top is cropped and the marble floor
-	   stays fully visible for the product to stand on. */
+	/* Source artwork is 1672 x 941. We use a much shorter box and anchor the
+	   image to the bottom so most of the empty top is cropped and the marble
+	   floor sits high enough for the product to stand on it. */
 	.perfumes-landing .hero-section {
 		height: auto;
 		min-height: 0;
-		aspect-ratio: 1672 / 840;
+		aspect-ratio: 1672 / 720;
 		justify-content: stretch;
 		border-radius: 0 0 40px 40px;
 		background-color: #071527;
@@ -878,11 +878,11 @@
 	.perfumes-landing .hero-product-primary {
 		position: absolute;
 		z-index: 2;
-		bottom: 10%;
+		bottom: 8%;
 		left: 50%;
 		display: flex;
-		width: 35.9%;
-		height: 72%;
+		width: 30%;
+		height: 80%;
 		align-items: flex-end;
 		justify-content: center;
 		text-decoration: none;
