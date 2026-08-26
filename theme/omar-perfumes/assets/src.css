@@ -853,7 +853,283 @@
 		}
 	}
 
+	.perfumes-pdp-shell {
+		min-height: 70vh;
+		padding: 48px 24px 80px;
+		background-image: linear-gradient(30deg, #f6f6f4, #d5dbe6);
+	}
+
+	.woocommerce div.product.perfumes-pdp {
+		max-width: 960px;
+		margin: 0 auto;
+		padding: 0;
+	}
+
+	.perfumes-pdp__card {
+		display: flex;
+		align-items: center;
+		width: 100%;
+		min-height: 425px;
+		overflow: visible;
+		border-radius: 4px;
+		background-image: linear-gradient(-180deg, #1d4b7a, #0b1f3a 48%, #071527);
+		box-shadow: 0 12.5px 20px 1px rgba(0, 0, 0, 0.3), inset 0 0 2px rgba(0, 0, 0, 0.3);
+		color: #fff;
+	}
+
+	.perfumes-pdp__media {
+		position: relative;
+		display: flex;
+		width: 58%;
+		min-height: 425px;
+		flex-direction: column-reverse;
+		align-items: center;
+		justify-content: flex-end;
+		padding: 28px 12px 18px;
+	}
+
+	.perfumes-pdp__thumbs {
+		display: flex;
+		z-index: 3;
+		width: 100%;
+		height: 20%;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+	}
+
+	.perfumes-pdp__thumb {
+		width: 15px;
+		height: 15px;
+		padding: 0;
+		border: 0;
+		border-radius: 50%;
+		background: rgba(140, 138, 138, 0.59);
+		box-shadow: 0 3px 10px -1px rgba(68, 66, 66, 0.3);
+		cursor: pointer;
+	}
+
+	.perfumes-pdp__thumb.is-active {
+		background: rgba(236, 233, 233, 0.9);
+	}
+
+	.perfumes-pdp__image {
+		z-index: 2;
+		width: auto;
+		max-width: 78%;
+		height: 55%;
+		max-height: 280px;
+		object-fit: contain;
+		filter: drop-shadow(-1px 22px 15px rgba(0, 0, 0, 0.35));
+		transform: rotate(-18deg) translate(8px, -28px);
+	}
+
+	.perfumes-pdp__watermark {
+		position: absolute;
+		bottom: 10px;
+		left: 0;
+		z-index: 1;
+		overflow: hidden;
+		max-width: 100%;
+		font-family: "Cormorant Garamond", Georgia, serif;
+		font-size: clamp(4rem, 12vw, 8.5rem);
+		font-weight: 700;
+		line-height: 0.8;
+		letter-spacing: -0.04em;
+		white-space: nowrap;
+		opacity: 0.1;
+	}
+
+	.perfumes-pdp__spark {
+		position: absolute;
+		top: 25px;
+		right: 25px;
+		font-size: 3.2em;
+		line-height: 0.95;
+		color: #e2bd6d;
+		opacity: 0.9;
+		filter: drop-shadow(0 6px 4px rgba(0, 0, 0, 0.25));
+		transform: rotate(28deg);
+	}
+
+	.perfumes-pdp__panel {
+		display: flex;
+		width: 46%;
+		min-height: 490px;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+		padding: 4%;
+		border-radius: 0 4px 4px 0;
+		background: #fff;
+		box-shadow: -16px 0 23px -20px rgba(0, 0, 0, 0.4), 0 3px 15px -1px rgba(0, 0, 0, 0.3);
+		color: #5d5c5c;
+		text-shadow: 1px 1px 1px rgba(170, 170, 170, 0.5);
+	}
+
+	.perfumes-pdp__panel > * {
+		padding: 8px 0;
+	}
+
+	.perfumes-pdp__meta {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+	}
+
+	.perfumes-pdp__stars {
+		font-size: 1.4em;
+		color: rgba(93, 92, 92, 0.25);
+	}
+
+	.perfumes-pdp__stars .is-active {
+		color: #ffd700;
+	}
+
+	.perfumes-pdp__price {
+		font-size: 1.5em;
+		font-weight: 700;
+		color: #484848;
+	}
+
+	.perfumes-pdp__price del {
+		margin-right: 8px;
+		font-size: 0.7em;
+		font-weight: 400;
+		color: #9a9a9a;
+	}
+
+	.perfumes-pdp__title {
+		margin: 0;
+		font-family: "Cormorant Garamond", Georgia, serif;
+		font-size: 1.55em;
+		font-weight: 700;
+		line-height: 1.2;
+		color: #484848;
+	}
+
+	.perfumes-pdp__excerpt {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.45;
+	}
+
+	.perfumes-pdp__excerpt p {
+		margin: 0;
+	}
+
+	.perfumes-pdp__cart {
+		width: 100%;
+	}
+
+	.perfumes-pdp__cart form.cart {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 12px;
+		margin: 0;
+	}
+
+	.perfumes-pdp__cart .quantity {
+		margin: 0;
+	}
+
+	.perfumes-pdp__cart .quantity .qty {
+		width: 64px;
+		min-height: 36px;
+		border: 1px solid #e4e4e4;
+		border-radius: 999px;
+		text-align: center;
+	}
+
+	.perfumes-pdp .single_add_to_cart_button,
+	.perfumes-pdp__cart button.button {
+		width: auto;
+		min-height: 0;
+		margin: 8px auto 0;
+		padding: 12px 40px;
+		border: 0;
+		border-radius: 33px;
+		background: linear-gradient(-180deg, #e2bd6d 0%, #c9a227 100%);
+		box-shadow: 0 3px 13px rgba(201, 162, 39, 0.45);
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: #071527;
+		transition: transform 180ms ease, box-shadow 180ms ease;
+	}
+
+	.perfumes-pdp .single_add_to_cart_button:hover,
+	.perfumes-pdp__cart button.button:hover {
+		background: linear-gradient(-180deg, #f0d38a 0%, #e2bd6d 100%);
+		color: #071527;
+		transform: scale(1.06);
+	}
+
+	.perfumes-pdp__details {
+		max-width: 720px;
+		margin: 48px auto 0;
+		padding: 0 8px;
+		color: #3d3d3d;
+	}
+
+	.perfumes-pdp__details h2 {
+		margin: 0 0 12px;
+		font-family: "Cormorant Garamond", Georgia, serif;
+		font-size: 28px;
+		color: #071527;
+	}
+
+	.perfumes-pdp .related.products {
+		margin-top: 56px;
+	}
+
+	.perfumes-pdp .related.products > h2 {
+		margin: 0 0 24px;
+		font-family: "Cormorant Garamond", Georgia, serif;
+		font-size: 28px;
+		color: #071527;
+	}
+
 	@media (max-width: 782px) {
+		.perfumes-pdp-shell {
+			padding: 24px 16px 56px;
+		}
+
+		.perfumes-pdp__card {
+			flex-direction: column;
+			min-height: 0;
+		}
+
+		.perfumes-pdp__media,
+		.perfumes-pdp__panel {
+			width: 100%;
+			min-height: 0;
+		}
+
+		.perfumes-pdp__media {
+			min-height: 320px;
+			padding-bottom: 8px;
+		}
+
+		.perfumes-pdp__image {
+			height: 220px;
+			max-height: 220px;
+			transform: rotate(-8deg) translate(0, -8px);
+		}
+
+		.perfumes-pdp__watermark {
+			font-size: 4.6rem;
+		}
+
+		.perfumes-pdp__panel {
+			padding: 22px 20px 28px;
+			border-radius: 0 0 4px 4px;
+		}
+
 		.perfumes-route-loader {
 			top: 82px;
 			min-width: 0;

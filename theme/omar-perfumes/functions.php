@@ -30,6 +30,22 @@ function omar_perfumes_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'omar_perfumes_assets', 20 );
 
+function omar_perfumes_pdp_assets() {
+	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+		return;
+	}
+
+	$path = get_theme_file_path( 'assets/pdp.js' );
+	wp_enqueue_script(
+		'omar-perfumes-pdp',
+		get_theme_file_uri( 'assets/pdp.js' ),
+		array(),
+		file_exists( $path ) ? filemtime( $path ) : wp_get_theme()->get( 'Version' ),
+		true
+	);
+}
+add_action( 'wp_enqueue_scripts', 'omar_perfumes_pdp_assets', 25 );
+
 /** Restrict the global storefront search to WooCommerce products. */
 function omar_perfumes_product_search( $query ) {
 	if ( ! is_admin() && $query->is_main_query() && $query->is_search() && ! $query->get( 'post_type' ) ) {
