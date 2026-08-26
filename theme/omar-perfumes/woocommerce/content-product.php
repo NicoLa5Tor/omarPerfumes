@@ -15,7 +15,8 @@ if ( ! $product instanceof WC_Product || ! $product->is_visible() ) {
 
 $in_stock    = $product->is_in_stock();
 $is_featured = 'related' === wc_get_loop_prop( 'name' );
-$prefix      = $is_featured ? 'perfumes-product-card' : 'perfumes-catalog-card';
+$prefix      = 'perfumes-product-card';
+$card_class  = $is_featured ? $prefix : $prefix . ' perfumes-product-card--light';
 $categories  = wc_get_product_category_list( $product->get_id(), ', ' );
 $rating      = min( 5, max( 0, (float) $product->get_average_rating() ) );
 $label       = '';
@@ -28,7 +29,7 @@ if ( ! $in_stock ) {
 	$label = __( 'Más vendido', 'omar-perfumes' );
 }
 ?>
-<li <?php wc_product_class( $prefix, $product ); ?>>
+<li <?php wc_product_class( $card_class, $product ); ?>>
 	<?php if ( $label ) : ?>
 		<span class="<?php echo esc_attr( $prefix ); ?>__badge<?php echo $in_stock ? '' : ' ' . esc_attr( $prefix ) . '__badge--out'; ?>"><?php echo esc_html( $label ); ?></span>
 	<?php endif; ?>
