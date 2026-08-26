@@ -771,17 +771,26 @@
 		display: grid;
 		grid-template-columns: minmax(240px, 286px) minmax(0, 1fr);
 		gap: clamp(28px, 4vw, 64px);
+		align-items: start;
 		max-width: 1440px;
 		margin: 0 auto;
 		padding: 38px clamp(24px, 4vw, 64px) 64px;
 	}
 
 	.perfumes-shop-sidebar {
+		grid-column: 1;
+		grid-row: 1 / -1;
 		border: 1px solid #e8decb;
 		border-radius: 6px;
 		background: #fff;
 		padding: 22px;
 		align-self: start;
+	}
+
+	.perfumes-shop-main {
+		grid-column: 2;
+		min-width: 0;
+		width: 100%;
 	}
 
 	.perfumes-shop-sidebar__title {
@@ -1037,11 +1046,29 @@
 		display: none;
 	}
 
+	.omar-catalog-view .perfumes-shop-main .products,
+	.omar-catalog-view .perfumes-shop-main ul.products,
 	.omar-catalog-view .perfumes-shop-products .products,
 	.omar-catalog-view .perfumes-shop-products ul.products {
 		margin: 0;
 		max-width: none;
 		padding: 0;
+		width: 100%;
+	}
+
+	.omar-catalog-view .perfumes-shop-main .perfumes-product-grid,
+	.omar-catalog-view .perfumes-shop-main ul.products.perfumes-product-grid {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 1.25rem;
+		width: 100%;
+	}
+
+	.omar-catalog-view .perfumes-shop-main ul.products.perfumes-product-grid > li.product {
+		float: none;
+		width: 100% !important;
+		max-width: none !important;
+		margin: 0 !important;
 	}
 
 	.perfumes-content-shell > h1,
@@ -1748,6 +1775,11 @@
 		.perfumes-header {
 			gap: 18px;
 			padding-inline: 24px;
+		}
+
+		.omar-catalog-view .perfumes-shop-main .perfumes-product-grid,
+		.omar-catalog-view .perfumes-shop-main ul.products.perfumes-product-grid {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
 		}
 
 		.perfumes-header__right {
@@ -2658,6 +2690,20 @@
 			grid-template-columns: 1fr;
 		}
 
+		.perfumes-shop-sidebar {
+			display: none;
+			grid-column: auto;
+			grid-row: auto;
+		}
+
+		.perfumes-shop-sidebar.is-open {
+			display: block;
+		}
+
+		.perfumes-shop-main {
+			grid-column: auto;
+		}
+
 		.perfumes-shop-store {
 			gap: 28px;
 		}
@@ -2665,19 +2711,13 @@
 		.perfumes-shop-hero__composition {
 			min-height: 220px;
 		}
-
-		.perfumes-shop-sidebar {
-			display: none;
-		}
-
-		.perfumes-shop-sidebar.is-open {
-			display: block;
-		}
 	}
 
 	@media (max-width: 640px) {
 		.perfumes-product-grid,
-		.woocommerce ul.products.perfumes-product-grid {
+		.woocommerce ul.products.perfumes-product-grid,
+		.omar-catalog-view .perfumes-shop-main .perfumes-product-grid,
+		.omar-catalog-view .perfumes-shop-main ul.products.perfumes-product-grid {
 			grid-template-columns: repeat(2, minmax(0, 1fr));
 			gap: 0.75rem;
 		}

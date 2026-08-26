@@ -187,6 +187,46 @@ function shouldUseClientNavigation( event, link, url ) {
 	);
 }
 
+function shouldNavigateToUrl( url ) {
+	if (
+		url.origin !== window.location.origin ||
+		url.searchParams.has( 'add-to-cart' )
+	) {
+		return false;
+	}
+
+	const nextUrl = new URL( url.href );
+	const currentUrl = new URL( window.location.href );
+
+	if (
+		nextUrl.pathname === currentUrl.pathname &&
+		nextUrl.search === currentUrl.search
+	) {
+		return false;
+	}
+
+	return isClientRoute( currentUrl ) && isClientRoute( nextUrl );
+}
+
+async function navigateToUrl( url ) {
+	const sequence = startLoading();
+	try {
+		const { actions } = await import( '@wordpress/interactivity-router' );
+		await actions.navigate( url.href );
+		await finishLoading( sequence );
+	} catch ( error ) {
+		window.clearInterval( loadingMessageTimer );
+		document.body.classList.remove( ROUTE_TRANSITION_CLASS );
+		routerState.isNavigating = false;
+		routerState.isIdle = true;
+		window.console.warn(
+			'Omar client navigation failed; using a full page load.',
+			error
+		);
+		window.location.assign( url.href );
+	}
+}
+
 const { state: routerState } = store( 'omar/router', {
 	state: {
 		isNavigating: false,
@@ -209,24 +249,7 @@ const { state: routerState } = store( 'omar/router', {
 			}
 
 			event.preventDefault();
-			const sequence = startLoading();
-			try {
-				const { actions } = yield import(
-					'@wordpress/interactivity-router'
-				);
-				yield actions.navigate( url.href );
-				yield finishLoading( sequence );
-			} catch ( error ) {
-				window.clearInterval( loadingMessageTimer );
-				document.body.classList.remove( ROUTE_TRANSITION_CLASS );
-				routerState.isNavigating = false;
-				routerState.isIdle = true;
-				window.console.warn(
-					'Omar client navigation failed; using a full page load.',
-					error
-				);
-				window.location.assign( url.href );
-			}
+			yield navigateToUrl( url );
 		} ),
 		search: withSyncEvent( function* ( event ) {
 			const form = event.target;
@@ -253,24 +276,7 @@ const { state: routerState } = store( 'omar/router', {
 			}
 
 			event.preventDefault();
-			const sequence = startLoading();
-			try {
-				const { actions } = yield import(
-					'@wordpress/interactivity-router'
-				);
-				yield actions.navigate( url.href );
-				yield finishLoading( sequence );
-			} catch ( error ) {
-				window.clearInterval( loadingMessageTimer );
-				document.body.classList.remove( ROUTE_TRANSITION_CLASS );
-				routerState.isNavigating = false;
-				routerState.isIdle = true;
-				window.console.warn(
-					'Omar search navigation failed; using a full page load.',
-					error
-				);
-				window.location.assign( url.href );
-			}
+			yield navigateToUrl( url );
 		} ),
 	},
 	callbacks: {
@@ -280,4 +286,38 @@ const { state: routerState } = store( 'omar/router', {
 			emitRouteChange( serverState );
 		},
 	},
+} );
+
+document.addEventListener( 'change', ( event ) => {
+	const select = event.target?.closest?.(
+		'.perfumes-shop-toolbar__ordering select.orderby'
+	);
+	if ( ! select ) {
+		return;
+	}
+
+	const form = select.closest( 'form' );
+	if ( ! form ) {
+		return;
+	}
+
+	event.preventDefault();
+
+	const url = new URL(
+		form.action || window.location.href,
+		window.location.href
+	);
+	const formData = new window.FormData( form );
+	formData.forEach( ( value, name ) => {
+		if ( typeof value === 'string' ) {
+			url.searchParams.set( name, value );
+		}
+	} );
+
+	if ( ! shouldNavigateToUrl( url ) ) {
+		form.submit();
+		return;
+	}
+
+	void navigateToUrl( url );
 } );

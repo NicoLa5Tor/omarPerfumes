@@ -341,9 +341,9 @@ function omar_perfumes_catalog_setup() {
 	}
 
 	remove_action( 'woocommerce_before_main_content', 'woocommerce_breadcrumb', 20 );
-	remove_action( 'woocommerce_shop_loop_header', 'woocommerce_product_taxonomy_archive_header', 10 );
 	remove_action( 'woocommerce_before_shop_loop', 'woocommerce_result_count', 20 );
 	remove_action( 'woocommerce_before_shop_loop', 'woocommerce_catalog_ordering', 30 );
+	add_filter( 'woocommerce_show_page_title', '__return_false' );
 
 	add_action( 'woocommerce_before_main_content', 'omar_perfumes_shop_hero', 5 );
 	add_action( 'woocommerce_before_main_content', 'omar_perfumes_shop_layout_open', 15 );
@@ -355,6 +355,20 @@ function omar_perfumes_catalog_setup() {
 	add_action( 'woocommerce_no_products_found', 'omar_perfumes_shop_layout_close', 999 );
 }
 add_action( 'wp', 'omar_perfumes_catalog_setup' );
+
+/**
+ * Strip default WooCommerce archive headers that break the catalog grid.
+ *
+ * @return void
+ */
+function omar_perfumes_catalog_remove_loop_header() {
+	if ( ! omar_perfumes_is_catalog_view() ) {
+		return;
+	}
+
+	remove_all_actions( 'woocommerce_shop_loop_header' );
+}
+add_action( 'wp', 'omar_perfumes_catalog_remove_loop_header', 20 );
 
 /**
  * @return void
@@ -405,7 +419,11 @@ function omar_perfumes_shop_hero() {
 function omar_perfumes_shop_layout_open() {
 	$context = omar_perfumes_catalog_context();
 	?>
-	<div class="perfumes-shop-store">
+	<div
+		class="perfumes-shop-store"
+		data-wp-interactive="omar/router"
+		data-wp-on--click="actions.navigate"
+	>
 		<aside class="perfumes-shop-sidebar" id="perfumes-shop-sidebar" aria-labelledby="perfumes-shop-sidebar-title">
 			<h2 class="perfumes-shop-sidebar__title" id="perfumes-shop-sidebar-title"><?php esc_html_e( 'Categorías', 'omar-perfumes' ); ?></h2>
 			<p class="perfumes-shop-sidebar__helper"><?php esc_html_e( 'Explora por tipo, ocasión o familia olfativa.', 'omar-perfumes' ); ?></p>
@@ -478,6 +496,7 @@ function omar_perfumes_shop_layout_open() {
 				</ul>
 			</section>
 		</aside>
+		<div class="perfumes-shop-main">
 	<?php
 }
 
@@ -546,5 +565,5 @@ function omar_perfumes_shop_layout_close() {
 		return;
 	}
 	$closed = true;
-	echo '</section></div>';
+	echo '</section></div></div>';
 }
