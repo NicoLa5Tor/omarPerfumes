@@ -1069,7 +1069,7 @@
 			/* Let the secondary card poke out of the bottom edge, and reserve
 			   space so it doesn't collide with the next section. */
 			overflow: visible;
-			margin-bottom: 56px;
+			margin-bottom: 3.5rem;
 			border-radius: 0 0 26px 26px;
 		}
 
@@ -1096,17 +1096,17 @@
 
 		.perfumes-landing .hero-product-primary {
 			position: absolute;
-			bottom: 176px;
+			bottom: 22%;
 			left: 50%;
 			width: min(58vw, 240px);
-			height: 300px;
+			height: clamp(240px, 40svh, 360px);
 			transform: translateX(-50%) perspective(1200px) rotateX(9deg);
 		}
 
 		.perfumes-landing .hero-section .content-cta {
-			right: 16px;
-			bottom: -40px;
-			left: 16px;
+			right: 4vw;
+			bottom: -2.5rem;
+			left: 4vw;
 			display: grid;
 			width: auto;
 			max-width: none;
