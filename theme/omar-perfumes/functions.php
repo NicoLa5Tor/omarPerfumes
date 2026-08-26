@@ -1137,3 +1137,5 @@ function omar_perfumes_cart_button_assets() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'omar_perfumes_cart_button_assets', 26 );
+
+require get_theme_file_path( 'inc/shop-catalog.php' );

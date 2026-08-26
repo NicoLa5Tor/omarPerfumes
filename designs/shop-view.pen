@@ -1,0 +1,1880 @@
+{
+  "version": "2.17",
+  "children": [
+    {
+      "type": "frame",
+      "id": "F86kbX",
+      "x": 0,
+      "y": 0,
+      "name": "Omar Perfumes - Vista de tienda",
+      "clip": true,
+      "width": 1440,
+      "height": 1380,
+      "fill": "$paper",
+      "layout": "vertical",
+      "children": [
+        {
+          "type": "frame",
+          "id": "zP9mO",
+          "name": "Top navigation",
+          "width": "fill_container",
+          "height": 84,
+          "fill": "$navy",
+          "padding": [
+            0,
+            64
+          ],
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "sU2Ml",
+              "name": "Brand lockup",
+              "gap": 14,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "YZijS",
+                  "name": "Gold monogram mark",
+                  "width": 42,
+                  "height": 42,
+                  "fill": "$gold",
+                  "cornerRadius": 21,
+                  "layout": "vertical",
+                  "justifyContent": "center",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "Y5NTH",
+                      "name": "Monogram OP",
+                      "fill": "$navy",
+                      "content": "OP",
+                      "fontFamily": "$heading",
+                      "fontSize": 18,
+                      "fontWeight": "700"
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "SckOv",
+                  "name": "Brand text",
+                  "layout": "vertical",
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "O8sETu",
+                      "name": "Omar Perfumes",
+                      "fill": "#FFFFFF",
+                      "content": "Omar Perfumes",
+                      "fontFamily": "$heading",
+                      "fontSize": 27,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "text",
+                      "id": "SAcqw",
+                      "name": "Brand tagline",
+                      "fill": "#E2BD6D",
+                      "content": "Fine fragrance house",
+                      "fontFamily": "$body",
+                      "fontSize": 11,
+                      "fontWeight": "normal",
+                      "letterSpacing": 1.6
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "J4dz0",
+              "name": "Primary links",
+              "gap": 32,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Mg7K7",
+                  "name": "Nav link - Inicio",
+                  "fill": "#DDE5F1",
+                  "content": "Inicio",
+                  "fontFamily": "$body",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "B5JOzn",
+                  "name": "Nav link - Tienda",
+                  "fill": "$gold",
+                  "content": "Tienda",
+                  "fontFamily": "$body",
+                  "fontSize": 14,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "CjTQq",
+                  "name": "Nav link - Colecciones",
+                  "fill": "#DDE5F1",
+                  "content": "Colecciones",
+                  "fontFamily": "$body",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "e95WcE",
+                  "name": "Nav link - Regalos",
+                  "fill": "#DDE5F1",
+                  "content": "Regalos",
+                  "fontFamily": "$body",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                },
+                {
+                  "type": "text",
+                  "id": "eGGEB",
+                  "name": "Nav link - Contacto",
+                  "fill": "#DDE5F1",
+                  "content": "Contacto",
+                  "fontFamily": "$body",
+                  "fontSize": 14,
+                  "fontWeight": "500"
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "Vlp6P",
+              "name": "Header actions",
+              "gap": 14,
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "oEtO5",
+                  "name": "Buscar icon",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "search",
+                  "library": "lucide",
+                  "fill": "#FFFFFF"
+                },
+                {
+                  "type": "icon",
+                  "id": "Wn2Hr",
+                  "name": "Favoritos icon",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "heart",
+                  "library": "lucide",
+                  "fill": "#FFFFFF"
+                },
+                {
+                  "type": "icon",
+                  "id": "oJ5Ae",
+                  "name": "Carrito icon",
+                  "width": 22,
+                  "height": 22,
+                  "icon": "shopping-bag",
+                  "library": "lucide",
+                  "fill": "$gold"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "E4YfD",
+          "name": "Shop hero",
+          "width": "fill_container",
+          "height": 310,
+          "fill": {
+            "type": "gradient",
+            "gradientType": "linear",
+            "enabled": true,
+            "rotation": 96,
+            "size": {
+              "height": 1
+            },
+            "colors": [
+              {
+                "color": "#071527",
+                "position": 0
+              },
+              {
+                "color": "#0B1F3A",
+                "position": 0.72
+              },
+              {
+                "color": "#152C4C",
+                "position": 1
+              }
+            ]
+          },
+          "gap": 44,
+          "padding": [
+            36,
+            64
+          ],
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "frame",
+              "id": "ICuiU",
+              "name": "Hero copy",
+              "width": 650,
+              "layout": "vertical",
+              "gap": 14,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "RezAC",
+                  "name": "Hero eyebrow",
+                  "fill": "$gold",
+                  "content": "TIENDA OFICIAL",
+                  "fontFamily": "$body",
+                  "fontSize": 12,
+                  "fontWeight": "700",
+                  "letterSpacing": 2.4
+                },
+                {
+                  "type": "text",
+                  "id": "qyfd8",
+                  "name": "Hero title",
+                  "fill": "#FFFFFF",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Fragancias elegantes para cada presencia",
+                  "lineHeight": 0.92,
+                  "fontFamily": "$heading",
+                  "fontSize": 58,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "QFZU2",
+                  "name": "Hero description",
+                  "fill": "#DDE5F1",
+                  "textGrowth": "fixed-width",
+                  "width": 570,
+                  "content": "Explora perfumes árabes, nicho, diseñador y sets seleccionados. Filtra por ocasión, intensidad y familia olfativa sin perder el estilo premium de Omar Perfumes.",
+                  "lineHeight": 1.55,
+                  "fontFamily": "$body",
+                  "fontSize": 16,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "np9jd",
+                  "name": "Hero quick filters",
+                  "gap": 12,
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "MbVWW",
+                      "name": "Hero chip - Best sellers",
+                      "fill": "$gold",
+                      "cornerRadius": 4,
+                      "stroke": "$gold",
+                      "strokeWidth": 1,
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "Jho0K",
+                          "name": "Hero chip label - Best sellers",
+                          "fill": "$navy",
+                          "content": "Best sellers",
+                          "fontFamily": "$body",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "p8bzBi",
+                      "name": "Hero chip - Nuevos",
+                      "fill": "#FFFFFF12",
+                      "cornerRadius": 4,
+                      "stroke": "#E2BD6D66",
+                      "strokeWidth": 1,
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "S1hdw",
+                          "name": "Hero chip label - Nuevos",
+                          "fill": "#FFFFFF",
+                          "content": "Nuevos",
+                          "fontFamily": "$body",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "fggfG",
+                      "name": "Hero chip - Regalos premium",
+                      "fill": "#FFFFFF12",
+                      "cornerRadius": 4,
+                      "stroke": "#E2BD6D66",
+                      "strokeWidth": 1,
+                      "padding": [
+                        10,
+                        16
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "CXOGR",
+                          "name": "Hero chip label - Regalos premium",
+                          "fill": "#FFFFFF",
+                          "content": "Regalos premium",
+                          "fontFamily": "$body",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "xRMF2",
+              "name": "Hero product composition",
+              "width": "fill_container",
+              "height": 238,
+              "layout": "none",
+              "children": [
+                {
+                  "type": "ellipse",
+                  "id": "Sav8N",
+                  "x": 138,
+                  "y": 12,
+                  "name": "Gold halo",
+                  "fill": "#E2BD6D22",
+                  "width": 220,
+                  "height": 220
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": [
+                    18,
+                    18,
+                    10,
+                    10
+                  ],
+                  "id": "k11StX",
+                  "x": 198,
+                  "y": 24,
+                  "name": "Tall perfume navy bottle",
+                  "fill": {
+                    "type": "gradient",
+                    "gradientType": "linear",
+                    "enabled": true,
+                    "rotation": 180,
+                    "size": {
+                      "height": 1
+                    },
+                    "colors": [
+                      {
+                        "color": "#071527",
+                        "position": 0
+                      },
+                      {
+                        "color": "#1B3456",
+                        "position": 0.48
+                      },
+                      {
+                        "color": "#020813",
+                        "position": 1
+                      }
+                    ]
+                  },
+                  "width": 102,
+                  "height": 192,
+                  "stroke": "#E2BD6D",
+                  "strokeWidth": 2
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 6,
+                  "id": "ce1bN",
+                  "x": 221,
+                  "y": 0,
+                  "name": "Bottle cap",
+                  "fill": "$gold",
+                  "width": 56,
+                  "height": 32
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 3,
+                  "id": "h9lPTL",
+                  "x": 216,
+                  "y": 95,
+                  "name": "Bottle label",
+                  "fill": "#FFF6DD",
+                  "width": 66,
+                  "height": 50,
+                  "stroke": "#E2BD6D",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "text",
+                  "id": "q6SeO",
+                  "x": 229,
+                  "y": 110,
+                  "name": "Bottle label text",
+                  "fill": "$navy",
+                  "content": "OMAR",
+                  "fontFamily": "$heading",
+                  "fontSize": 18,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 5,
+                  "id": "L8X64M",
+                  "x": 52,
+                  "y": 64,
+                  "name": "Secondary perfume box",
+                  "fill": "#F7F3EA",
+                  "width": 118,
+                  "height": 154,
+                  "stroke": "#E2BD6D",
+                  "strokeWidth": 2
+                },
+                {
+                  "type": "text",
+                  "id": "tXT1n",
+                  "x": 79,
+                  "y": 126,
+                  "name": "Box label",
+                  "fill": "$navy",
+                  "content": "NOIR",
+                  "fontFamily": "$heading",
+                  "fontSize": 25,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": [
+                    14,
+                    14,
+                    8,
+                    8
+                  ],
+                  "id": "uLipH",
+                  "x": 314,
+                  "y": 94,
+                  "name": "Small gold bottle",
+                  "fill": "#D8A84A",
+                  "width": 68,
+                  "height": 124,
+                  "stroke": "#FFF3CA",
+                  "strokeWidth": 1
+                },
+                {
+                  "type": "rectangle",
+                  "cornerRadius": 4,
+                  "id": "sRYja",
+                  "x": 330,
+                  "y": 72,
+                  "name": "Small bottle cap",
+                  "fill": "#FFF3CA",
+                  "width": 36,
+                  "height": 22
+                },
+                {
+                  "type": "ellipse",
+                  "id": "E21ymy",
+                  "x": 34,
+                  "y": 214,
+                  "name": "Reflection base",
+                  "fill": "#FFFFFF1C",
+                  "width": 370,
+                  "height": 20
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "t8ayJ",
+          "name": "Store content",
+          "width": "fill_container",
+          "height": "fill_container",
+          "fill": "$ivory",
+          "gap": 34,
+          "padding": [
+            38,
+            64,
+            56,
+            64
+          ],
+          "children": [
+            {
+              "type": "frame",
+              "id": "c1AqSs",
+              "name": "Category sidebar",
+              "width": 286,
+              "height": "fill_container",
+              "fill": "#FFFFFF",
+              "cornerRadius": 6,
+              "stroke": "$line",
+              "strokeWidth": 1,
+              "layout": "vertical",
+              "gap": 18,
+              "padding": 22,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "c01yzn",
+                  "name": "Sidebar title",
+                  "fill": "$navy",
+                  "content": "Categorías",
+                  "fontFamily": "$heading",
+                  "fontSize": 30,
+                  "fontWeight": "700"
+                },
+                {
+                  "type": "text",
+                  "id": "Uoiv2",
+                  "name": "Sidebar helper",
+                  "fill": "$muted",
+                  "textGrowth": "fixed-width",
+                  "width": "fill_container",
+                  "content": "Explora por tipo, ocasión o familia olfativa.",
+                  "lineHeight": 1.45,
+                  "fontFamily": "$body",
+                  "fontSize": 13,
+                  "fontWeight": "normal"
+                },
+                {
+                  "type": "frame",
+                  "id": "Fy5Ct",
+                  "name": "Category list",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 8,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "r0ibi",
+                      "name": "Category - Todos",
+                      "width": "fill_container",
+                      "fill": "$navy",
+                      "cornerRadius": 4,
+                      "stroke": "$gold",
+                      "strokeWidth": 1,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "ZSkeQ",
+                          "name": "Category label group - Todos",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 2,
+                              "id": "GKWZo",
+                              "name": "Category active bar - Todos",
+                              "fill": "$gold",
+                              "width": 3,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "NGhOS",
+                              "name": "Category label - Todos",
+                              "fill": "#FFFFFF",
+                              "content": "Todos",
+                              "fontFamily": "$body",
+                              "fontSize": 14,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "aTG7O",
+                          "name": "Category count - Todos",
+                          "fill": "$gold",
+                          "content": "128",
+                          "fontFamily": "$body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "j8noQ",
+                      "name": "Category - Perfumes árabes",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 4,
+                      "stroke": "#ECE4D5",
+                      "strokeWidth": 1,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "rqKrc",
+                          "name": "Category label group - Perfumes árabes",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 2,
+                              "id": "xeA8r",
+                              "name": "Category active bar - Perfumes árabes",
+                              "fill": "#00000000",
+                              "width": 3,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "tZAEj",
+                              "name": "Category label - Perfumes árabes",
+                              "fill": "$ink",
+                              "content": "Perfumes árabes",
+                              "fontFamily": "$body",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "bGAoV",
+                          "name": "Category count - Perfumes árabes",
+                          "fill": "$muted",
+                          "content": "42",
+                          "fontFamily": "$body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "XCjV8",
+                      "name": "Category - Nicho",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 4,
+                      "stroke": "#ECE4D5",
+                      "strokeWidth": 1,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "yPIhQ",
+                          "name": "Category label group - Nicho",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 2,
+                              "id": "o1L5H",
+                              "name": "Category active bar - Nicho",
+                              "fill": "#00000000",
+                              "width": 3,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "S5yh8",
+                              "name": "Category label - Nicho",
+                              "fill": "$ink",
+                              "content": "Nicho",
+                              "fontFamily": "$body",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "ihOAQ",
+                          "name": "Category count - Nicho",
+                          "fill": "$muted",
+                          "content": "31",
+                          "fontFamily": "$body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "TtpSn",
+                      "name": "Category - Diseñador",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 4,
+                      "stroke": "#ECE4D5",
+                      "strokeWidth": 1,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "V7ExW7",
+                          "name": "Category label group - Diseñador",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 2,
+                              "id": "AUtmP",
+                              "name": "Category active bar - Diseñador",
+                              "fill": "#00000000",
+                              "width": 3,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "WU9i8",
+                              "name": "Category label - Diseñador",
+                              "fill": "$ink",
+                              "content": "Diseñador",
+                              "fontFamily": "$body",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "wnlbS",
+                          "name": "Category count - Diseñador",
+                          "fill": "$muted",
+                          "content": "27",
+                          "fontFamily": "$body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Cihh1",
+                      "name": "Category - Sets de regalo",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 4,
+                      "stroke": "#ECE4D5",
+                      "strokeWidth": 1,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "XzNpN",
+                          "name": "Category label group - Sets de regalo",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 2,
+                              "id": "a6h5WJ",
+                              "name": "Category active bar - Sets de regalo",
+                              "fill": "#00000000",
+                              "width": 3,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "ZGJOk",
+                              "name": "Category label - Sets de regalo",
+                              "fill": "$ink",
+                              "content": "Sets de regalo",
+                              "fontFamily": "$body",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "uw6OC",
+                          "name": "Category count - Sets de regalo",
+                          "fill": "$muted",
+                          "content": "18",
+                          "fontFamily": "$body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "KqRxj",
+                      "name": "Category - Body splash",
+                      "width": "fill_container",
+                      "fill": "#FFFFFF",
+                      "cornerRadius": 4,
+                      "stroke": "#ECE4D5",
+                      "strokeWidth": 1,
+                      "padding": [
+                        12,
+                        14
+                      ],
+                      "justifyContent": "space_between",
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "m9ZYti",
+                          "name": "Category label group - Body splash",
+                          "gap": 10,
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "rectangle",
+                              "cornerRadius": 2,
+                              "id": "xxfgT",
+                              "name": "Category active bar - Body splash",
+                              "fill": "#00000000",
+                              "width": 3,
+                              "height": 18
+                            },
+                            {
+                              "type": "text",
+                              "id": "eQqXl",
+                              "name": "Category label - Body splash",
+                              "fill": "$ink",
+                              "content": "Body splash",
+                              "fontFamily": "$body",
+                              "fontSize": 14,
+                              "fontWeight": "600"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "text",
+                          "id": "aYUkp",
+                          "name": "Category count - Body splash",
+                          "fill": "$muted",
+                          "content": "10",
+                          "fontFamily": "$body",
+                          "fontSize": 12,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "Svxt1",
+                  "name": "Active subcategories",
+                  "width": "fill_container",
+                  "layout": "vertical",
+                  "gap": 10,
+                  "padding": [
+                    18,
+                    0,
+                    0,
+                    0
+                  ],
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "jQ0S2",
+                      "name": "Subcategory title",
+                      "fill": "$gold",
+                      "content": "Subcategorías de Todos",
+                      "fontFamily": "$body",
+                      "fontSize": 12,
+                      "fontWeight": "700",
+                      "letterSpacing": 1.2
+                    },
+                    {
+                      "type": "frame",
+                      "id": "En0I7",
+                      "name": "Subcategory - Para hombre",
+                      "width": "fill_container",
+                      "fill": "#E2BD6D26",
+                      "cornerRadius": 4,
+                      "gap": 10,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "bCkeQ",
+                          "name": "Subcategory dot - Para hombre",
+                          "fill": "$gold",
+                          "width": 7,
+                          "height": 7
+                        },
+                        {
+                          "type": "text",
+                          "id": "CqEdM",
+                          "name": "Subcategory label - Para hombre",
+                          "fill": "$navy",
+                          "content": "Para hombre",
+                          "fontFamily": "$body",
+                          "fontSize": 13,
+                          "fontWeight": "700"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "O9cb15",
+                      "name": "Subcategory - Para mujer",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "cornerRadius": 4,
+                      "gap": 10,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "NDuYc",
+                          "name": "Subcategory dot - Para mujer",
+                          "fill": "#C9BFAE",
+                          "width": 7,
+                          "height": 7
+                        },
+                        {
+                          "type": "text",
+                          "id": "tQO2Q",
+                          "name": "Subcategory label - Para mujer",
+                          "fill": "$muted",
+                          "content": "Para mujer",
+                          "fontFamily": "$body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "Rgabv",
+                      "name": "Subcategory - Unisex",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "cornerRadius": 4,
+                      "gap": 10,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "YNWJ8",
+                          "name": "Subcategory dot - Unisex",
+                          "fill": "#C9BFAE",
+                          "width": 7,
+                          "height": 7
+                        },
+                        {
+                          "type": "text",
+                          "id": "mPTPG",
+                          "name": "Subcategory label - Unisex",
+                          "fill": "$muted",
+                          "content": "Unisex",
+                          "fontFamily": "$body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "wQopL",
+                      "name": "Subcategory - Oud",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "cornerRadius": 4,
+                      "gap": 10,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "a1fhPR",
+                          "name": "Subcategory dot - Oud",
+                          "fill": "#C9BFAE",
+                          "width": 7,
+                          "height": 7
+                        },
+                        {
+                          "type": "text",
+                          "id": "NhcWH",
+                          "name": "Subcategory label - Oud",
+                          "fill": "$muted",
+                          "content": "Oud",
+                          "fontFamily": "$body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "YpUWF",
+                      "name": "Subcategory - Cítricos frescos",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "cornerRadius": 4,
+                      "gap": 10,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "vX1kw",
+                          "name": "Subcategory dot - Cítricos frescos",
+                          "fill": "#C9BFAE",
+                          "width": 7,
+                          "height": 7
+                        },
+                        {
+                          "type": "text",
+                          "id": "pzNTC",
+                          "name": "Subcategory label - Cítricos frescos",
+                          "fill": "$muted",
+                          "content": "Cítricos frescos",
+                          "fontFamily": "$body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "L2Zk6",
+                      "name": "Subcategory - Dulces intensos",
+                      "width": "fill_container",
+                      "fill": "#00000000",
+                      "cornerRadius": 4,
+                      "gap": 10,
+                      "padding": [
+                        8,
+                        10
+                      ],
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "ellipse",
+                          "id": "bnFai",
+                          "name": "Subcategory dot - Dulces intensos",
+                          "fill": "#C9BFAE",
+                          "width": 7,
+                          "height": 7
+                        },
+                        {
+                          "type": "text",
+                          "id": "ZMEr7",
+                          "name": "Subcategory label - Dulces intensos",
+                          "fill": "$muted",
+                          "content": "Dulces intensos",
+                          "fontFamily": "$body",
+                          "fontSize": 13,
+                          "fontWeight": "500"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "vsgB6",
+                  "name": "Filter summary",
+                  "width": "fill_container",
+                  "fill": "#F8F5EE",
+                  "cornerRadius": 5,
+                  "stroke": "$line",
+                  "strokeWidth": 1,
+                  "layout": "vertical",
+                  "gap": 12,
+                  "padding": 16,
+                  "children": [
+                    {
+                      "type": "text",
+                      "id": "DU237",
+                      "name": "Filter title",
+                      "fill": "$navy",
+                      "content": "Filtros rápidos",
+                      "fontFamily": "$body",
+                      "fontSize": 13,
+                      "fontWeight": "700"
+                    },
+                    {
+                      "type": "frame",
+                      "id": "qjsWX",
+                      "name": "Filter row - Precio: $60 - $180",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "zZNaS",
+                          "name": "Check icon - Precio: $60 - $180",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$gold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "a1843",
+                          "name": "Filter label - Precio: $60 - $180",
+                          "fill": "$muted",
+                          "content": "Precio: $60 - $180",
+                          "fontFamily": "$body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "mP5D5",
+                      "name": "Filter row - Con stock",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "fse8k",
+                          "name": "Check icon - Con stock",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$gold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "SMKZv",
+                          "name": "Filter label - Con stock",
+                          "fill": "$muted",
+                          "content": "Con stock",
+                          "fontFamily": "$body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "lzLYH",
+                      "name": "Filter row - Alta duración",
+                      "gap": 8,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "icon",
+                          "id": "W9mMK",
+                          "name": "Check icon - Alta duración",
+                          "width": 14,
+                          "height": 14,
+                          "icon": "check",
+                          "library": "lucide",
+                          "fill": "$gold"
+                        },
+                        {
+                          "type": "text",
+                          "id": "JrICv",
+                          "name": "Filter label - Alta duración",
+                          "fill": "$muted",
+                          "content": "Alta duración",
+                          "fontFamily": "$body",
+                          "fontSize": 12,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "frame",
+              "id": "kLvqh",
+              "name": "Product browsing area",
+              "width": "fill_container",
+              "height": "fill_container",
+              "layout": "vertical",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "id": "p1PHU",
+                  "name": "Product toolbar",
+                  "width": "fill_container",
+                  "height": 70,
+                  "justifyContent": "space_between",
+                  "alignItems": "center",
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "Dn7WR",
+                      "name": "Toolbar title group",
+                      "layout": "vertical",
+                      "gap": 4,
+                      "children": [
+                        {
+                          "type": "text",
+                          "id": "xf4LV",
+                          "name": "Toolbar title",
+                          "fill": "$navy",
+                          "content": "Todos los perfumes",
+                          "fontFamily": "$heading",
+                          "fontSize": 34,
+                          "fontWeight": "700"
+                        },
+                        {
+                          "type": "text",
+                          "id": "XXfiI",
+                          "name": "Toolbar meta",
+                          "fill": "$muted",
+                          "content": "128 productos · Hombre seleccionado · Actualizado hoy",
+                          "fontFamily": "$body",
+                          "fontSize": 13,
+                          "fontWeight": "normal"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "X4pyTS",
+                      "name": "Toolbar controls",
+                      "gap": 12,
+                      "alignItems": "center",
+                      "children": [
+                        {
+                          "type": "frame",
+                          "id": "zgCkH",
+                          "name": "Control - Filtros",
+                          "fill": "$navy",
+                          "cornerRadius": 4,
+                          "stroke": "$navy",
+                          "strokeWidth": 1,
+                          "gap": 8,
+                          "padding": [
+                            11,
+                            14
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "FT21P",
+                              "name": "Control icon - Filtros",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "sliders-horizontal",
+                              "library": "lucide",
+                              "fill": "$gold"
+                            },
+                            {
+                              "type": "text",
+                              "id": "C00Iz",
+                              "name": "Control label - Filtros",
+                              "fill": "#FFFFFF",
+                              "content": "Filtros",
+                              "fontFamily": "$body",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        },
+                        {
+                          "type": "frame",
+                          "id": "KDIfh",
+                          "name": "Control - Más vendidos",
+                          "fill": "#FFFFFF",
+                          "cornerRadius": 4,
+                          "stroke": "$line",
+                          "strokeWidth": 1,
+                          "gap": 8,
+                          "padding": [
+                            11,
+                            14
+                          ],
+                          "alignItems": "center",
+                          "children": [
+                            {
+                              "type": "icon",
+                              "id": "eIyTt",
+                              "name": "Control icon - Más vendidos",
+                              "width": 16,
+                              "height": 16,
+                              "icon": "arrow-up-down",
+                              "library": "lucide",
+                              "fill": "$navy"
+                            },
+                            {
+                              "type": "text",
+                              "id": "AoKAZ",
+                              "name": "Control label - Más vendidos",
+                              "fill": "$navy",
+                              "content": "Más vendidos",
+                              "fontFamily": "$body",
+                              "fontSize": 13,
+                              "fontWeight": "700"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "frame",
+                  "id": "t55xXN",
+                  "name": "Product grid",
+                  "width": "fill_container",
+                  "height": "fill_container",
+                  "layout": "vertical",
+                  "gap": 22,
+                  "children": [
+                    {
+                      "type": "frame",
+                      "id": "A9BjWz",
+                      "name": "Product row 1",
+                      "width": "fill_container",
+                      "height": 352,
+                      "gap": 22,
+                      "children": [
+                        {
+                          "id": "cY63m",
+                          "type": "ref",
+                          "ref": "SOj4R",
+                          "name": "Product card - Sultan Navy",
+                          "width": "fill_container",
+                          "height": 352,
+                          "descendants": {
+                            "KEMQ0": {
+                              "fill": "#FFF7DF"
+                            },
+                            "Z2zqk": {
+                              "content": "NUEVO"
+                            },
+                            "XTZ6c": {
+                              "fill": "#071527"
+                            },
+                            "B9pEd": {
+                              "content": "Omar Signature"
+                            },
+                            "p3Zce": {
+                              "content": "Sultan Navy"
+                            },
+                            "GhYVK": {
+                              "content": "Azafrán · Oud · Cuero"
+                            },
+                            "JQLH1": {
+                              "content": "$148"
+                            }
+                          }
+                        },
+                        {
+                          "id": "cU4uN",
+                          "type": "ref",
+                          "ref": "SOj4R",
+                          "name": "Product card - Khamrah Luxe",
+                          "width": "fill_container",
+                          "height": 352,
+                          "descendants": {
+                            "KEMQ0": {
+                              "fill": "#FFF0D0"
+                            },
+                            "Z2zqk": {
+                              "content": "BESTSELLER"
+                            },
+                            "XTZ6c": {
+                              "fill": "#8B5328"
+                            },
+                            "B9pEd": {
+                              "content": "Lattafa"
+                            },
+                            "p3Zce": {
+                              "content": "Khamrah Luxe"
+                            },
+                            "GhYVK": {
+                              "content": "Canela · Praliné · Tonka"
+                            },
+                            "JQLH1": {
+                              "content": "$82"
+                            }
+                          }
+                        },
+                        {
+                          "id": "kZIip",
+                          "type": "ref",
+                          "ref": "SOj4R",
+                          "name": "Product card - Rose Petal Gold",
+                          "width": "fill_container",
+                          "height": 352,
+                          "descendants": {
+                            "KEMQ0": {
+                              "fill": "#FFE8EF"
+                            },
+                            "Z2zqk": {
+                              "content": "LIMITADO"
+                            },
+                            "XTZ6c": {
+                              "fill": "#7A2746"
+                            },
+                            "B9pEd": {
+                              "content": "Maison Alhambra"
+                            },
+                            "p3Zce": {
+                              "content": "Rose Petal Gold"
+                            },
+                            "GhYVK": {
+                              "content": "Rosa · Almizcle · Peonía"
+                            },
+                            "JQLH1": {
+                              "content": "$96"
+                            }
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "type": "frame",
+                      "id": "nBWkb",
+                      "name": "Product row 2",
+                      "width": "fill_container",
+                      "height": 352,
+                      "gap": 22,
+                      "children": [
+                        {
+                          "id": "aiYSb",
+                          "type": "ref",
+                          "ref": "SOj4R",
+                          "name": "Product card - Amber Oud Intense",
+                          "width": "fill_container",
+                          "height": 352,
+                          "descendants": {
+                            "KEMQ0": {
+                              "fill": "#FFF7DF"
+                            },
+                            "Z2zqk": {
+                              "content": "TOP"
+                            },
+                            "XTZ6c": {
+                              "fill": "#0B1F3A"
+                            },
+                            "B9pEd": {
+                              "content": "Omar Collection"
+                            },
+                            "p3Zce": {
+                              "content": "Amber Oud Intense"
+                            },
+                            "GhYVK": {
+                              "content": "Oud · Ambar · Vainilla"
+                            },
+                            "JQLH1": {
+                              "content": "$129"
+                            }
+                          }
+                        },
+                        {
+                          "id": "cEkbo",
+                          "type": "ref",
+                          "ref": "SOj4R",
+                          "name": "Product card - Blu Pour Homme",
+                          "width": "fill_container",
+                          "height": 352,
+                          "descendants": {
+                            "KEMQ0": {
+                              "fill": "#EAF3FF"
+                            },
+                            "Z2zqk": {
+                              "content": "NUEVO"
+                            },
+                            "XTZ6c": {
+                              "fill": "#123E6D"
+                            },
+                            "B9pEd": {
+                              "content": "Ajmal"
+                            },
+                            "p3Zce": {
+                              "content": "Blu Pour Homme"
+                            },
+                            "GhYVK": {
+                              "content": "Cítricos · Madera · Marino"
+                            },
+                            "JQLH1": {
+                              "content": "$74"
+                            }
+                          }
+                        },
+                        {
+                          "id": "G1yMJf",
+                          "type": "ref",
+                          "ref": "SOj4R",
+                          "name": "Product card - Club De Nuit",
+                          "width": "fill_container",
+                          "height": 352,
+                          "descendants": {
+                            "KEMQ0": {
+                              "fill": "#F3F3F3"
+                            },
+                            "Z2zqk": {
+                              "content": "STOCK BAJO"
+                            },
+                            "XTZ6c": {
+                              "fill": "#141414"
+                            },
+                            "B9pEd": {
+                              "content": "Armaf"
+                            },
+                            "p3Zce": {
+                              "content": "Club De Nuit"
+                            },
+                            "GhYVK": {
+                              "content": "Bergamota · Piña · Abedul"
+                            },
+                            "JQLH1": {
+                              "content": "$68"
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "SOj4R",
+      "x": 0,
+      "y": -440,
+      "name": "Component - Product card",
+      "reusable": true,
+      "width": 250,
+      "height": 352,
+      "fill": "#FFFFFF",
+      "cornerRadius": 6,
+      "stroke": "$line",
+      "strokeWidth": 1,
+      "layout": "vertical",
+      "gap": 12,
+      "padding": 14,
+      "children": [
+        {
+          "type": "frame",
+          "id": "KEMQ0",
+          "name": "Product image area",
+          "width": "fill_container",
+          "height": 178,
+          "fill": "#F6F0E4",
+          "cornerRadius": 4,
+          "layout": "none",
+          "children": [
+            {
+              "type": "frame",
+              "id": "vJNu0",
+              "x": 10,
+              "y": 10,
+              "name": "Product badge",
+              "fill": "$navy",
+              "cornerRadius": 3,
+              "padding": [
+                6,
+                9
+              ],
+              "children": [
+                {
+                  "type": "text",
+                  "id": "Z2zqk",
+                  "name": "Badge label",
+                  "fill": "$gold",
+                  "content": "NUEVO",
+                  "fontFamily": "$body",
+                  "fontSize": 10,
+                  "fontWeight": "800",
+                  "letterSpacing": 0.8
+                }
+              ]
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": [
+                15,
+                15,
+                8,
+                8
+              ],
+              "id": "D5z7ID",
+              "x": 91,
+              "y": 32,
+              "name": "Product bottle shadow",
+              "fill": "#07152718",
+              "width": 70,
+              "height": 126
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": [
+                14,
+                14,
+                8,
+                8
+              ],
+              "id": "XTZ6c",
+              "x": 96,
+              "y": 24,
+              "name": "Product bottle",
+              "fill": "$navy",
+              "width": 62,
+              "height": 132,
+              "stroke": "$gold",
+              "strokeWidth": 1
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 3,
+              "id": "N30VFI",
+              "x": 111,
+              "y": 8,
+              "name": "Product cap",
+              "fill": "$gold",
+              "width": 32,
+              "height": 20
+            },
+            {
+              "type": "rectangle",
+              "cornerRadius": 2,
+              "id": "N4CE8o",
+              "x": 107,
+              "y": 82,
+              "name": "Product label panel",
+              "fill": "#FFF7DF",
+              "width": 40,
+              "height": 30
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "J5NE3",
+          "name": "Product info",
+          "width": "fill_container",
+          "layout": "vertical",
+          "gap": 7,
+          "children": [
+            {
+              "type": "text",
+              "id": "B9pEd",
+              "name": "Product brand",
+              "fill": "$gold",
+              "content": "Omar Collection",
+              "fontFamily": "$body",
+              "fontSize": 11,
+              "fontWeight": "700",
+              "letterSpacing": 1.1
+            },
+            {
+              "type": "text",
+              "id": "p3Zce",
+              "name": "Product name",
+              "fill": "$navy",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Amber Oud Intense",
+              "lineHeight": 1,
+              "fontFamily": "$heading",
+              "fontSize": 24,
+              "fontWeight": "700"
+            },
+            {
+              "type": "text",
+              "id": "GhYVK",
+              "name": "Product notes",
+              "fill": "$muted",
+              "textGrowth": "fixed-width",
+              "width": "fill_container",
+              "content": "Oud · Ambar · Vainilla",
+              "fontFamily": "$body",
+              "fontSize": 12,
+              "fontWeight": "normal"
+            }
+          ]
+        },
+        {
+          "type": "frame",
+          "id": "WvXNm",
+          "name": "Product bottom",
+          "width": "fill_container",
+          "justifyContent": "space_between",
+          "alignItems": "center",
+          "children": [
+            {
+              "type": "text",
+              "id": "JQLH1",
+              "name": "Product price",
+              "fill": "$ink",
+              "content": "$129",
+              "fontFamily": "$body",
+              "fontSize": 17,
+              "fontWeight": "800"
+            },
+            {
+              "type": "frame",
+              "id": "TLZRE",
+              "name": "Add button",
+              "fill": "$navy",
+              "cornerRadius": 4,
+              "gap": 6,
+              "padding": [
+                9,
+                12
+              ],
+              "alignItems": "center",
+              "children": [
+                {
+                  "type": "icon",
+                  "id": "tA54Q",
+                  "name": "Add icon",
+                  "width": 14,
+                  "height": 14,
+                  "icon": "plus",
+                  "library": "lucide",
+                  "fill": "$gold"
+                },
+                {
+                  "type": "text",
+                  "id": "mDsRq",
+                  "name": "Add label",
+                  "fill": "#FFFFFF",
+                  "content": "Añadir",
+                  "fontFamily": "$body",
+                  "fontSize": 12,
+                  "fontWeight": "700"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variables": {
+    "navy": {
+      "type": "color",
+      "value": "#071527"
+    },
+    "navy2": {
+      "type": "color",
+      "value": "#0B1F3A"
+    },
+    "gold": {
+      "type": "color",
+      "value": "#E2BD6D"
+    },
+    "ivory": {
+      "type": "color",
+      "value": "#F7F3EA"
+    },
+    "paper": {
+      "type": "color",
+      "value": "#FFFDF8"
+    },
+    "ink": {
+      "type": "color",
+      "value": "#111722"
+    },
+    "muted": {
+      "type": "color",
+      "value": "#6D7280"
+    },
+    "line": {
+      "type": "color",
+      "value": "#E8DECB"
+    },
+    "heading": {
+      "type": "string",
+      "value": "Cormorant Garamond"
+    },
+    "body": {
+      "type": "string",
+      "value": "Inter"
+    }
+  },
+  "fileToken": "89110070-e405-42c1-8cfb-f9bf22a83c23"
+}

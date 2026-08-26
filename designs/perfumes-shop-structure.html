@@ -1,0 +1,154 @@
+﻿<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Omar Perfumes - Estructura de tienda</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --perfumes-shop-navy: #071527;
+        --perfumes-shop-navy-soft: #0b1f3a;
+        --perfumes-shop-gold: #e2bd6d;
+        --perfumes-shop-paper: #f8f5ee;
+        --perfumes-shop-card: #ffffff;
+        --perfumes-shop-ink: #111722;
+        --perfumes-shop-muted: #6d7280;
+        --perfumes-shop-border: #e8decb;
+      }
+      *, *::before, *::after { box-sizing: border-box; }
+      body { margin: 0; background: var(--perfumes-shop-paper); color: var(--perfumes-shop-ink); font-family: Inter, system-ui, sans-serif; }
+      .perfumes-shop-page { min-height: 100vh; }
+      .perfumes-shop-hero { background: linear-gradient(91deg, #152c4c 0%, var(--perfumes-shop-navy-soft) 28%, var(--perfumes-shop-navy) 100%); color: #ffffff; }
+      .perfumes-shop-hero__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 520px); gap: 44px; align-items: center; max-width: 1440px; min-height: 310px; margin: 0 auto; padding: 36px 64px; }
+      .perfumes-shop-hero__eyebrow { margin: 0 0 14px; color: var(--perfumes-shop-gold); font-size: 12px; font-weight: 700; letter-spacing: 2.4px; text-transform: uppercase; }
+      .perfumes-shop-hero__title { max-width: 650px; margin: 0; font-family: "Cormorant Garamond", Georgia, serif; font-size: clamp(42px, 5vw, 58px); line-height: 0.92; }
+      .perfumes-shop-hero__description { max-width: 570px; margin: 14px 0 0; color: #dde5f1; font-size: 16px; line-height: 1.56; }
+      .perfumes-shop-hero__quick-filters { display: flex; flex-wrap: wrap; gap: 12px; margin: 18px 0 0; padding: 0; list-style: none; }
+      .perfumes-shop-hero__chip { border: 1px solid rgba(226, 189, 109, 0.4); border-radius: 4px; padding: 10px 16px; background: rgba(255, 255, 255, 0.07); color: #ffffff; font-size: 13px; font-weight: 700; }
+      .perfumes-shop-hero__chip--active { border-color: var(--perfumes-shop-gold); background: var(--perfumes-shop-gold); color: var(--perfumes-shop-navy); }
+      .perfumes-shop-hero__composition { position: relative; min-height: 238px; }
+      .perfumes-shop-hero__halo, .perfumes-shop-hero__reflection, .perfumes-shop-hero__bottle, .perfumes-shop-hero__cap, .perfumes-shop-hero__label, .perfumes-shop-hero__box { position: absolute; }
+      .perfumes-shop-hero__halo { top: 12px; left: 28%; width: 220px; height: 220px; border-radius: 50%; background: rgba(226, 189, 109, 0.13); }
+      .perfumes-shop-hero__bottle--primary { top: 24px; left: 40%; width: 102px; height: 192px; border: 2px solid var(--perfumes-shop-gold); border-radius: 18px 18px 10px 10px; background: linear-gradient(180deg, var(--perfumes-shop-navy) 0%, #1b3456 48%, #020813 100%); }
+      .perfumes-shop-hero__cap--primary { top: 0; left: calc(40% + 23px); width: 56px; height: 32px; border-radius: 6px; background: var(--perfumes-shop-gold); }
+      .perfumes-shop-hero__label--primary { top: 95px; left: calc(40% + 18px); width: 66px; height: 50px; display: grid; place-items: center; border: 1px solid var(--perfumes-shop-gold); border-radius: 3px; background: #fff6dd; color: var(--perfumes-shop-navy); font-family: "Cormorant Garamond", Georgia, serif; font-size: 18px; font-weight: 700; }
+      .perfumes-shop-hero__box { top: 64px; left: 6%; width: 118px; height: 154px; display: grid; place-items: center; border: 2px solid var(--perfumes-shop-gold); border-radius: 5px; background: #f7f3ea; color: var(--perfumes-shop-navy); font-family: "Cormorant Garamond", Georgia, serif; font-size: 25px; font-weight: 700; }
+      .perfumes-shop-hero__bottle--secondary { top: 94px; right: 22%; width: 68px; height: 124px; border: 1px solid #fff3ca; border-radius: 14px 14px 8px 8px; background: #d8a84a; }
+      .perfumes-shop-hero__cap--secondary { top: 72px; right: calc(22% + 16px); width: 36px; height: 22px; border-radius: 4px; background: #fff3ca; }
+      .perfumes-shop-hero__reflection { right: 18%; bottom: 4px; width: min(370px, 78%); height: 20px; border-radius: 50%; background: rgba(255, 255, 255, 0.11); }
+      .perfumes-shop-store { display: grid; grid-template-columns: 286px minmax(0, 992px); gap: 64px; max-width: 1440px; margin: 0 auto; padding: 38px 64px 64px; }
+      .perfumes-shop-sidebar { border: 1px solid var(--perfumes-shop-border); border-radius: 6px; background: var(--perfumes-shop-card); padding: 22px; }
+      .perfumes-shop-sidebar__title { margin: 0; color: var(--perfumes-shop-navy); font-family: "Cormorant Garamond", Georgia, serif; font-size: 30px; line-height: 1.2; }
+      .perfumes-shop-sidebar__helper { margin: 8px 0 18px; color: var(--perfumes-shop-muted); font-size: 13px; line-height: 1.46; }
+      .perfumes-shop-sidebar__group { margin: 0 0 18px; }
+      .perfumes-shop-sidebar__group-title { margin: 0 0 10px; color: var(--perfumes-shop-navy); font-size: 13px; font-weight: 700; }
+      .perfumes-shop-category-list, .perfumes-shop-subcategory-list, .perfumes-shop-filter-list { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+      .perfumes-shop-category-list__button { display: flex; align-items: center; justify-content: space-between; width: 100%; border: 1px solid #ece4d5; border-radius: 4px; background: #ffffff; padding: 12px 14px; color: var(--perfumes-shop-ink); font: inherit; font-size: 14px; font-weight: 600; text-align: left; }
+      .perfumes-shop-category-list__button::before { content: ""; width: 3px; height: 18px; margin-right: 10px; border-radius: 2px; background: transparent; }
+      .perfumes-shop-category-list__button-label { display: inline-flex; align-items: center; margin-right: auto; }
+      .perfumes-shop-category-list__count { color: var(--perfumes-shop-muted); font-size: 12px; font-weight: 700; }
+      .perfumes-shop-category-list__button--active { border-color: var(--perfumes-shop-gold); background: var(--perfumes-shop-navy); color: #ffffff; font-weight: 700; }
+      .perfumes-shop-category-list__button--active::before { background: var(--perfumes-shop-gold); }
+      .perfumes-shop-category-list__button--active .perfumes-shop-category-list__count { color: var(--perfumes-shop-gold); }
+      .perfumes-shop-subcategory-list__button { display: flex; align-items: center; gap: 10px; width: 100%; border: 0; border-radius: 4px; background: transparent; padding: 8px 10px; color: var(--perfumes-shop-muted); font: inherit; font-size: 13px; font-weight: 500; text-align: left; }
+      .perfumes-shop-subcategory-list__button::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: #c9bfae; }
+      .perfumes-shop-filter-list { border: 1px solid var(--perfumes-shop-border); border-radius: 5px; background: var(--perfumes-shop-paper); padding: 16px; }
+      .perfumes-shop-filter-list__item { display: flex; align-items: center; gap: 8px; color: var(--perfumes-shop-muted); font-size: 12px; }
+      .perfumes-shop-filter-list__item::before { content: "✓"; color: var(--perfumes-shop-gold); font-weight: 700; }
+      .perfumes-shop-products { min-width: 0; }
+      .perfumes-shop-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 24px; min-height: 70px; }
+      .perfumes-shop-toolbar__title { margin: 0; color: var(--perfumes-shop-navy); font-family: "Cormorant Garamond", Georgia, serif; font-size: 34px; line-height: 1.2; }
+      .perfumes-shop-toolbar__meta { margin: 4px 0 0; color: var(--perfumes-shop-muted); font-size: 13px; }
+      .perfumes-shop-toolbar__controls { display: flex; gap: 12px; }
+      .perfumes-shop-toolbar__button { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--perfumes-shop-border); border-radius: 4px; background: #ffffff; padding: 11px 14px; color: var(--perfumes-shop-navy); font: inherit; font-size: 13px; font-weight: 700; }
+      .perfumes-shop-toolbar__button--primary { border-color: var(--perfumes-shop-navy); background: var(--perfumes-shop-navy); color: #ffffff; }
+      .perfumes-shop-toolbar__icon { width: 16px; height: 16px; color: currentColor; }
+      @media (max-width: 900px) { .perfumes-shop-hero__inner, .perfumes-shop-store { grid-template-columns: 1fr; padding-right: 24px; padding-left: 24px; } .perfumes-shop-store { gap: 28px; } .perfumes-shop-hero__composition { min-height: 220px; } }
+      @media (max-width: 640px) { .perfumes-shop-hero__inner { padding-top: 32px; padding-bottom: 32px; } .perfumes-shop-toolbar { align-items: flex-start; flex-direction: column; } .perfumes-shop-toolbar__controls { width: 100%; flex-wrap: wrap; } }
+    </style>
+  </head>
+  <body>
+    <main class="perfumes-shop-page" aria-label="Estructura de tienda Omar Perfumes">
+      <section class="perfumes-shop-hero" aria-labelledby="perfumes-shop-hero-title">
+        <div class="perfumes-shop-hero__inner">
+          <div class="perfumes-shop-hero__copy">
+            <p class="perfumes-shop-hero__eyebrow">Tienda oficial</p>
+            <h1 class="perfumes-shop-hero__title" id="perfumes-shop-hero-title">Fragancias elegantes para cada presencia</h1>
+            <p class="perfumes-shop-hero__description">Explora perfumes árabes, nicho, diseñador y sets seleccionados. Filtra por ocasión, intensidad y familia olfativa sin perder el estilo premium de Omar Perfumes.</p>
+            <ul class="perfumes-shop-hero__quick-filters" aria-label="Filtros destacados">
+              <li class="perfumes-shop-hero__chip perfumes-shop-hero__chip--active">Best sellers</li>
+              <li class="perfumes-shop-hero__chip">Nuevos</li>
+              <li class="perfumes-shop-hero__chip">Regalos premium</li>
+            </ul>
+          </div>
+          <div class="perfumes-shop-hero__composition" aria-hidden="true">
+            <span class="perfumes-shop-hero__halo"></span>
+            <span class="perfumes-shop-hero__box">NOIR</span>
+            <span class="perfumes-shop-hero__cap perfumes-shop-hero__cap--primary"></span>
+            <span class="perfumes-shop-hero__bottle perfumes-shop-hero__bottle--primary"></span>
+            <span class="perfumes-shop-hero__label perfumes-shop-hero__label--primary">OMAR</span>
+            <span class="perfumes-shop-hero__cap perfumes-shop-hero__cap--secondary"></span>
+            <span class="perfumes-shop-hero__bottle perfumes-shop-hero__bottle--secondary"></span>
+            <span class="perfumes-shop-hero__reflection"></span>
+          </div>
+        </div>
+      </section>
+      <div class="perfumes-shop-store">
+        <aside class="perfumes-shop-sidebar" aria-labelledby="perfumes-shop-sidebar-title">
+          <h2 class="perfumes-shop-sidebar__title" id="perfumes-shop-sidebar-title">Categorías</h2>
+          <p class="perfumes-shop-sidebar__helper">Explora por tipo, ocasión o familia olfativa.</p>
+          <section class="perfumes-shop-sidebar__group" aria-label="Categorías principales">
+            <ul class="perfumes-shop-category-list">
+              <li class="perfumes-shop-category-list__item"><button class="perfumes-shop-category-list__button perfumes-shop-category-list__button--active" type="button"><span class="perfumes-shop-category-list__button-label">Todos</span><span class="perfumes-shop-category-list__count">128</span></button></li>
+              <li class="perfumes-shop-category-list__item"><button class="perfumes-shop-category-list__button" type="button"><span class="perfumes-shop-category-list__button-label">Perfumes árabes</span><span class="perfumes-shop-category-list__count">42</span></button></li>
+              <li class="perfumes-shop-category-list__item"><button class="perfumes-shop-category-list__button" type="button"><span class="perfumes-shop-category-list__button-label">Nicho</span><span class="perfumes-shop-category-list__count">31</span></button></li>
+              <li class="perfumes-shop-category-list__item"><button class="perfumes-shop-category-list__button" type="button"><span class="perfumes-shop-category-list__button-label">Diseñador</span><span class="perfumes-shop-category-list__count">27</span></button></li>
+              <li class="perfumes-shop-category-list__item"><button class="perfumes-shop-category-list__button" type="button"><span class="perfumes-shop-category-list__button-label">Sets de regalo</span><span class="perfumes-shop-category-list__count">18</span></button></li>
+              <li class="perfumes-shop-category-list__item"><button class="perfumes-shop-category-list__button" type="button"><span class="perfumes-shop-category-list__button-label">Body splash</span><span class="perfumes-shop-category-list__count">10</span></button></li>
+            </ul>
+          </section>
+          <section class="perfumes-shop-sidebar__group" aria-labelledby="perfumes-shop-subcategory-title">
+            <h3 class="perfumes-shop-sidebar__group-title" id="perfumes-shop-subcategory-title">Subcategorías de Todos</h3>
+            <ul class="perfumes-shop-subcategory-list">
+              <li><button class="perfumes-shop-subcategory-list__button" type="button">Para hombre</button></li>
+              <li><button class="perfumes-shop-subcategory-list__button" type="button">Para mujer</button></li>
+              <li><button class="perfumes-shop-subcategory-list__button" type="button">Unisex</button></li>
+              <li><button class="perfumes-shop-subcategory-list__button" type="button">Oud</button></li>
+              <li><button class="perfumes-shop-subcategory-list__button" type="button">Cítricos frescos</button></li>
+              <li><button class="perfumes-shop-subcategory-list__button" type="button">Dulces intensos</button></li>
+            </ul>
+          </section>
+          <section class="perfumes-shop-sidebar__group" aria-labelledby="perfumes-shop-filter-title">
+            <h3 class="perfumes-shop-sidebar__group-title" id="perfumes-shop-filter-title">Filtros rápidos</h3>
+            <ul class="perfumes-shop-filter-list">
+              <li class="perfumes-shop-filter-list__item">Precio: $60 - $180</li>
+              <li class="perfumes-shop-filter-list__item">Con stock</li>
+              <li class="perfumes-shop-filter-list__item">Alta duración</li>
+            </ul>
+          </section>
+        </aside>
+        <section class="perfumes-shop-products" aria-labelledby="perfumes-shop-products-title">
+          <header class="perfumes-shop-toolbar">
+            <div class="perfumes-shop-toolbar__summary">
+              <h2 class="perfumes-shop-toolbar__title" id="perfumes-shop-products-title">Todos los perfumes</h2>
+              <p class="perfumes-shop-toolbar__meta">128 productos · Hombre seleccionado · Actualizado hoy</p>
+            </div>
+            <div class="perfumes-shop-toolbar__controls" aria-label="Filtros y orden">
+              <button class="perfumes-shop-toolbar__button perfumes-shop-toolbar__button--primary" type="button">
+                <svg class="perfumes-shop-toolbar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7m0-4V3m8 18v-9m0-4V3m8 18v-5m0-4V3M1 14h6M9 8h6m2 8h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+                Filtros
+              </button>
+              <button class="perfumes-shop-toolbar__button" type="button">
+                <svg class="perfumes-shop-toolbar__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v18m0 0 4-4m-4 4-4-4m14 4V3m0 0 4 4m-4-4-4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></svg>
+                Más vendidos
+              </button>
+            </div>
+          </header>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
