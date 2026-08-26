@@ -22,12 +22,20 @@ $gallery_ids = array_values(
 	)
 );
 $main_image  = $gallery_ids ? wp_get_attachment_image_url( $gallery_ids[0], 'full' ) : wc_placeholder_img_src( 'full' );
-$rating      = min( 5, max( 0, (float) $product->get_average_rating() ) );
 $short       = $product->get_short_description();
 $long        = $product->get_description();
-$excerpt     = $short ? $short : ( $long ? wp_trim_words( wp_strip_all_tags( $long ), 22 ) : '' );
-$watermark   = strtoupper( wp_strip_all_tags( $product->get_name() ) );
-$watermark   = function_exists( 'mb_substr' ) ? mb_substr( $watermark, 0, 8 ) : substr( $watermark, 0, 8 );
+$excerpt     = $short ? wp_strip_all_tags( $short ) : ( $long ? wp_trim_words( wp_strip_all_tags( $long ), 18 ) : __( 'Perfume original.', 'omar-perfumes' ) );
+$watermark   = 'OMAR';
+$volume      = '';
+if ( preg_match( '/(\d+)\s*ML/i', $product->get_name(), $volume_match ) ) {
+	$volume = $volume_match[1] . ' ML';
+}
+$sizes       = array( '50 ML', '80 ML', '90 ML', '100 ML' );
+$thumb_ids   = $gallery_ids ? $gallery_ids : array();
+while ( count( $thumb_ids ) < 3 && $gallery_ids ) {
+	$thumb_ids[] = $gallery_ids[0];
+}
+$whatsapp    = 'https://wa.me/573142508890?text=' . rawurlencode( sprintf( __( 'Hola, me interesa %s', 'omar-perfumes' ), $product->get_name() ) );
 
 do_action( 'woocommerce_before_single_product' );
 
@@ -39,9 +47,9 @@ if ( post_password_required() ) {
 <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'perfumes-pdp', $product ); ?>>
 	<div class="perfumes-pdp__card">
 		<div class="perfumes-pdp__media">
-			<?php if ( count( $gallery_ids ) > 1 ) : ?>
+			<?php if ( $thumb_ids ) : ?>
 				<div class="perfumes-pdp__thumbs">
-					<?php foreach ( $gallery_ids as $index => $attachment_id ) : ?>
+					<?php foreach ( $thumb_ids as $index => $attachment_id ) : ?>
 						<button
 							type="button"
 							class="perfumes-pdp__thumb<?php echo 0 === $index ? ' is-active' : ''; ?>"
@@ -62,23 +70,34 @@ if ( post_password_required() ) {
 
 		<div class="perfumes-pdp__panel">
 			<div class="perfumes-pdp__meta">
-				<span class="perfumes-pdp__stars" aria-label="<?php echo esc_attr( sprintf( __( 'Valoración: %s de 5', 'omar-perfumes' ), number_format_i18n( $rating, 1 ) ) ); ?>">
-					<?php for ( $star = 1; $star <= 5; $star++ ) : ?>
-						<span class="<?php echo $star <= max( 1, (int) round( $rating ) ) ? 'is-active' : ''; ?>" aria-hidden="true">★</span>
-					<?php endfor; ?>
-				</span>
+				<span class="perfumes-pdp__stars" aria-hidden="true">★★★★★</span>
 				<span class="perfumes-pdp__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
 			</div>
 
 			<h1 class="product_title entry-title perfumes-pdp__title"><?php echo esc_html( $product->get_name() ); ?></h1>
+			<p class="perfumes-pdp__subtitle"><?php echo esc_html( wp_strip_all_tags( $excerpt ) ); ?></p>
 
-			<?php if ( $excerpt ) : ?>
-				<div class="perfumes-pdp__excerpt"><?php echo wp_kses_post( $short ? wc_format_content( $short ) : esc_html( $excerpt ) ); ?></div>
+			<h3 class="perfumes-pdp__label"><?php esc_html_e( 'Color:', 'omar-perfumes' ); ?></h3>
+			<div class="perfumes-pdp__swatches" aria-hidden="true">
+				<span class="perfumes-pdp__swatch"></span>
+				<span class="perfumes-pdp__swatch is-selected"></span>
+				<span class="perfumes-pdp__swatch"></span>
+				<span class="perfumes-pdp__swatch"></span>
+			</div>
+
+			<?php if ( $volume ) : ?>
+				<h3 class="perfumes-pdp__label"><?php esc_html_e( 'Tamaño:', 'omar-perfumes' ); ?></h3>
+				<div class="perfumes-pdp__sizes">
+					<?php foreach ( $sizes as $size ) : ?>
+						<span class="perfumes-pdp__size<?php echo $size === $volume ? ' is-selected' : ''; ?>"><?php echo esc_html( str_replace( ' ML', '', $size ) ); ?></span>
+					<?php endforeach; ?>
+				</div>
 			<?php endif; ?>
 
 			<div class="perfumes-pdp__cart">
 				<?php woocommerce_template_single_add_to_cart(); ?>
 			</div>
+			<a class="perfumes-pdp__wishlist" href="<?php echo esc_url( $whatsapp ); ?>" target="_blank" rel="noopener noreferrer"><?php esc_html_e( 'Add to Wishlist', 'omar-perfumes' ); ?></a>
 		</div>
 	</div>
 
