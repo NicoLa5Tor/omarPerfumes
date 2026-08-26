@@ -219,3 +219,111 @@ function omar_perfumes_router_block_attributes( $block_content, $block ) {
 	return $processor->get_updated_html();
 }
 add_filter( 'render_block', 'omar_perfumes_router_block_attributes', 9, 2 );
+
+/**
+ * Ask WooCommerce for more related products so the PDP carousel can scroll.
+ */
+function omar_perfumes_related_products_args( $args ) {
+	$args['posts_per_page'] = 12;
+	$args['columns']        = 4;
+	return $args;
+}
+add_filter( 'woocommerce_output_related_products_args', 'omar_perfumes_related_products_args' );
+
+/**
+ * Prefer the same brand category, then the parent family, ordered by sales.
+ *
+ * @param int[] $related_posts Related product IDs from WooCommerce.
+ * @param int   $product_id    Current product ID.
+ * @param array $args          Query args including limit.
+ * @return int[]
+ */
+function omar_perfumes_related_products( $related_posts, $product_id, $args ) {
+	$limit = isset( $args['limit'] ) ? max( 1, (int) $args['limit'] ) : 12;
+	$ids   = omar_perfumes_related_product_ids( (int) $product_id, $limit );
+
+	return $ids ? $ids : $related_posts;
+}
+add_filter( 'woocommerce_related_products', 'omar_perfumes_related_products', 10, 3 );
+add_filter( 'woocommerce_product_related_posts_relate_by_tag', '__return_false' );
+
+/**
+ * @param int $product_id Current product.
+ * @param int $limit      How many related IDs to return.
+ * @return int[]
+ */
+function omar_perfumes_related_product_ids( $product_id, $limit ) {
+	$exclude  = array( $product_id );
+	$term_ids = function_exists( 'wc_get_product_term_ids' ) ? wc_get_product_term_ids( $product_id, 'product_cat' ) : array();
+	if ( ! $term_ids ) {
+		return array();
+	}
+
+	$brand_ids  = array();
+	$family_ids = array();
+
+	foreach ( $term_ids as $term_id ) {
+		$term = get_term( (int) $term_id, 'product_cat' );
+		if ( ! $term || is_wp_error( $term ) || 'uncategorized' === $term->slug ) {
+			continue;
+		}
+
+		if ( $term->parent ) {
+			$brand_ids[]  = (int) $term->term_id;
+			$family_ids[] = (int) $term->parent;
+		} else {
+			$family_ids[] = (int) $term->term_id;
+		}
+	}
+
+	$brand_ids  = array_values( array_unique( $brand_ids ) );
+	$family_ids = array_values( array_unique( $family_ids ) );
+	$found      = omar_perfumes_query_related_ids( $brand_ids, $exclude, $limit );
+
+	if ( count( $found ) < $limit ) {
+		$found = array_merge(
+			$found,
+			omar_perfumes_query_related_ids( $family_ids, array_merge( $exclude, $found ), $limit - count( $found ) )
+		);
+	}
+
+	return array_slice( $found, 0, $limit );
+}
+
+/**
+ * @param int[] $term_ids Category term IDs.
+ * @param int[] $exclude  Product IDs to skip.
+ * @param int   $limit    Max results.
+ * @return int[]
+ */
+function omar_perfumes_query_related_ids( $term_ids, $exclude, $limit ) {
+	if ( empty( $term_ids ) || $limit < 1 || ! function_exists( 'wc_get_products' ) ) {
+		return array();
+	}
+
+	$slugs = array();
+	foreach ( $term_ids as $term_id ) {
+		$term = get_term( (int) $term_id, 'product_cat' );
+		if ( $term && ! is_wp_error( $term ) && ! empty( $term->slug ) ) {
+			$slugs[] = $term->slug;
+		}
+	}
+
+	if ( ! $slugs ) {
+		return array();
+	}
+
+	$ids = wc_get_products(
+		array(
+			'status'   => 'publish',
+			'limit'    => $limit,
+			'exclude'  => array_values( array_filter( array_map( 'intval', $exclude ) ) ),
+			'orderby'  => 'popularity',
+			'order'    => 'DESC',
+			'return'   => 'ids',
+			'category' => $slugs,
+		)
+	);
+
+	return array_map( 'intval', (array) $ids );
+}

@@ -13,12 +13,20 @@ if ( ! $product instanceof WC_Product || ! $product->is_visible() ) {
 	return;
 }
 
-$label      = $product->is_on_sale() ? __( 'Oferta', 'omar-perfumes' ) : __( 'Más vendido', 'omar-perfumes' );
+$in_stock   = $product->is_in_stock();
 $categories = wc_get_product_category_list( $product->get_id(), ', ' );
 $rating     = min( 5, max( 0, (float) $product->get_average_rating() ) );
+
+if ( ! $in_stock ) {
+	$label = __( 'Agotado', 'omar-perfumes' );
+} elseif ( $product->is_on_sale() ) {
+	$label = __( 'Oferta', 'omar-perfumes' );
+} else {
+	$label = __( 'Más vendido', 'omar-perfumes' );
+}
 ?>
 <li <?php wc_product_class( 'perfumes-catalog-card', $product ); ?>>
-	<span class="perfumes-catalog-card__badge"><?php echo esc_html( $label ); ?></span>
+	<span class="perfumes-catalog-card__badge<?php echo $in_stock ? '' : ' perfumes-catalog-card__badge--out'; ?>"><?php echo esc_html( $label ); ?></span>
 	<a class="perfumes-catalog-card__media" href="<?php echo esc_url( $product->get_permalink() ); ?>">
 		<?php echo wp_kses_post( $product->get_image( 'woocommerce_thumbnail', array( 'loading' => 'lazy' ) ) ); ?>
 	</a>
@@ -35,8 +43,14 @@ $rating     = min( 5, max( 0, (float) $product->get_average_rating() ) );
 			<?php endfor; ?>
 		</div>
 		<div class="perfumes-catalog-card__footer">
-			<span class="price perfumes-catalog-card__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
-			<?php woocommerce_template_loop_add_to_cart(); ?>
+			<div class="perfumes-catalog-card__price-row">
+				<span class="price perfumes-catalog-card__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></span>
+			</div>
+			<?php if ( $in_stock ) : ?>
+				<?php woocommerce_template_loop_add_to_cart(); ?>
+			<?php else : ?>
+				<a class="button perfumes-catalog-card__button" href="<?php echo esc_url( $product->get_permalink() ); ?>"><?php esc_html_e( 'Ver producto', 'omar-perfumes' ); ?></a>
+			<?php endif; ?>
 		</div>
 	</div>
 </li>
