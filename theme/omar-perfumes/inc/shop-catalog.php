@@ -321,13 +321,22 @@ function omar_perfumes_catalog_assets() {
 		return;
 	}
 
-	$path = get_theme_file_path( 'assets/shop-catalog.js' );
+	$asset_path = get_theme_file_path( 'assets/shop-catalog.asset.php' );
+	$script_path = get_theme_file_path( 'assets/shop-catalog.js' );
+	$asset       = file_exists( $asset_path ) ? require $asset_path : array(
+		'dependencies' => array(),
+		'version'      => wp_get_theme()->get( 'Version' ),
+	);
+
 	wp_enqueue_script(
 		'omar-perfumes-shop-catalog',
 		get_theme_file_uri( 'assets/shop-catalog.js' ),
-		array(),
-		file_exists( $path ) ? filemtime( $path ) : wp_get_theme()->get( 'Version' ),
-		true
+		$asset['dependencies'],
+		$asset['version'] ?? ( file_exists( $script_path ) ? filemtime( $script_path ) : wp_get_theme()->get( 'Version' ) ),
+		array(
+			'in_footer' => true,
+			'strategy'  => 'defer',
+		)
 	);
 }
 add_action( 'wp_enqueue_scripts', 'omar_perfumes_catalog_assets', 25 );
@@ -349,9 +358,13 @@ function omar_perfumes_catalog_setup() {
 	add_action( 'woocommerce_before_main_content', 'omar_perfumes_shop_layout_open', 15 );
 	add_action( 'woocommerce_before_shop_loop', 'omar_perfumes_shop_products_open', 4 );
 	add_action( 'woocommerce_before_shop_loop', 'omar_perfumes_shop_toolbar', 5 );
+	add_action( 'woocommerce_before_shop_loop', 'omar_perfumes_shop_products_body_open', 6 );
+	add_action( 'woocommerce_after_shop_loop', 'omar_perfumes_shop_products_body_close', 998 );
 	add_action( 'woocommerce_after_shop_loop', 'omar_perfumes_shop_layout_close', 999 );
 	add_action( 'woocommerce_no_products_found', 'omar_perfumes_shop_products_open', 4 );
 	add_action( 'woocommerce_no_products_found', 'omar_perfumes_shop_toolbar', 5 );
+	add_action( 'woocommerce_no_products_found', 'omar_perfumes_shop_products_body_open', 6 );
+	add_action( 'woocommerce_no_products_found', 'omar_perfumes_shop_products_body_close', 998 );
 	add_action( 'woocommerce_no_products_found', 'omar_perfumes_shop_layout_close', 999 );
 }
 add_action( 'wp', 'omar_perfumes_catalog_setup' );
@@ -510,6 +523,30 @@ function omar_perfumes_shop_products_open() {
 	}
 	$opened = true;
 	echo '<section class="perfumes-shop-products" aria-labelledby="perfumes-shop-products-title">';
+}
+
+/**
+ * @return void
+ */
+function omar_perfumes_shop_products_body_open() {
+	static $opened = false;
+	if ( $opened ) {
+		return;
+	}
+	$opened = true;
+	echo '<div class="perfumes-shop-products-body">';
+}
+
+/**
+ * @return void
+ */
+function omar_perfumes_shop_products_body_close() {
+	static $closed = false;
+	if ( $closed ) {
+		return;
+	}
+	$closed = true;
+	echo '</div>';
 }
 
 /**

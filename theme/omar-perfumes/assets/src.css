@@ -1071,6 +1071,23 @@
 		margin: 0 !important;
 	}
 
+	@media (min-width: 901px) {
+		.omar-catalog-view .perfumes-shop-sidebar.is-pin-active {
+			z-index: 25;
+		}
+
+		.omar-catalog-view .perfumes-shop-toolbar.is-pin-active {
+			z-index: 24;
+			background: #f8f5ee;
+			box-shadow: 0 10px 24px rgba(7, 21, 39, 0.08);
+		}
+
+		.omar-catalog-view .perfumes-shop-store.is-catalog-pin-active .perfumes-shop-products-body {
+			position: relative;
+			z-index: 1;
+		}
+	}
+
 	.perfumes-content-shell > h1,
 	.woocommerce-products-header__title,
 	.woocommerce div.product .product_title {

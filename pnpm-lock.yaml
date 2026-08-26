@@ -17,13 +17,16 @@ importers:
         version: 6.53.0
       '@wordpress/scripts':
         specifier: ^30.0.0
-        version: 30.27.0(@playwright/test@1.62.1)(@types/node@20.19.43)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)
+        version: 30.27.0(@playwright/test@1.62.1)(@types/node@20.19.43)(esbuild@0.28.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)
       '@wordpress/stylelint-config':
         specifier: ^24.2.0
-        version: 24.2.0(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(stylelint@16.26.1(typescript@5.9.3))
+        version: 24.2.0(esbuild@0.28.2)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(stylelint@16.26.1(typescript@5.9.3))
       autoprefixer:
         specifier: 10.4.21
         version: 10.4.21(postcss@8.5.6)
+      esbuild:
+        specifier: ^0.28.2
+        version: 0.28.2
       postcss:
         specifier: 8.5.6
         version: 8.5.6
@@ -753,6 +756,162 @@ packages:
   '@es-joy/jsdoccomment@0.41.0':
     resolution: {integrity: sha512-aKUhyn1QI5Ksbqcr3fFJj16p99QdjUxXAEuFst1Z47DRyoiMwivIH9MV/ARcJOCXVjPfjITciej8ZD2O/6qUmw==}
     engines: {node: '>=16'}
+
+  '@esbuild/aix-ppc64@0.28.2':
+    resolution: {integrity: sha512-XExcO+dvLKvVtNTibSTBej1NCAbaGhWn9Ww1ZPx80qsahhPFe/8jgWP0IchNe0F3HwkU7n8ejhH8bjonqht8mQ==}
+    engines: {node: '>=18'}
+    cpu: [ppc64]
+    os: [aix]
+
+  '@esbuild/android-arm64@0.28.2':
+    resolution: {integrity: sha512-5YfKeeI8qWfBZIX+u2xZC3Zlb3Os/gLS2sbEKM+I4ZOcsWmHS2WLysCcQZDAFRslDUU5Oiq44gf6PYN1vGwG5A==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [android]
+
+  '@esbuild/android-arm@0.28.2':
+    resolution: {integrity: sha512-kXXoiPVVGQcnIYGOeaovwOURpniDBpSq4A03qkQ+BMQqtGG6HYap3xne9C1O1yo4TR3qxlCX5IqqmX6fFo2Lqg==}
+    engines: {node: '>=18'}
+    cpu: [arm]
+    os: [android]
+
+  '@esbuild/android-x64@0.28.2':
+    resolution: {integrity: sha512-O387ite7SzUyCcy3JQX4P4bLtEA7bLLkx+esve5JHnyYfNTxcVpXZo9jhdB0lTKN44gztELTdU7nS8Nr16Fs1Q==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [android]
+
+  '@esbuild/darwin-arm64@0.28.2':
+    resolution: {integrity: sha512-n4KqkOQrraxHJcgjM1RvwbigfQKIKJVpM7xp+KsxiyUSrRdIXnt73VhrPAx0fV44hgfmIVKjxMN9J1t5jySVkw==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [darwin]
+
+  '@esbuild/darwin-x64@0.28.2':
+    resolution: {integrity: sha512-uq6suIWYP37qzGddBKPw5QEQPi6HiLGsO7UmkpfyaYNQ3D+rN6w6WfwH+nuqcGXWvawGwxOEroO4YGnFh95azw==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [darwin]
+
+  '@esbuild/freebsd-arm64@0.28.2':
+    resolution: {integrity: sha512-n+I0BTSRIoy+d6RPKnEVwql5UwBJolytvY4mAOIEJorKlqgPII8ix6slVVrfZ5Tnj7glIZvloylbB/EJPMWEXw==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [freebsd]
+
+  '@esbuild/freebsd-x64@0.28.2':
+    resolution: {integrity: sha512-78XJTJkvPs0kz2w61301PJjXl4g7q3JqiYMZ/M/yVI73EHBrCRTgkhu9oqG7vPqq+a/yadEW8aD+agKlk5xrmg==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [freebsd]
+
+  '@esbuild/linux-arm64@0.28.2':
+    resolution: {integrity: sha512-pW4AC0P3it8c7do9MVM4p51FzHzdM/TZrerurgRcHJ2WTa1VQ1CIq18xncfpBJw4ojkiZZrKW2yIBWBP92j6Ug==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [linux]
+
+  '@esbuild/linux-arm@0.28.2':
+    resolution: {integrity: sha512-XlDnu2q5yoqems+xay6wSAcg9DDD7K9RLKZEBOMZm3ckNpJBvOX20tSfby8KfrrhINDyv9V2YVZKY/SpoGJI8w==}
+    engines: {node: '>=18'}
+    cpu: [arm]
+    os: [linux]
+
+  '@esbuild/linux-ia32@0.28.2':
+    resolution: {integrity: sha512-CYbnj78HsIeA+DhgUKgFCfvNsTHFhMMrinUrMZpDXJXKN8T3XViTZ/+wtHeVxEWY8ewSzTFN+nRmSwO2tZaLUQ==}
+    engines: {node: '>=18'}
+    cpu: [ia32]
+    os: [linux]
+
+  '@esbuild/linux-loong64@0.28.2':
+    resolution: {integrity: sha512-buwkd8nsph4R+ajRvw0qM5Hja/TXQow3ptzWO2EbG/cqcIkHloRrdlBtQlshyYGTNFvfkfJ5tpPLVkY4DtsPfQ==}
+    engines: {node: '>=18'}
+    cpu: [loong64]
+    os: [linux]
+
+  '@esbuild/linux-mips64el@0.28.2':
+    resolution: {integrity: sha512-ZVykbDyk7519VwiNb9Lcj9m8XM6v5V9uKPvrEMkkEedVewf+0itkhahp4HDpgERXhwLRpWFypsGbG/J8s0QjJA==}
+    engines: {node: '>=18'}
+    cpu: [mips64el]
+    os: [linux]
+
+  '@esbuild/linux-ppc64@0.28.2':
+    resolution: {integrity: sha512-CAXl+Dtd9UUuJd8pKKdwh6MLm3MUMiqMPmhZ3tTSXPqfyQ3vDl6R5hZdZ/kYojK4ofXtdfSv1tFq8XzWx3heNQ==}
+    engines: {node: '>=18'}
+    cpu: [ppc64]
+    os: [linux]
+
+  '@esbuild/linux-riscv64@0.28.2':
+    resolution: {integrity: sha512-GeXCej4IQtU1B+QlDV8W/RRvbzI3O/Stss+/bCXv4lZls5WGRtu2a+3JkA3i4qIUlMXpcHebWpF8AkJhATowuA==}
+    engines: {node: '>=18'}
+    cpu: [riscv64]
+    os: [linux]
+
+  '@esbuild/linux-s390x@0.28.2':
+    resolution: {integrity: sha512-3H1weTYZPxt/WOhByszQZybS9w5lKzUn1FDMsgEChbHWQwHYQQRfBxgCcZvPhjHfKyJjIievvMmEUawJrdY9Dg==}
+    engines: {node: '>=18'}
+    cpu: [s390x]
+    os: [linux]
+
+  '@esbuild/linux-x64@0.28.2':
+    resolution: {integrity: sha512-4xTZr1FUmSoQW4XIWmit3tzQrUTZM+N3P0XV8xROKYF50XfI7xeO90+1bZvNwxIufQ9hDQVRJH5YhgPVF8A/HQ==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [linux]
+
+  '@esbuild/netbsd-arm64@0.28.2':
+    resolution: {integrity: sha512-sSATRjPeDBg3pdgHoQfoYBob11Kk1FGa9lui5RIHZCoCkJa9QKlvl3/vKz2usCmYYjs7ymJR/2Nnsqe+Hjt5nw==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [netbsd]
+
+  '@esbuild/netbsd-x64@0.28.2':
+    resolution: {integrity: sha512-lqnzCV+mM0gIADaKihiCg6ifgfU2L3h5E33rNQBN1Y4MaVGnzryzmvvf7UHxprpQdE8hpqLolJ9Rl+SkIRDpyw==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [netbsd]
+
+  '@esbuild/openbsd-arm64@0.28.2':
+    resolution: {integrity: sha512-AL2qJILH7lNjrDmCQDvdxMfAUIv8KMNZOvrwAQ8i8//ntL9FflhOyMJ8OZSMBb8/AWXe3/5v5S20y3zCoZWKoQ==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [openbsd]
+
+  '@esbuild/openbsd-x64@0.28.2':
+    resolution: {integrity: sha512-QtiuPytchRyC4rwUKhexJdQKvDuZ6hWloi3igqPQNUJCS1/v9EiO3UTOXR6A3FoMo4fnAKbWJdqaIwhOzh8qEw==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [openbsd]
+
+  '@esbuild/openharmony-arm64@0.28.2':
+    resolution: {integrity: sha512-WkhYDmpTjLvGlScA1rwjRUmhl4k8oXR3cIbtqWmELgU/dFeHHlEllxDvdWcNJV9rbzCexB5vz8gtNewWLgCT7Q==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [openharmony]
+
+  '@esbuild/sunos-x64@0.28.2':
+    resolution: {integrity: sha512-GPMSkTOtMnv2U2F8gxe4Io6qmVs+YKyp832Etqqxr0hFngmXQ3rzwytelm3GIn7T4VviRUlf3sOgBOiTdvaf7g==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [sunos]
+
+  '@esbuild/win32-arm64@0.28.2':
+    resolution: {integrity: sha512-PIhhEkE9uPBleRBrQEJpUn7MBnibZzbGzYWPmY3x+YoVg/95zbjB4CxPPOQ8l5tYYM4mMaCthF8/1DIfBQQyWQ==}
+    engines: {node: '>=18'}
+    cpu: [arm64]
+    os: [win32]
+
+  '@esbuild/win32-ia32@0.28.2':
+    resolution: {integrity: sha512-YmJbfTlvU7Sdn9BB+4PRES4oB6pxgS37MAONj+hBr/cpXS1aBPKXxNnDbu+QCWPj0o9dgyxeq79g6c5P8KeuYA==}
+    engines: {node: '>=18'}
+    cpu: [ia32]
+    os: [win32]
+
+  '@esbuild/win32-x64@0.28.2':
+    resolution: {integrity: sha512-5ebpxr3nWMzrL/rnUI755Jkuee0bHL/Gq0WTF9lvcpv73wAp5eu8MfBUgWK9bhWvZjj7yX8etf/8tI8Ney695g==}
+    engines: {node: '>=18'}
+    cpu: [x64]
+    os: [win32]
 
   '@eslint-community/eslint-utils@4.10.1':
     resolution: {integrity: sha512-cuadcxVFE8sDK6iWJbs8Sn0av2Nrh2QSGQhVlBW9AaAHqHwjWsZHT8LJ4hFGPh7ASBV2deFdM7H/DPjulmh8rg==}
@@ -3121,6 +3280,11 @@ packages:
   es-to-primitive@1.3.4:
     resolution: {integrity: sha512-yPDz7wqpg1/mmHLmS3tcfTfbw5f1eryXvyghYBffGdERwe+mV7ZcWzTR8LR17Kvqt3qfPurjlonmnq3MKXIOXw==}
     engines: {node: '>= 0.4'}
+
+  esbuild@0.28.2:
+    resolution: {integrity: sha512-HKVLS8dvII+xoKW9kmqxbRKrnWEXfJJr/FZhhJmiqIB0e053QNYFqOBouTMO/k5sID4MvCiUCvv8b9M4h32wIA==}
+    engines: {node: '>=18'}
+    hasBin: true
 
   escalade@3.2.0:
     resolution: {integrity: sha512-WUj2qlxaQtO4g6Pq5c29GTcWGDyd8itL8zTlipgECz3JesAiiOKotd8JU6otB3PACgG6xkJUyVhboMS+bje/jA==}
@@ -7511,6 +7675,84 @@ snapshots:
       esquery: 1.7.0
       jsdoc-type-pratt-parser: 4.0.0
 
+  '@esbuild/aix-ppc64@0.28.2':
+    optional: true
+
+  '@esbuild/android-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/android-arm@0.28.2':
+    optional: true
+
+  '@esbuild/android-x64@0.28.2':
+    optional: true
+
+  '@esbuild/darwin-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/darwin-x64@0.28.2':
+    optional: true
+
+  '@esbuild/freebsd-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/freebsd-x64@0.28.2':
+    optional: true
+
+  '@esbuild/linux-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/linux-arm@0.28.2':
+    optional: true
+
+  '@esbuild/linux-ia32@0.28.2':
+    optional: true
+
+  '@esbuild/linux-loong64@0.28.2':
+    optional: true
+
+  '@esbuild/linux-mips64el@0.28.2':
+    optional: true
+
+  '@esbuild/linux-ppc64@0.28.2':
+    optional: true
+
+  '@esbuild/linux-riscv64@0.28.2':
+    optional: true
+
+  '@esbuild/linux-s390x@0.28.2':
+    optional: true
+
+  '@esbuild/linux-x64@0.28.2':
+    optional: true
+
+  '@esbuild/netbsd-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/netbsd-x64@0.28.2':
+    optional: true
+
+  '@esbuild/openbsd-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/openbsd-x64@0.28.2':
+    optional: true
+
+  '@esbuild/openharmony-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/sunos-x64@0.28.2':
+    optional: true
+
+  '@esbuild/win32-arm64@0.28.2':
+    optional: true
+
+  '@esbuild/win32-ia32@0.28.2':
+    optional: true
+
+  '@esbuild/win32-x64@0.28.2':
+    optional: true
+
   '@eslint-community/eslint-utils@4.10.1(eslint@8.57.1)':
     dependencies:
       eslint: 8.57.1
@@ -8132,7 +8374,7 @@ snapshots:
       react-refresh: 0.14.2
       schema-utils: 4.3.3
       source-map: 0.7.6
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
     optionalDependencies:
       type-fest: 4.41.0
       webpack-dev-server: 4.15.2(webpack-cli@5.1.4)(webpack@5.109.2)
@@ -8845,17 +9087,17 @@ snapshots:
 
   '@webpack-cli/configtest@2.1.1(webpack-cli@5.1.4)(webpack@5.109.2)':
     dependencies:
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
       webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.109.2)
 
   '@webpack-cli/info@2.0.2(webpack-cli@5.1.4)(webpack@5.109.2)':
     dependencies:
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
       webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.109.2)
 
   '@webpack-cli/serve@2.0.5(webpack-cli@5.1.4)(webpack-dev-server@4.15.2)(webpack@5.109.2)':
     dependencies:
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
       webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.109.2)
     optionalDependencies:
       webpack-dev-server: 4.15.2(webpack-cli@5.1.4)(webpack@5.109.2)
@@ -8902,7 +9144,7 @@ snapshots:
   '@wordpress/dependency-extraction-webpack-plugin@6.53.0(webpack@5.109.2)':
     dependencies:
       json2php: 0.0.9
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
 
   '@wordpress/deprecated@4.53.0':
     dependencies:
@@ -9025,7 +9267,7 @@ snapshots:
 
   '@wordpress/private-apis@1.53.0': {}
 
-  '@wordpress/scripts@30.27.0(@playwright/test@1.62.1)(@types/node@20.19.43)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)':
+  '@wordpress/scripts@30.27.0(@playwright/test@1.62.1)(@types/node@20.19.43)(esbuild@0.28.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(type-fest@4.41.0)(typescript@5.9.3)':
     dependencies:
       '@babel/core': 7.25.7
       '@playwright/test': 1.62.1
@@ -9040,7 +9282,7 @@ snapshots:
       '@wordpress/npm-package-json-lint-config': 5.53.0(npm-package-json-lint@6.4.0(typescript@5.9.3))
       '@wordpress/postcss-plugins-preset': 5.53.0(postcss@8.5.26)
       '@wordpress/prettier-config': 4.53.0(wp-prettier@3.0.3)
-      '@wordpress/stylelint-config': 23.42.0(postcss@8.5.26)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(stylelint@16.26.1(typescript@5.9.3))
+      '@wordpress/stylelint-config': 23.42.0(esbuild@0.28.2)(postcss@8.5.26)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(stylelint@16.26.1(typescript@5.9.3))
       adm-zip: 0.5.18
       babel-jest: 29.7.0(@babel/core@7.25.7)
       babel-loader: 9.2.1(@babel/core@7.25.7)(webpack@5.109.2)
@@ -9083,9 +9325,9 @@ snapshots:
       schema-utils: 4.3.3
       source-map-loader: 3.0.2(webpack@5.109.2)
       stylelint: 16.26.1(typescript@5.9.3)
-      terser-webpack-plugin: 5.6.1(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack@5.109.2)
+      terser-webpack-plugin: 5.6.1(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack@5.109.2)
       url-loader: 4.1.1(webpack@5.109.2)
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
       webpack-bundle-analyzer: 4.10.2
       webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.109.2)
       webpack-dev-server: 4.15.2(webpack-cli@5.1.4)(webpack@5.109.2)
@@ -9135,10 +9377,10 @@ snapshots:
 
   '@wordpress/style-runtime@0.9.0': {}
 
-  '@wordpress/stylelint-config@23.42.0(postcss@8.5.26)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(stylelint@16.26.1(typescript@5.9.3))':
+  '@wordpress/stylelint-config@23.42.0(esbuild@0.28.2)(postcss@8.5.26)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(stylelint@16.26.1(typescript@5.9.3))':
     dependencies:
       '@stylistic/stylelint-plugin': 3.1.3(stylelint@16.26.1(typescript@5.9.3))
-      '@wordpress/theme': 0.17.0(postcss@8.5.26)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint@16.26.1(typescript@5.9.3))
+      '@wordpress/theme': 0.17.0(esbuild@0.28.2)(postcss@8.5.26)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint@16.26.1(typescript@5.9.3))
       stylelint: 16.26.1(typescript@5.9.3)
       stylelint-config-recommended: 14.0.1(stylelint@16.26.1(typescript@5.9.3))
       stylelint-config-recommended-scss: 14.1.0(postcss@8.5.26)(stylelint@16.26.1(typescript@5.9.3))
@@ -9152,10 +9394,10 @@ snapshots:
       - react-dom
       - vite
 
-  '@wordpress/stylelint-config@24.2.0(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(stylelint@16.26.1(typescript@5.9.3))':
+  '@wordpress/stylelint-config@24.2.0(esbuild@0.28.2)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint-scss@6.14.0(stylelint@16.26.1(typescript@5.9.3)))(stylelint@16.26.1(typescript@5.9.3))':
     dependencies:
       '@stylistic/stylelint-plugin': 3.1.3(stylelint@16.26.1(typescript@5.9.3))
-      '@wordpress/theme': 1.2.0(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint@16.26.1(typescript@5.9.3))
+      '@wordpress/theme': 1.2.0(esbuild@0.28.2)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint@16.26.1(typescript@5.9.3))
       stylelint: 16.26.1(typescript@5.9.3)
       stylelint-config-recommended: 14.0.1(stylelint@16.26.1(typescript@5.9.3))
       stylelint-config-recommended-scss: 14.1.0(postcss@8.5.6)(stylelint@16.26.1(typescript@5.9.3))
@@ -9169,7 +9411,7 @@ snapshots:
       - react-dom
       - vite
 
-  '@wordpress/theme@0.17.0(postcss@8.5.26)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint@16.26.1(typescript@5.9.3))':
+  '@wordpress/theme@0.17.0(esbuild@0.28.2)(postcss@8.5.26)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint@16.26.1(typescript@5.9.3))':
     dependencies:
       '@wordpress/compose': 8.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@wordpress/deprecated': 4.53.0
@@ -9181,12 +9423,13 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     optionalDependencies:
+      esbuild: 0.28.2
       postcss: 8.5.26
       stylelint: 16.26.1(typescript@5.9.3)
     transitivePeerDependencies:
       - '@types/react-dom'
 
-  '@wordpress/theme@1.2.0(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint@16.26.1(typescript@5.9.3))':
+  '@wordpress/theme@1.2.0(esbuild@0.28.2)(postcss@8.5.6)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(stylelint@16.26.1(typescript@5.9.3))':
     dependencies:
       '@wordpress/compose': 8.6.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@wordpress/deprecated': 4.53.0
@@ -9198,6 +9441,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     optionalDependencies:
+      esbuild: 0.28.2
       postcss: 8.5.6
       stylelint: 16.26.1(typescript@5.9.3)
     transitivePeerDependencies:
@@ -9468,7 +9712,7 @@ snapshots:
       '@babel/core': 7.25.7
       find-cache-dir: 4.0.0
       schema-utils: 4.3.3
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
 
   babel-plugin-istanbul@6.1.1:
     dependencies:
@@ -9900,7 +10144,7 @@ snapshots:
       normalize-path: 3.0.0
       schema-utils: 4.3.3
       serialize-javascript: 6.0.2
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
 
   core-js-compat@3.50.0:
     dependencies:
@@ -9978,7 +10222,7 @@ snapshots:
       postcss-value-parser: 4.2.0
       semver: 7.8.5
     optionalDependencies:
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
 
   css-select@5.2.2:
     dependencies:
@@ -10395,6 +10639,35 @@ snapshots:
       is-callable: 1.2.7
       is-date-object: 1.1.0
       is-symbol: 1.1.1
+
+  esbuild@0.28.2:
+    optionalDependencies:
+      '@esbuild/aix-ppc64': 0.28.2
+      '@esbuild/android-arm': 0.28.2
+      '@esbuild/android-arm64': 0.28.2
+      '@esbuild/android-x64': 0.28.2
+      '@esbuild/darwin-arm64': 0.28.2
+      '@esbuild/darwin-x64': 0.28.2
+      '@esbuild/freebsd-arm64': 0.28.2
+      '@esbuild/freebsd-x64': 0.28.2
+      '@esbuild/linux-arm': 0.28.2
+      '@esbuild/linux-arm64': 0.28.2
+      '@esbuild/linux-ia32': 0.28.2
+      '@esbuild/linux-loong64': 0.28.2
+      '@esbuild/linux-mips64el': 0.28.2
+      '@esbuild/linux-ppc64': 0.28.2
+      '@esbuild/linux-riscv64': 0.28.2
+      '@esbuild/linux-s390x': 0.28.2
+      '@esbuild/linux-x64': 0.28.2
+      '@esbuild/netbsd-arm64': 0.28.2
+      '@esbuild/netbsd-x64': 0.28.2
+      '@esbuild/openbsd-arm64': 0.28.2
+      '@esbuild/openbsd-x64': 0.28.2
+      '@esbuild/openharmony-arm64': 0.28.2
+      '@esbuild/sunos-x64': 0.28.2
+      '@esbuild/win32-arm64': 0.28.2
+      '@esbuild/win32-ia32': 0.28.2
+      '@esbuild/win32-x64': 0.28.2
 
   escalade@3.2.0: {}
 
@@ -12254,7 +12527,7 @@ snapshots:
     dependencies:
       schema-utils: 4.3.3
       tapable: 2.3.3
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
 
   minimalistic-assert@1.0.1: {}
 
@@ -12282,15 +12555,16 @@ snapshots:
 
   minimist@1.2.8: {}
 
-  minimizer-webpack-plugin@5.6.1(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack@5.109.2):
+  minimizer-webpack-plugin@5.6.1(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack@5.109.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
       schema-utils: 4.3.3
       terser: 5.50.0
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
     optionalDependencies:
       cssnano: 6.1.2(postcss@8.5.26)
+      esbuild: 0.28.2
       postcss: 8.5.26
 
   mitt@3.0.1: {}
@@ -12719,7 +12993,7 @@ snapshots:
       klona: 2.0.6
       postcss: 8.5.26
       semver: 7.8.5
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
 
   postcss-media-query-parser@0.2.3: {}
 
@@ -13253,7 +13527,7 @@ snapshots:
       neo-async: 2.6.2
     optionalDependencies:
       sass: 1.103.1
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
 
   sass@1.103.1:
     dependencies:
@@ -13476,7 +13750,7 @@ snapshots:
       abab: 2.0.6
       iconv-lite: 0.6.3
       source-map-js: 1.2.1
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
 
   source-map-support@0.5.13:
     dependencies:
@@ -13870,15 +14144,16 @@ snapshots:
       - bare-abort-controller
       - react-native-b4a
 
-  terser-webpack-plugin@5.6.1(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack@5.109.2):
+  terser-webpack-plugin@5.6.1(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack@5.109.2):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.31
       jest-worker: 27.5.1
       schema-utils: 4.3.3
       terser: 5.50.0
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
     optionalDependencies:
       cssnano: 6.1.2(postcss@8.5.26)
+      esbuild: 0.28.2
       postcss: 8.5.26
 
   terser@5.50.0:
@@ -14125,7 +14400,7 @@ snapshots:
       loader-utils: 2.0.4
       mime-types: 2.1.35
       schema-utils: 3.3.0
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
 
   url-parse@1.5.10:
     dependencies:
@@ -14222,7 +14497,7 @@ snapshots:
       import-local: 3.2.0
       interpret: 3.1.1
       rechoir: 0.8.0
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
       webpack-merge: 5.10.0
     optionalDependencies:
       webpack-bundle-analyzer: 4.10.2
@@ -14235,7 +14510,7 @@ snapshots:
       mime-types: 2.1.35
       range-parser: 1.3.0
       schema-utils: 4.3.3
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
 
   webpack-dev-server@4.15.2(webpack-cli@5.1.4)(webpack@5.109.2):
     dependencies:
@@ -14270,7 +14545,7 @@ snapshots:
       webpack-dev-middleware: 5.3.4(webpack@5.109.2)
       ws: 8.21.3
     optionalDependencies:
-      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4)
+      webpack: 5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4)
       webpack-cli: 5.1.4(webpack-bundle-analyzer@4.10.2)(webpack-dev-server@4.15.2)(webpack@5.109.2)
     transitivePeerDependencies:
       - bufferutil
@@ -14286,7 +14561,7 @@ snapshots:
 
   webpack-sources@3.5.1: {}
 
-  webpack@5.109.2(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack-cli@5.1.4):
+  webpack@5.109.2(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack-cli@5.1.4):
     dependencies:
       '@types/estree': 1.0.9
       '@types/json-schema': 7.0.15
@@ -14302,7 +14577,7 @@ snapshots:
       events: 3.3.0
       graceful-fs: 4.2.11
       mime-db: 1.54.0
-      minimizer-webpack-plugin: 5.6.1(cssnano@6.1.2(postcss@8.5.26))(postcss@8.5.26)(webpack@5.109.2)
+      minimizer-webpack-plugin: 5.6.1(cssnano@6.1.2(postcss@8.5.26))(esbuild@0.28.2)(postcss@8.5.26)(webpack@5.109.2)
       neo-async: 2.6.2
       schema-utils: 4.3.3
       tapable: 2.3.3
