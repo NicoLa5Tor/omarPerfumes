@@ -1070,6 +1070,198 @@
 		color: #071527;
 	}
 
+	.perfumes-pdp-reviews {
+		max-width: 720px;
+		margin: 48px auto 0;
+		padding: 0 8px;
+	}
+
+	.perfumes-pdp-reviews .woocommerce-Reviews-title {
+		margin: 0 0 24px;
+		font-family: "Cormorant Garamond", Georgia, serif;
+		font-size: 28px;
+		color: #071527;
+	}
+
+	.perfumes-pdp-reviews .woocommerce-Reviews-title span {
+		font-style: italic;
+	}
+
+	.perfumes-pdp-reviews .woocommerce-noreviews,
+	.perfumes-pdp-reviews .woocommerce-verification-required {
+		margin: 0 0 20px;
+		color: #6b7280;
+		font-size: 14px;
+	}
+
+	.perfumes-chat,
+	.perfumes-chat .children {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.perfumes-chat .children {
+		margin: 12px 0 0 42px;
+	}
+
+	.woocommerce .perfumes-pdp-reviews #comments ol.commentlist,
+	.woocommerce .perfumes-pdp-reviews #comments ol.commentlist li {
+		margin: 0;
+		padding: 0;
+		border: 0;
+		background: none;
+		list-style: none;
+	}
+
+	.perfumes-chat__item,
+	.woocommerce .perfumes-pdp-reviews #comments ol.commentlist li.perfumes-chat__item {
+		margin: 0 0 16px;
+	}
+
+	.perfumes-chat__row {
+		@apply flex items-start gap-2.5;
+	}
+
+	.perfumes-chat__avatar {
+		@apply h-8 w-8 shrink-0 rounded-full bg-perfumes-deep object-cover;
+	}
+
+	.perfumes-chat__bubble {
+		@apply flex w-full max-w-[320px] flex-col rounded-e-xl rounded-es-xl border-gray-200 bg-gray-100 p-4 leading-normal;
+	}
+
+	.perfumes-chat__meta {
+		@apply flex items-center space-x-2;
+	}
+
+	.perfumes-chat__author {
+		@apply text-sm font-semibold text-perfumes-deep;
+	}
+
+	.perfumes-chat__time,
+	.perfumes-chat__status,
+	.perfumes-chat__pending {
+		@apply text-sm font-normal text-gray-500;
+	}
+
+	.perfumes-chat__text,
+	.perfumes-chat__text p {
+		@apply py-2.5 text-sm font-normal text-perfumes-deep;
+		margin: 0;
+	}
+
+	.perfumes-chat__text p + p {
+		padding-top: 0;
+	}
+
+	.perfumes-chat__rating {
+		color: #c9a227;
+		font-size: 13px;
+		letter-spacing: 0.08em;
+	}
+
+	.perfumes-chat-form {
+		margin-top: 28px;
+		padding: 20px;
+		border-radius: 16px;
+		background: #fff;
+		border: 1px solid #e5e7eb;
+	}
+
+	.perfumes-chat-form .comment-reply-title {
+		display: block;
+		margin: 0 0 16px;
+		font-family: "Cormorant Garamond", Georgia, serif;
+		font-size: 22px;
+		color: #071527;
+	}
+
+	.perfumes-chat-form .comment-form {
+		margin: 0;
+	}
+
+	.perfumes-chat-form p,
+	.perfumes-chat-form .comment-form-rating {
+		margin: 0 0 14px;
+	}
+
+	.perfumes-chat-form label {
+		display: block;
+		margin-bottom: 6px;
+		font-size: 13px;
+		font-weight: 600;
+		color: #071527;
+	}
+
+	.perfumes-chat-form input[type="text"],
+	.perfumes-chat-form input[type="email"],
+	.perfumes-chat-form select,
+	.perfumes-chat-form textarea {
+		width: 100%;
+		padding: 10px 12px;
+		border: 1px solid #e5e7eb;
+		border-radius: 10px;
+		background: #f9fafb;
+		color: #071527;
+		font-family: Inter, system-ui, sans-serif;
+		font-size: 14px;
+	}
+
+	.perfumes-chat-form textarea {
+		min-height: 96px;
+		resize: vertical;
+	}
+
+	.perfumes-chat-form .comment-form-cookies-consent {
+		display: flex;
+		align-items: flex-start;
+		gap: 8px;
+	}
+
+	.perfumes-chat-form .comment-form-cookies-consent input {
+		margin-top: 3px;
+	}
+
+	.perfumes-chat-form .comment-form-cookies-consent label {
+		margin: 0;
+		font-weight: 400;
+		color: #6b7280;
+	}
+
+	.perfumes-chat-form p.stars a {
+		color: #c9a227;
+	}
+
+	.perfumes-chat-form .form-submit {
+		margin: 0;
+	}
+
+	.perfumes-chat-form__submit,
+	.perfumes-chat-form input[type="submit"] {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 44px;
+		padding: 0 22px;
+		border: 0;
+		border-radius: 999px;
+		background: #071527;
+		color: #fff;
+		font-family: Inter, system-ui, sans-serif;
+		font-size: 13px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		cursor: pointer;
+	}
+
+	.perfumes-chat-form__submit:hover,
+	.perfumes-chat-form input[type="submit"]:hover {
+		background: #e2bd6d;
+		color: #071527;
+	}
+
 	.perfumes-pdp .related.products {
 		margin-top: 56px;
 	}

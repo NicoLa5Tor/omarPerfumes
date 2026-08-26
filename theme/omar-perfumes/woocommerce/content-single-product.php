@@ -83,6 +83,8 @@ if ( post_password_required() ) {
 		</section>
 	<?php endif; ?>
 
+	<?php comments_template(); ?>
+
 	<?php
 	woocommerce_output_related_products();
 	?>
