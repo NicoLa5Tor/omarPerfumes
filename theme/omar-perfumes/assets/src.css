@@ -619,7 +619,7 @@
 	.perfumes-shop-hero__title {
 		max-width: 650px;
 		margin: 0;
-		font-family: Cormorant Garamond, Georgia, serif;
+		font-family: "Cormorant Garamond", Georgia, serif;
 		font-size: clamp(42px, 5vw, 58px);
 		line-height: 0.92;
 	}
@@ -718,7 +718,7 @@
 		border-radius: 3px;
 		background: #fff6dd;
 		color: #071527;
-		font-family: Cormorant Garamond, Georgia, serif;
+		font-family: "Cormorant Garamond", Georgia, serif;
 		font-size: 18px;
 		font-weight: 700;
 	}
@@ -734,7 +734,7 @@
 		border-radius: 5px;
 		background: #f7f3ea;
 		color: #071527;
-		font-family: Cormorant Garamond, Georgia, serif;
+		font-family: "Cormorant Garamond", Georgia, serif;
 		font-size: 25px;
 		font-weight: 700;
 	}
@@ -787,7 +787,7 @@
 	.perfumes-shop-sidebar__title {
 		margin: 0;
 		color: #071527;
-		font-family: Cormorant Garamond, Georgia, serif;
+		font-family: "Cormorant Garamond", Georgia, serif;
 		font-size: 30px;
 		line-height: 1.2;
 	}
@@ -965,7 +965,7 @@
 	.perfumes-shop-toolbar__title {
 		margin: 0;
 		color: #071527;
-		font-family: Cormorant Garamond, Georgia, serif;
+		font-family: "Cormorant Garamond", Georgia, serif;
 		font-size: 34px;
 		line-height: 1.2;
 	}
