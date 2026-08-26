@@ -49,11 +49,16 @@ jobs:
           rm -f dist/theme/assets/src.css
 
       - name: Deploy plugin por FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
+          protocol: ftps
+          port: 21
+          security: loose
+          timeout: 180000
+          log-level: verbose
           local-dir: ./dist/plugin/
           server-dir: wp-content/plugins/perfumes-block/
           # Reinicia el inventario remoto para no reutilizar rutas obsoletas
@@ -61,11 +66,16 @@ jobs:
           state-name: .ftp-deploy-plugin-state-v2.json
 
       - name: Deploy tema Omar por FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_HOST }}
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
+          protocol: ftps
+          port: 21
+          security: loose
+          timeout: 180000
+          log-level: verbose
           local-dir: ./dist/theme/
           server-dir: wp-content/themes/omar-perfumes/
           state-name: .ftp-deploy-theme-state.json
