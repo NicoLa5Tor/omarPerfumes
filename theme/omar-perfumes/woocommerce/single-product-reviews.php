@@ -15,6 +15,10 @@ if ( ! comments_open() && ! get_comments_number() ) {
 }
 
 $count = $product->get_review_count();
+if ( function_exists( 'omar_perfumes_product_review_stats' ) ) {
+	$stats = omar_perfumes_product_review_stats( $product );
+	$count = (int) $stats['count'];
+}
 ?>
 <section id="reviews" class="woocommerce-Reviews perfumes-pdp-reviews">
 	<div id="comments">

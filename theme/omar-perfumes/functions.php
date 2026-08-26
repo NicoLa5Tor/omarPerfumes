@@ -437,14 +437,17 @@ function omar_perfumes_product_review_stats( $product ) {
 	$values        = array();
 	$comments      = get_comments(
 		array(
-			'post_id'  => $product_id,
-			'status'   => 'approve',
-			'type__in' => array( 'review', 'comment', '' ),
-			'number'   => 200,
+			'post_id' => $product_id,
+			'status'  => 'approve',
+			'type'    => 'all',
+			'number'  => 200,
 		)
 	);
 
 	foreach ( $comments as $comment ) {
+		if ( in_array( $comment->comment_type, array( 'pingback', 'trackback' ), true ) ) {
+			continue;
+		}
 		$value = (int) get_comment_meta( $comment->comment_ID, 'rating', true );
 		if ( $value >= 1 && $value <= 5 ) {
 			$values[] = $value;
@@ -552,8 +555,8 @@ function omar_perfumes_product_comments_query_args( $args ) {
 		return $args;
 	}
 
-	unset( $args['type'] );
-	$args['type__in'] = array( 'review', 'comment', '' );
+	unset( $args['type'], $args['type__in'] );
+	$args['type'] = 'all';
 	return $args;
 }
 add_filter( 'comments_template_query_args', 'omar_perfumes_product_comments_query_args' );
