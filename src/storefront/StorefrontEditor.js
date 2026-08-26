@@ -95,17 +95,22 @@ export default function StorefrontEditor( { attributes, setAttributes } ) {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 			/>
-			<TrustBarSection
-				benefits={ data.benefits }
-				onChange={ updateArrayAttribute( setAttributes, 'benefits' ) }
-			/>
-			<PaymentMethodsSection
-				methods={ data.paymentMethods }
-				onChange={ updateArrayAttribute(
-					setAttributes,
-					'paymentMethods'
-				) }
-			/>
+			<div className="perfumes-assurance">
+				<TrustBarSection
+					benefits={ data.benefits }
+					onChange={ updateArrayAttribute(
+						setAttributes,
+						'benefits'
+					) }
+				/>
+				<PaymentMethodsSection
+					methods={ data.paymentMethods }
+					onChange={ updateArrayAttribute(
+						setAttributes,
+						'paymentMethods'
+					) }
+				/>
+			</div>
 		</div>
 	);
 }

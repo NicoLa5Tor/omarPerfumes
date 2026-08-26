@@ -9,6 +9,10 @@ export default function PaymentMethodsSection( { methods, onChange } ) {
 					<RichText
 						key={ index }
 						tagName="span"
+						className={
+							'perfumes-payments__chip' +
+							( /addi/i.test( method || '' ) ? ' is-addi' : '' )
+						}
 						value={ method }
 						onChange={ ( value ) => {
 							const next = [ ...methods ];

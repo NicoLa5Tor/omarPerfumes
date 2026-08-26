@@ -597,6 +597,19 @@
 		@apply mx-auto max-w-[1328px] gap-14;
 	}
 
+	.perfumes-footer__brand {
+		display: inline-block;
+		margin: 0 0 14px;
+	}
+
+	.perfumes-footer__logo {
+		display: block;
+		width: min(198px, 100%);
+		height: auto;
+		aspect-ratio: 900 / 277;
+		object-fit: contain;
+	}
+
 	.perfumes-footer-preview h2 {
 		@apply m-0 font-brand text-[30px] uppercase tracking-[2px] text-white;
 	}
@@ -605,7 +618,8 @@
 		@apply mb-[18px] mt-0 text-[13px] uppercase tracking-[1.4px] text-perfumes-gold;
 	}
 
-	.perfumes-footer-preview p {
+	.perfumes-footer-preview p,
+	.perfumes-footer__tagline {
 		@apply mb-2 mt-0 max-w-sm text-[13px] leading-relaxed text-[#9baac0];
 	}
 
@@ -613,8 +627,48 @@
 		@apply text-[#d9e0ea] no-underline;
 	}
 
+	.perfumes-footer__link {
+		display: inline-flex;
+		align-items: center;
+		margin-top: 10px;
+		font-size: 13px;
+		font-weight: 600;
+		color: #e2bd6d;
+	}
+
+	.perfumes-footer__link:hover {
+		color: #fff;
+	}
+
+	.perfumes-footer__contacts {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.perfumes-footer__contacts li {
+		margin: 0 0 10px;
+	}
+
+	.perfumes-footer__contacts a,
+	.perfumes-footer__contacts span {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		font-size: 13px;
+		line-height: 1.4;
+		color: #d9e0ea;
+	}
+
+	.perfumes-footer__contacts svg {
+		width: 16px;
+		height: 16px;
+		flex: 0 0 16px;
+		color: #e2bd6d;
+	}
+
 	.perfumes-footer__legal {
-		@apply mx-auto mt-10 max-w-[1328px] border-t border-white/10 pt-6;
+		@apply mx-auto mt-10 max-w-[1328px] border-t border-white/10 pt-6 text-[12px] text-[#7f8ca0];
 	}
 
 	.perfumes-whatsapp {

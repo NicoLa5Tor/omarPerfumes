@@ -142,20 +142,39 @@
 		@apply mb-7 mt-0 max-w-[460px] text-base leading-normal text-[#344054];
 	}
 
+	.perfumes-assurance {
+		background: #f6f6f4;
+		border-top: 1px solid #eceae4;
+	}
+
 	.perfumes-benefits {
-		@apply grid min-h-[102px] grid-cols-4 px-14 py-[34px];
+		@apply mx-auto grid max-w-[1328px] grid-cols-4 gap-6 px-14 py-10;
 	}
 
 	.perfumes-benefit {
-		@apply flex items-center justify-center gap-3.5;
+		@apply flex items-center gap-3.5;
 	}
 
-	.perfumes-benefit > span {
-		@apply inline-flex h-[30px] w-[30px] items-center justify-center rounded-full border-2 border-perfumes-gold font-extrabold text-perfumes-gold;
+	.perfumes-benefit__mark {
+		display: inline-flex;
+		width: 46px;
+		height: 46px;
+		flex: 0 0 46px;
+		align-items: center;
+		justify-content: center;
+		border: 1px solid rgba(226, 189, 109, 0.55);
+		border-radius: 999px;
+		background: #071527;
+		color: #e2bd6d;
+	}
+
+	.perfumes-benefit__mark svg {
+		width: 20px;
+		height: 20px;
 	}
 
 	.perfumes-benefit h3 {
-		@apply mb-0.5 mt-0 text-sm;
+		@apply mb-0.5 mt-0 text-sm font-semibold text-perfumes-navy;
 	}
 
 	.perfumes-benefit p {
@@ -163,19 +182,32 @@
 	}
 
 	.perfumes-payments {
-		@apply flex min-h-[132px] flex-col items-center px-14 py-[34px];
+		@apply mx-auto flex max-w-[1328px] flex-col items-center px-14 pb-10 pt-2;
 	}
 
 	.perfumes-payments div {
-		@apply flex w-full justify-center gap-[47px];
+		@apply flex w-full flex-wrap items-center justify-center gap-3;
 	}
 
+	.perfumes-payments__chip,
 	.perfumes-payments span {
-		@apply relative whitespace-nowrap text-[13px] text-[#334155];
+		display: inline-flex;
+		align-items: center;
+		padding: 0.55rem 1rem;
+		border: 1px solid rgba(7, 21, 39, 0.1);
+		border-radius: 999px;
+		background: #fff;
+		font-size: 13px;
+		font-weight: 600;
+		line-height: 1;
+		white-space: nowrap;
+		color: #0b1f3a;
 	}
 
-	.perfumes-payments span::before {
-		@apply mr-2 inline-block h-[9px] w-[9px] rounded-full bg-perfumes-gold content-[''];
+	.perfumes-payments__chip.is-addi {
+		border-color: #2d65f6;
+		background: #eaf2ff;
+		color: #2d65f6;
 	}
 }
 
@@ -423,7 +455,7 @@
 		}
 
 		.perfumes-benefits {
-			@apply grid-cols-1;
+			@apply grid-cols-2 gap-5;
 		}
 
 		.perfumes-section-heading {

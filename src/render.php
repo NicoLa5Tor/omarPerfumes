@@ -30,6 +30,19 @@ if ( ! function_exists( 'perfumes_link_attr' ) ) {
 	}
 }
 
+if ( ! function_exists( 'perfumes_trust_icon_svg' ) ) {
+	function perfumes_trust_icon_svg( $index ) {
+		$icons = array(
+			'<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M12 3 4.8 6.2v5.4c0 4.6 3.1 8 7.2 9.4 4.1-1.4 7.2-4.8 7.2-9.4V6.2L12 3Z"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="m8.6 12.1 2.2 2.3 4.6-5"/></svg>',
+			'<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M8 4h8a2 2 0 0 1 2 2v14l-6-2.4L6 20V6a2 2 0 0 1 2-2Z"/><path stroke="currentColor" stroke-linecap="round" stroke-width="1.7" d="M9 9h6M9 13h4"/></svg>',
+			'<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M3 7h11v10H3zM14 11h4.2L21 14.2V17h-7"/><circle cx="7" cy="17" r="1.8" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="17" r="1.8" stroke="currentColor" stroke-width="1.7"/></svg>',
+			'<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.7"/><path stroke="currentColor" stroke-width="1.7" d="M3 10h18M7 14h4"/></svg>',
+		);
+
+		return $icons[ absint( $index ) % count( $icons ) ];
+	}
+}
+
 if ( ! function_exists( 'perfumes_valid_hero_product' ) ) {
 	function perfumes_valid_hero_product( $product, $exclude_id = 0, $require_available = false ) {
 		return $product instanceof WC_Product
@@ -346,39 +359,43 @@ if ( ! $promo_image_url ) {
 		</div>
 	</section>
 
-	<?php if ( $benefits ) : ?>
-		<section class="perfumes-benefits">
-			<?php foreach ( $benefits as $benefit ) : ?>
-				<?php
-				$benefit_title       = $benefit['title'] ?? '';
-				$benefit_description = $benefit['description'] ?? '';
-				?>
-				<div class="perfumes-benefit">
-					<span aria-hidden="true">+</span>
-					<div>
-						<?php if ( $benefit_title ) : ?>
-							<h3><?php echo esc_html( $benefit_title ); ?></h3>
-						<?php endif; ?>
-						<?php if ( $benefit_description ) : ?>
-							<p><?php echo esc_html( $benefit_description ); ?></p>
-						<?php endif; ?>
-					</div>
-				</div>
-			<?php endforeach; ?>
-		</section>
-	<?php endif; ?>
+	<?php if ( $benefits || $payment_methods ) : ?>
+		<div class="perfumes-assurance">
+			<?php if ( $benefits ) : ?>
+				<section class="perfumes-benefits">
+					<?php foreach ( $benefits as $index => $benefit ) : ?>
+						<?php
+						$benefit_title       = $benefit['title'] ?? '';
+						$benefit_description = $benefit['description'] ?? '';
+						?>
+						<div class="perfumes-benefit">
+							<span class="perfumes-benefit__mark" aria-hidden="true"><?php echo perfumes_trust_icon_svg( $index ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+							<div>
+								<?php if ( $benefit_title ) : ?>
+									<h3><?php echo esc_html( $benefit_title ); ?></h3>
+								<?php endif; ?>
+								<?php if ( $benefit_description ) : ?>
+									<p><?php echo esc_html( $benefit_description ); ?></p>
+								<?php endif; ?>
+							</div>
+						</div>
+					<?php endforeach; ?>
+				</section>
+			<?php endif; ?>
 
-	<?php if ( $payment_methods ) : ?>
-		<section class="perfumes-payments">
-			<p><?php echo esc_html__( 'Medios de pago', 'perfumes' ); ?></p>
-			<div>
-				<?php foreach ( $payment_methods as $method ) : ?>
-					<?php if ( $method ) : ?>
-						<span><?php echo esc_html( $method ); ?></span>
-					<?php endif; ?>
-				<?php endforeach; ?>
-			</div>
-		</section>
+			<?php if ( $payment_methods ) : ?>
+				<section class="perfumes-payments">
+					<p><?php echo esc_html__( 'Medios de pago', 'perfumes' ); ?></p>
+					<div>
+						<?php foreach ( $payment_methods as $method ) : ?>
+							<?php if ( $method ) : ?>
+								<span class="perfumes-payments__chip<?php echo false !== stripos( $method, 'addi' ) ? ' is-addi' : ''; ?>"><?php echo esc_html( $method ); ?></span>
+							<?php endif; ?>
+						<?php endforeach; ?>
+					</div>
+				</section>
+			<?php endif; ?>
+		</div>
 	<?php endif; ?>
 
 </div>
