@@ -83,10 +83,7 @@
 		const qtyInput = form.querySelector( 'input.qty' );
 		if ( qtyInput && button ) {
 			const syncQuantity = () => {
-				button.setAttribute(
-					'data-quantity',
-					qtyInput.value || '1'
-				);
+				button.setAttribute( 'data-quantity', qtyInput.value || '1' );
 			};
 			qtyInput.addEventListener( 'input', syncQuantity );
 			qtyInput.addEventListener( 'change', syncQuantity );
