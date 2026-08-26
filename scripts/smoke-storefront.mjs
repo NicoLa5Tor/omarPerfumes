@@ -130,16 +130,17 @@ expect(
 	'Landing must expose one WooCommerce add-to-cart button per product card.'
 );
 expect(
-	( shop.match( /perfumes-catalog-card__media/g ) || [] ).length ===
-		( shop.match( /perfumes-catalog-card__body/g ) || [] ).length,
-	'Shop cards must render one image and one body per product.'
+	( shop.match( /perfumes-product-card__media/g ) || [] ).length > 0 &&
+		( shop.match( /perfumes-product-card__media/g ) || [] ).length ===
+			( shop.match( /perfumes-product-card__body/g ) || [] ).length,
+	'Shop cards must reuse the home product card markup.'
 );
 expect(
 	! /woocommerce-LoopProduct-link/.test( shop ),
 	'Shop cards must not include WooCommerce default card markup.'
 );
 expect(
-	/wp-block-post-title/.test( shop ),
+	/perfumes-product-card__title/.test( shop ),
 	'Shop product cards must expose visible product titles.'
 );
 
