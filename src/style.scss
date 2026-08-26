@@ -678,63 +678,43 @@
 
 	/* stylelint-disable no-descending-specificity */
 
+	/* Match the source artwork ratio (1672 x 941) so the superimposed
+	   product lands on the exact coordinates the client measured. */
 	.perfumes-landing .hero-section {
-		height: 100svh;
-		min-height: 760px;
+		height: auto;
+		min-height: 0;
+		aspect-ratio: 1672 / 941;
 		justify-content: stretch;
 		border-radius: 0 0 40px 40px;
-		background:
-			radial-gradient(circle at 60% 45%, rgba(49, 93, 150, 0.42), transparent 31%),
-			linear-gradient(135deg, #071527 0%, #030a14 68%, #02060c 100%);
+		background-color: #071527;
+		background-image: var(--hero-bg);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: cover;
 		color: #fff;
 	}
 
 	.perfumes-landing .hero-section::after {
 		position: absolute;
 		inset: 0;
-		z-index: -1;
+		z-index: 1;
 		background:
-			linear-gradient(90deg, rgba(2, 6, 12, 0.65) 0%, transparent 44%),
-			linear-gradient(0deg, rgba(2, 6, 12, 0.45), transparent 34%);
+			linear-gradient(90deg, rgba(2, 6, 12, 0.62) 0%, transparent 42%),
+			linear-gradient(0deg, rgba(2, 6, 12, 0.4), transparent 32%);
 		content: "";
 		pointer-events: none;
 	}
 
-	.perfumes-landing .hero-atmosphere {
+	.perfumes-landing .hero-layout {
 		position: absolute;
 		inset: 0;
-		z-index: -2;
-		overflow: hidden;
-		opacity: 0.34;
-		pointer-events: none;
-	}
-
-	.perfumes-landing .hero-blur {
-		position: absolute;
-		width: min(50vw, 720px);
-		height: min(72vw, 900px);
-		object-fit: contain;
-		filter: blur(54px) saturate(1.2);
-		transform: scale(1.22);
-	}
-
-	.perfumes-landing .hero-blur--primary {
-		top: 2%;
-		left: 34%;
-	}
-
-	.perfumes-landing .hero-blur--secondary {
-		right: -16%;
-		bottom: -24%;
-		opacity: 0.62;
-	}
-
-	.perfumes-landing .hero-layout {
-		position: relative;
-		z-index: 1;
+		z-index: 3;
 		display: grid;
+		width: 100%;
+		max-width: 1440px;
 		height: 100%;
-		grid-template-columns: minmax(310px, 0.9fr) minmax(360px, 1.2fr) 286px;
+		margin-inline: auto;
+		grid-template-columns: minmax(300px, 1fr) 286px;
 		align-items: end;
 		gap: clamp(20px, 3vw, 52px);
 		padding-top: 132px;
@@ -892,26 +872,31 @@
 		transform: translateY(-2px);
 	}
 
+	/* Coordinates measured against the 1672 x 941 background:
+	   center X = 836px (50%), top = 135px, width = 600px, height = 609px. */
 	.perfumes-landing .hero-product-primary {
-		position: relative;
+		position: absolute;
 		z-index: 2;
+		top: 14.35%;
+		left: 50%;
 		display: flex;
-		height: min(76vh, 760px);
+		width: 35.9%;
+		height: 64.72%;
 		align-items: flex-end;
 		justify-content: center;
-		align-self: end;
 		text-decoration: none;
+		transform: translateX(-50%);
 	}
 
 	.perfumes-landing .hero-product-primary::after {
 		position: absolute;
-		right: 8%;
-		bottom: 1.5%;
-		left: 8%;
-		height: 8%;
+		right: 4%;
+		bottom: -2%;
+		left: 4%;
+		height: 7%;
 		border-radius: 50%;
-		background: rgba(0, 0, 0, 0.62);
-		filter: blur(20px);
+		background: rgba(0, 0, 0, 0.55);
+		filter: blur(22px);
 		content: "";
 	}
 
@@ -1038,9 +1023,20 @@
 	}
 
 	@media (max-width: 1100px) {
+		.perfumes-landing .hero-section {
+			aspect-ratio: auto;
+			min-height: 760px;
+		}
+
 		.perfumes-landing .hero-layout {
-			grid-template-columns: minmax(280px, 0.82fr) minmax(330px, 1.18fr);
+			grid-template-columns: 1fr;
 			padding-top: 116px;
+		}
+
+		.perfumes-landing .hero-product-primary {
+			top: 11%;
+			width: min(58vw, 420px);
+			height: 60%;
 		}
 
 		.perfumes-landing .hero-section .content-cta {
@@ -1065,12 +1061,14 @@
 		}
 
 		.perfumes-landing .hero-section {
-			height: 100svh;
+			aspect-ratio: auto;
+			height: auto;
 			min-height: 860px;
 			border-radius: 0 0 26px 26px;
 		}
 
 		.perfumes-landing .hero-layout {
+			position: absolute;
 			display: block;
 			padding: 130px 18px 24px;
 		}
@@ -1091,10 +1089,11 @@
 
 		.perfumes-landing .hero-product-primary {
 			position: absolute;
-			top: 330px;
-			right: 8%;
-			left: 22%;
-			height: 310px;
+			top: 320px;
+			left: 50%;
+			width: min(72vw, 320px);
+			height: 340px;
+			transform: translateX(-50%);
 		}
 
 		.perfumes-landing .hero-section .content-cta {

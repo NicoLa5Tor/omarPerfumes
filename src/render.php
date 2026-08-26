@@ -203,11 +203,12 @@ if ( function_exists( 'wc_get_products' ) ) {
 	</div>
 	<div class="preloader-mask" aria-hidden="true"></div>
 
-	<section class="hero-section">
-		<div class="hero-atmosphere" aria-hidden="true">
-			<?php if ( $hero_product_image ) : ?><img class="hero-blur hero-blur--primary" src="<?php echo esc_url( $hero_product_image ); ?>" alt="" /><?php endif; ?>
-			<?php if ( $secondary_image ) : ?><img class="hero-blur hero-blur--secondary" src="<?php echo esc_url( $secondary_image ); ?>" alt="" /><?php endif; ?>
-		</div>
+	<section class="hero-section" style="--hero-bg: url('<?php echo esc_url( $asset_url( 'hero-background.jpg' ) ); ?>')">
+		<?php if ( $hero_product_image ) : ?>
+			<a class="hero-product-primary" href="<?php echo esc_url( $hero_product_url ); ?>" aria-label="<?php echo esc_attr( $hero_product_name ); ?>">
+				<img class="hero-product-primary__image" src="<?php echo esc_url( $hero_product_image ); ?>" alt="<?php echo esc_attr( $hero_product_name ); ?>" fetchpriority="high" />
+			</a>
+		<?php endif; ?>
 		<div class="wrapper hero-layout">
 			<div class="hero-copy">
 				<p class="hero-eyebrow" data-fade-in="down"><?php echo esc_html( $eyebrow ?: __( 'Perfumería original · Colombia', 'perfumes' ) ); ?></p>
@@ -222,12 +223,6 @@ if ( function_exists( 'wc_get_products' ) ) {
 					<span aria-hidden="true">↗</span>
 				</a>
 			</div>
-
-			<?php if ( $hero_product_image ) : ?>
-				<a class="hero-product-primary" href="<?php echo esc_url( $hero_product_url ); ?>" aria-label="<?php echo esc_attr( $hero_product_name ); ?>">
-					<img class="hero-product-primary__image" src="<?php echo esc_url( $hero_product_image ); ?>" alt="<?php echo esc_attr( $hero_product_name ); ?>" fetchpriority="high" />
-				</a>
-			<?php endif; ?>
 
 			<?php if ( $secondary_product ) : ?>
 				<aside class="content-cta" data-fade-in="left">
