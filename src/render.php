@@ -198,11 +198,12 @@ if ( function_exists( 'wc_get_products' ) ) {
 	<div class="preloader-progress-bar" aria-hidden="true">
 		<div class="preloader-bg"></div>
 		<div class="preloader-logo">
-			<img class="logo-image" src="<?php echo esc_url( $logo_light_url ); ?>" alt="" width="900" height="277" />
+			<img class="logo-image" src="<?php echo esc_url( $logo_light_url ); ?>" alt="" width="420" height="129" />
 		</div>
 	</div>
 	<div class="preloader-mask" aria-hidden="true"></div>
 
+	<div class="hero-stack">
 	<section class="hero-section" style="--hero-bg: url('<?php echo esc_url( $asset_url( 'hero-background.jpg' ) ); ?>')">
 		<?php if ( $hero_product_image ) : ?>
 			<a class="hero-product-primary" href="<?php echo esc_url( $hero_product_url ); ?>" aria-label="<?php echo esc_attr( $hero_product_name ); ?>">
@@ -223,9 +224,11 @@ if ( function_exists( 'wc_get_products' ) ) {
 					<span aria-hidden="true">↗</span>
 				</a>
 			</div>
+		</div>
+	</section>
 
-			<?php if ( $secondary_product ) : ?>
-				<aside class="content-cta" data-fade-in="left">
+	<?php if ( $secondary_product ) : ?>
+		<aside class="content-cta" data-fade-in="left">
 					<?php if ( $hero_brand ) : ?>
 						<div class="cta-marquee">
 							<?php for ( $group = 0; $group < 2; $group++ ) : ?>
@@ -249,9 +252,8 @@ if ( function_exists( 'wc_get_products' ) ) {
 						</div>
 					</div>
 				</aside>
-			<?php endif; ?>
-		</div>
-	</section>
+	<?php endif; ?>
+	</div>
 
 	<?php if ( $brands ) : ?>
 		<section class="perfumes-brand-strip">
