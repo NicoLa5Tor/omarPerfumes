@@ -678,18 +678,19 @@
 
 	/* stylelint-disable no-descending-specificity */
 
-	/* Match the source artwork ratio (1672 x 941) so the superimposed
-	   product lands on the exact coordinates the client measured. */
+	/* Source artwork is 1672 x 941. We use a slightly shorter box and anchor
+	   the image to the bottom so the empty top is cropped and the marble floor
+	   stays fully visible for the product to stand on. */
 	.perfumes-landing .hero-section {
 		height: auto;
 		min-height: 0;
-		aspect-ratio: 1672 / 941;
+		aspect-ratio: 1672 / 840;
 		justify-content: stretch;
 		border-radius: 0 0 40px 40px;
 		background-color: #071527;
 		background-image: var(--hero-bg);
 		background-repeat: no-repeat;
-		background-position: center;
+		background-position: center bottom;
 		background-size: cover;
 		color: #fff;
 	}
@@ -872,16 +873,16 @@
 		transform: translateY(-2px);
 	}
 
-	/* Coordinates measured against the 1672 x 941 background:
-	   center X = 836px (50%), top = 135px, width = 600px, height = 609px. */
+	/* Centered horizontally (X=836 -> 50%) and anchored to the marble floor so
+	   the bottle base rests on it. Width keeps the measured 600px proportion. */
 	.perfumes-landing .hero-product-primary {
 		position: absolute;
 		z-index: 2;
-		top: 14.35%;
+		bottom: 10%;
 		left: 50%;
 		display: flex;
 		width: 35.9%;
-		height: 64.72%;
+		height: 72%;
 		align-items: flex-end;
 		justify-content: center;
 		text-decoration: none;
@@ -1034,9 +1035,9 @@
 		}
 
 		.perfumes-landing .hero-product-primary {
-			top: 11%;
+			bottom: 9%;
 			width: min(58vw, 420px);
-			height: 60%;
+			height: 62%;
 		}
 
 		.perfumes-landing .hero-section .content-cta {
@@ -1089,10 +1090,10 @@
 
 		.perfumes-landing .hero-product-primary {
 			position: absolute;
-			top: 320px;
+			bottom: 190px;
 			left: 50%;
-			width: min(72vw, 320px);
-			height: 340px;
+			width: min(72vw, 300px);
+			height: 320px;
 			transform: translateX(-50%);
 		}
 
