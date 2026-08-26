@@ -471,7 +471,7 @@ function omar_perfumes_query_product_comment_rows( $product_id, $strict = true )
 			"SELECT * FROM {$wpdb->comments}
 			WHERE comment_post_ID = %d
 				AND comment_parent = 0
-				AND comment_approved = '1'
+				AND comment_approved IN ( '1', '0' )
 				AND comment_type IN ( 'review', 'comment', '' )
 			ORDER BY comment_date_gmt DESC
 			LIMIT 200",
@@ -481,7 +481,7 @@ function omar_perfumes_query_product_comment_rows( $product_id, $strict = true )
 		$sql = $wpdb->prepare(
 			"SELECT * FROM {$wpdb->comments}
 			WHERE comment_post_ID = %d
-				AND comment_approved = '1'
+				AND comment_approved IN ( '1', '0' )
 				AND comment_type NOT IN ( 'order_note', 'webhook_delivery', 'action_log', 'pingback', 'trackback' )
 			ORDER BY comment_date_gmt DESC
 			LIMIT 200",
@@ -749,11 +749,76 @@ function omar_perfumes_save_product_review_rating( $comment_id, $comment_approve
 		}
 	}
 
+	if ( '0' === (string) $comment_approved || 0 === $comment_approved ) {
+		wp_set_comment_status( $comment_id, 'approve' );
+	}
+
 	if ( class_exists( 'WC_Comments' ) ) {
 		WC_Comments::clear_transients( $post_id );
 	}
 }
 add_action( 'comment_post', 'omar_perfumes_save_product_review_rating', 10, 3 );
+
+/**
+ * Product reviews added from the admin metabox stay pending (yellow row).
+ * Approve them so they appear on the storefront and in the star rating.
+ *
+ * @param int|string $approved    Approval status.
+ * @param array      $commentdata Comment data.
+ * @return int|string
+ */
+function omar_perfumes_auto_approve_product_reviews( $approved, $commentdata ) {
+	$post_id = isset( $commentdata['comment_post_ID'] ) ? (int) $commentdata['comment_post_ID'] : 0;
+	if ( $post_id && 'product' === get_post_type( $post_id ) ) {
+		return 1;
+	}
+
+	return $approved;
+}
+add_filter( 'pre_comment_approved', 'omar_perfumes_auto_approve_product_reviews', 99, 2 );
+
+/**
+ * Approve product reviews that were left pending in wp-admin.
+ */
+function omar_perfumes_publish_held_product_reviews() {
+	global $wpdb;
+
+	if ( wp_installing() ) {
+		return;
+	}
+
+	$ids = $wpdb->get_col(
+		"SELECT c.comment_ID
+		FROM {$wpdb->comments} c
+		INNER JOIN {$wpdb->posts} p ON p.ID = c.comment_post_ID
+		WHERE p.post_type = 'product'
+			AND c.comment_approved = '0'
+		LIMIT 100"
+	);
+
+	if ( ! $ids ) {
+		return;
+	}
+
+	$product_ids = array();
+	foreach ( $ids as $comment_id ) {
+		$comment = get_comment( (int) $comment_id );
+		if ( ! $comment ) {
+			continue;
+		}
+		wp_set_comment_status( (int) $comment_id, 'approve' );
+		$product_ids[ (int) $comment->comment_post_ID ] = (int) $comment->comment_post_ID;
+	}
+
+	if ( ! class_exists( 'WC_Comments' ) ) {
+		return;
+	}
+
+	foreach ( $product_ids as $product_id ) {
+		WC_Comments::clear_transients( $product_id );
+	}
+}
+add_action( 'init', 'omar_perfumes_publish_held_product_reviews', 30 );
 
 /**
  * Ask WordPress for product reviews, not generic comments.
