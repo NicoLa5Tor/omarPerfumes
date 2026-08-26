@@ -28,25 +28,41 @@
 
 	.perfumes-button--primary {
 		@apply bg-perfumes-gold text-perfumes-navy;
+		cursor: pointer;
+		transition: filter 200ms ease, transform 200ms ease;
+	}
+
+	.perfumes-button--primary:hover {
+		filter: brightness(1.06);
 	}
 
 	.perfumes-promo__media {
-		background:
-			linear-gradient(45deg, rgba(11, 31, 58, 0.06) 25%, transparent 25%),
-			linear-gradient(-45deg, rgba(11, 31, 58, 0.06) 25%, transparent 25%),
-			linear-gradient(45deg, transparent 75%, rgba(11, 31, 58, 0.06) 75%),
-			linear-gradient(-45deg, transparent 75%, rgba(11, 31, 58, 0.06) 75%);
-		@apply bg-[#f7f7f5] min-h-[340px];
-		background-position:
-			0 0,
-			0 10px,
-			10px -10px,
-			-10px 0;
-		background-size: 20px 20px;
+		position: relative;
+		display: flex;
+		min-height: 340px;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		padding: 28px 32px;
+		background-color: #071527;
+		background-image:
+			linear-gradient(180deg, rgba(7, 21, 39, 0.12) 0%, rgba(7, 21, 39, 0.38) 100%),
+			var(--promo-stage, none);
+		background-position: center bottom;
+		background-repeat: no-repeat;
+		background-size: cover;
 	}
 
 	.perfumes-promo__media img {
-		@apply block h-full w-full object-cover;
+		position: relative;
+		z-index: 1;
+		display: block;
+		width: auto;
+		max-width: min(100%, 280px);
+		height: auto;
+		max-height: 380px;
+		object-fit: contain;
+		filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.45));
 	}
 
 	.perfumes-brand-strip {
@@ -89,7 +105,7 @@
 	}
 
 	.perfumes-product-grid {
-		@apply mx-auto grid max-w-[1328px] grid-cols-4 gap-6;
+		@apply mx-auto grid max-w-[1328px] grid-cols-5 gap-5;
 	}
 
 	.perfumes-product-grid--featured {
@@ -97,9 +113,10 @@
 	}
 
 	.perfumes-promo {
-		@apply grid min-h-[340px] grid-cols-[minmax(0,880px)_minmax(320px,560px)] bg-perfumes-addi;
+		@apply grid min-h-[340px] grid-cols-[minmax(0,880px)_minmax(320px,560px)] overflow-hidden bg-perfumes-addi;
 	}
 
+	.perfumes-promo__copy,
 	.perfumes-promo > div:first-child {
 		@apply flex flex-col justify-center px-[88px] py-[31px];
 	}
@@ -117,7 +134,7 @@
 	}
 
 	.perfumes-promo h2 {
-		@apply mb-[18px] mt-0 max-w-[520px] text-[36px] leading-none;
+		@apply mb-[18px] mt-0 max-w-[520px] font-brand font-semibold leading-none text-perfumes-deep;
 		font-size: clamp(36px, 4vw, 49px);
 	}
 
@@ -359,7 +376,10 @@
 			@apply grid-cols-1;
 		}
 
-		.perfumes-product-grid,
+		.perfumes-product-grid {
+			@apply grid-cols-3;
+		}
+
 		.perfumes-benefits {
 			@apply grid-cols-2;
 		}
@@ -386,13 +406,22 @@
 		}
 
 		.perfumes-products,
+		.perfumes-promo__copy,
 		.perfumes-promo > div:first-child,
 		.perfumes-benefits,
 		.perfumes-payments {
 			@apply px-[22px];
 		}
 
-		.perfumes-product-grid,
+		.perfumes-promo__media {
+			min-height: 280px;
+			padding: 24px 20px;
+		}
+
+		.perfumes-product-grid {
+			@apply grid-cols-2 gap-3;
+		}
+
 		.perfumes-benefits {
 			@apply grid-cols-1;
 		}

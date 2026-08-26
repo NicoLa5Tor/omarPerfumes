@@ -621,8 +621,38 @@
 		@apply fixed bottom-6 right-6 z-[90];
 	}
 
+	.perfumes-footer-preview .wp-block-buttons:has(.perfumes-whatsapp) {
+		height: 0;
+		margin: 0;
+		overflow: visible;
+	}
+
 	.perfumes-whatsapp .wp-block-button__link {
-		@apply inline-flex h-[62px] w-[62px] items-center justify-center rounded-full bg-[#25d366] p-0 text-[10px] font-extrabold text-white shadow-whatsapp;
+		display: inline-flex;
+		width: 62px;
+		height: 62px;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		padding: 0;
+		font-size: 0;
+		line-height: 0;
+		color: transparent;
+		cursor: pointer;
+		border-radius: 50%;
+		background-color: #25d366;
+		background-image: url(./icons/whatsapp.svg);
+		background-repeat: no-repeat;
+		background-position: center;
+		background-size: 30px 30px;
+		box-shadow: 0 6px 18px rgba(0, 0, 0, 0.28);
+		transition: filter 200ms ease, transform 200ms ease;
+	}
+
+	.perfumes-whatsapp .wp-block-button__link:hover,
+	.perfumes-whatsapp .wp-block-button__link:focus-visible {
+		filter: brightness(1.08);
+		transform: scale(1.06);
 	}
 
 	.woocommerce .woocommerce-breadcrumb,

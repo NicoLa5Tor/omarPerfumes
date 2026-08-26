@@ -11,7 +11,8 @@
 	}
 
 	.perfumes-promo__media.perfumes-image-placeholder {
-		@apply min-h-[360px];
+		@apply min-h-[360px] border-white/20 text-white;
+		background-color: #071527;
 	}
 
 	.perfumes-image-action {

@@ -182,6 +182,16 @@ if ( function_exists( 'wc_get_products' ) ) {
 		);
 	}
 }
+
+if ( ! $promo_image_url ) {
+	if ( $secondary_image ) {
+		$promo_image_url = $secondary_image;
+	} elseif ( $hero_product_image ) {
+		$promo_image_url = $hero_product_image;
+	} elseif ( ! empty( $products[0]['imageUrl'] ) ) {
+		$promo_image_url = $products[0]['imageUrl'];
+	}
+}
 ?>
 <div <?php echo $wrapper_attributes; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
 	<div class="preloader-progress-bar" aria-hidden="true">
@@ -314,7 +324,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 	<?php endif; ?>
 
 	<section class="perfumes-promo">
-		<div>
+		<div class="perfumes-promo__copy">
 			<p class="perfumes-addi-wordmark"><?php echo esc_html__( 'addi', 'perfumes' ); ?><span></span><em><?php echo esc_html__( 'Aliado de pago', 'perfumes' ); ?></em></p>
 			<?php if ( $promo_title ) : ?>
 				<h2><?php echo wp_kses_post( $promo_title ); ?></h2>
@@ -326,7 +336,10 @@ if ( function_exists( 'wc_get_products' ) ) {
 				<a class="perfumes-button perfumes-button--primary" href="<?php echo esc_url( $promo_cta_url ); ?>"><?php echo esc_html( $promo_cta ); ?></a>
 			<?php endif; ?>
 		</div>
-		<div class="perfumes-promo__media">
+		<div
+			class="perfumes-promo__media<?php echo $promo_image_url ? ' has-image' : ''; ?>"
+			style="--promo-stage: url('<?php echo esc_url( $asset_url( 'hero-background.jpg' ) ); ?>')"
+		>
 			<?php if ( $promo_image_url ) : ?>
 				<img src="<?php echo esc_url( $promo_image_url ); ?>" alt="<?php echo esc_attr( wp_strip_all_tags( $promo_title ) ); ?>" loading="lazy" />
 			<?php endif; ?>

@@ -8,7 +8,7 @@ export default function PromoSection( { attributes, setAttributes } ) {
 
 	return (
 		<section className="perfumes-promo">
-			<div>
+			<div className="perfumes-promo__copy">
 				<p className="perfumes-eyebrow">Addi</p>
 				<RichText
 					tagName="h2"
