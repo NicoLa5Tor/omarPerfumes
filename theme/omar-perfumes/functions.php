@@ -54,6 +54,39 @@ function omar_perfumes_product_search( $query ) {
 }
 add_action( 'pre_get_posts', 'omar_perfumes_product_search' );
 
+function omar_perfumes_preloader_session_guard() {
+	if ( ! is_front_page() || is_search() ) {
+		return;
+	}
+	?>
+	<script>
+	( function () {
+		try {
+			if ( sessionStorage.getItem( 'omar-preloader-seen' ) !== '1' ) {
+				return;
+			}
+			document.addEventListener(
+				'DOMContentLoaded',
+				function () {
+					document.body.classList.remove(
+						'omar-initial-entry',
+						'omar-scroll-locked'
+					);
+					document.documentElement.classList.remove(
+						'omar-scroll-locked'
+					);
+				},
+				{ once: true }
+			);
+		} catch ( error ) {
+			// Ignore storage failures in private browsing.
+		}
+	} )();
+	</script>
+	<?php
+}
+add_action( 'wp_head', 'omar_perfumes_preloader_session_guard', 1 );
+
 function omar_perfumes_body_class( $classes ) {
 	$classes[] = 'omar-perfumes-site';
 	if ( is_front_page() && ! is_search() ) {

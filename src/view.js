@@ -21,6 +21,64 @@ let activeRoot = null;
 let activeHeader = null;
 let activePageCleanup = () => {};
 let mountFrame = 0;
+let scrollUnlockTimer = null;
+
+const SCROLL_LOCK_CLASS = 'omar-scroll-locked';
+const PRELOADER_SEEN_KEY = 'omar-preloader-seen';
+
+function hasSeenPreloader() {
+	try {
+		return sessionStorage.getItem( PRELOADER_SEEN_KEY ) === '1';
+	} catch {
+		return false;
+	}
+}
+
+function markPreloaderSeen() {
+	try {
+		sessionStorage.setItem( PRELOADER_SEEN_KEY, '1' );
+	} catch {
+		// Ignore storage failures in private browsing.
+	}
+}
+
+function shouldShowPreloader( clientNavigation ) {
+	return (
+		! clientNavigation &&
+		! hasSeenPreloader() &&
+		document.body.classList.contains( 'omar-initial-entry' )
+	);
+}
+
+if ( hasSeenPreloader() ) {
+	document.body.classList.remove( 'omar-initial-entry', SCROLL_LOCK_CLASS );
+	document.documentElement.classList.remove( SCROLL_LOCK_CLASS );
+} else if ( document.body.classList.contains( SCROLL_LOCK_CLASS ) ) {
+	document.documentElement.classList.add( SCROLL_LOCK_CLASS );
+}
+
+function lockScroll() {
+	document.documentElement.classList.add( SCROLL_LOCK_CLASS );
+	document.body.classList.add( SCROLL_LOCK_CLASS );
+}
+
+function unlockScroll() {
+	scrollUnlockTimer?.kill();
+	scrollUnlockTimer = null;
+	document.documentElement.classList.remove( SCROLL_LOCK_CLASS );
+	document.body.classList.remove( SCROLL_LOCK_CLASS );
+}
+
+function scheduleScrollUnlockAfterHero( heroTimeline ) {
+	scrollUnlockTimer?.kill();
+	heroTimeline.call(
+		() => {
+			scrollUnlockTimer = gsap.delayedCall( 1, unlockScroll );
+		},
+		null,
+		0
+	);
+}
 
 function hidePreloader( root ) {
 	const targets = [
@@ -37,6 +95,7 @@ function completeInitialEntry( root ) {
 	hidePreloader( root );
 	root.classList.remove( 'is-intro-ready' );
 	document.body.classList.remove( 'omar-initial-entry' );
+	unlockScroll();
 }
 
 function animateHeadline( el ) {
@@ -240,7 +299,9 @@ function initHomeHeader() {
 	return () => matchMedia.revert();
 }
 
-function runIntro( root, { showPreloader } ) {
+function runIntro( root, { clientNavigation = false } = {} ) {
+	const showPreloader = shouldShowPreloader( clientNavigation );
+
 	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) {
 		hidePreloader( root );
 		completeInitialEntry( root );
@@ -258,6 +319,7 @@ function runIntro( root, { showPreloader } ) {
 	try {
 		const context = gsap.context( () => {
 			if ( ! showPreloader ) {
+				unlockScroll();
 				hidePreloader( root );
 				gsap.set( root.querySelector( '.hero-section' ), {
 					autoAlpha: 1,
@@ -276,8 +338,11 @@ function runIntro( root, { showPreloader } ) {
 				return;
 			}
 
+			markPreloaderSeen();
+			lockScroll();
 			const preloaderTl = preloaderAnimation( root );
 			const heroTl = heroAnimation( root );
+			scheduleScrollUnlockAfterHero( heroTl );
 			activeTimeline = gsap.timeline( {
 				onComplete: () => {
 					failsafe?.kill();
@@ -293,6 +358,7 @@ function runIntro( root, { showPreloader } ) {
 		return () => {
 			failsafe?.kill();
 			activeTimeline?.kill();
+			unlockScroll();
 			context.revert();
 		};
 	} catch ( error ) {
@@ -358,9 +424,7 @@ function mountPage( { clientNavigation = false } = {} ) {
 	}
 
 	if ( root ) {
-		cleanups.push(
-			runIntro( root, { showPreloader: ! clientNavigation } )
-		);
+		cleanups.push( runIntro( root, { clientNavigation } ) );
 		cleanups.push( initProductCards( root ) );
 	}
 

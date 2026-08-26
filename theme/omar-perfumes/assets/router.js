@@ -110,10 +110,11 @@ function prepareHomeForClientNavigation( serverState ) {
 	}
 
 	root.querySelectorAll(
-		'.preloader-mask, .preloader-progress-bar, .preloader-bg'
+		'.preloader-mask, .preloader-progress-bar, .preloader-bg, .preloader-logo'
 	).forEach( ( element ) => {
 		element.style.display = 'none';
 		element.style.visibility = 'hidden';
+		element.style.opacity = '0';
 	} );
 
 	const heroImage = root.querySelector( '.hero-product-primary__image' );
