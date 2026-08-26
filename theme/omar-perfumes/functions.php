@@ -329,16 +329,17 @@ function omar_perfumes_query_related_ids( $term_ids, $exclude, $limit ) {
 }
 
 /**
- * Animated add-to-cart control used on product cards.
+ * Animated add-to-cart control used on product cards and the product page.
  *
  * @param int    $product_id Product ID.
  * @param string $url        Add-to-cart URL.
  * @param string $name       Product name for the aria-label.
+ * @param bool   $as_submit  Whether to render a submit button for the single product form.
  * @return string
  */
-function omar_perfumes_add_to_cart_button( $product_id, $url, $name = '' ) {
+function omar_perfumes_add_to_cart_button( $product_id, $url, $name = '', $as_submit = false ) {
 	$product_id = (int) $product_id;
-	if ( $product_id < 1 || ! $url ) {
+	if ( $product_id < 1 || ( ! $as_submit && ! $url ) ) {
 		return '';
 	}
 
@@ -349,7 +350,18 @@ function omar_perfumes_add_to_cart_button( $product_id, $url, $name = '' ) {
 	);
 
 	ob_start();
-	?>
+	if ( $as_submit ) :
+		?>
+	<button
+		type="submit"
+		name="add-to-cart"
+		value="<?php echo esc_attr( (string) $product_id ); ?>"
+		class="button alt add-to-cart-button single_add_to_cart_button"
+		data-product_id="<?php echo esc_attr( (string) $product_id ); ?>"
+		data-quantity="1"
+		aria-label="<?php echo esc_attr( $label ); ?>"
+	>
+		<?php else : ?>
 	<a
 		class="button add-to-cart-button add_to_cart_button ajax_add_to_cart product_type_simple"
 		href="<?php echo esc_url( $url ); ?>"
@@ -358,6 +370,7 @@ function omar_perfumes_add_to_cart_button( $product_id, $url, $name = '' ) {
 		aria-label="<?php echo esc_attr( $label ); ?>"
 		rel="nofollow"
 	>
+		<?php endif; ?>
 		<span class="add-to-cart-button__label add-to-cart-button__label--idle"><?php esc_html_e( 'Añadir', 'omar-perfumes' ); ?></span>
 		<span class="add-to-cart-button__label add-to-cart-button__label--added"><?php esc_html_e( 'Ver carrito', 'omar-perfumes' ); ?></span>
 		<span class="add-to-cart-button__cart" aria-hidden="true">
@@ -370,7 +383,11 @@ function omar_perfumes_add_to_cart_button( $product_id, $url, $name = '' ) {
 				<path fill="currentColor" d="M50.7 58.5 0 160h448L397.3 58.5C387.8 41.6 369.7 32 350.1 32H97.9c-19.6 0-37.7 9.6-47.2 26.5zM0 192v272c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0z" />
 			</svg>
 		</span>
+	<?php if ( $as_submit ) : ?>
+	</button>
+		<?php else : ?>
 	</a>
+		<?php endif; ?>
 	<?php
 	return (string) ob_get_clean();
 }

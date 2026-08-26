@@ -36,15 +36,27 @@
 		const label = window.omarPerfumesCart?.viewCart || 'Ver carrito';
 		button.classList.add( 'is-in-cart' );
 		button.classList.remove( 'ajax_add_to_cart', 'add_to_cart_button' );
-		button.setAttribute( 'href', cartUrl );
 		button.setAttribute( 'aria-label', label );
+		if ( button.tagName === 'A' ) {
+			button.setAttribute( 'href', cartUrl );
+			return;
+		}
+		button.type = 'button';
+		button.removeAttribute( 'name' );
+		button.addEventListener( 'click', ( event ) => {
+			event.preventDefault();
+			window.location.href = cartUrl;
+		} );
 	};
 
 	const markAdded = ( button ) => {
 		const reduceMotion = prefersReducedMotion();
 		stripViewCartLinks( button );
 		if ( button && button.classList.contains( 'add-to-cart-button' ) ) {
-			if ( ! button.classList.contains( 'is-in-cart' ) ) {
+			if (
+				! button.classList.contains( 'is-in-cart' ) &&
+				! button.classList.contains( 'is-added' )
+			) {
 				button.classList.remove( 'is-added' );
 				void button.offsetWidth;
 				button.classList.add( 'is-added' );
@@ -61,6 +73,68 @@
 		window.setTimeout( pulseCart, reduceMotion ? 0 : CART_PULSE_MS );
 	};
 
+	const bindPdpForm = () => {
+		const form = document.querySelector( '.perfumes-pdp form.cart' );
+		if ( ! form || form.dataset.omarCartBound === '1' ) {
+			return;
+		}
+		form.dataset.omarCartBound = '1';
+		form.addEventListener( 'submit', ( event ) => {
+			const button = form.querySelector( '.add-to-cart-button' );
+			if ( button?.classList.contains( 'is-in-cart' ) ) {
+				event.preventDefault();
+				window.location.href =
+					window.omarPerfumesCart?.cartUrl || '/carrito/';
+				return;
+			}
+			if (
+				! button ||
+				button.classList.contains( 'is-added' ) ||
+				! window.jQuery
+			) {
+				event.preventDefault();
+				return;
+			}
+			const ajaxTemplate =
+				window.wc_add_to_cart_params?.wc_ajax_url || '';
+			const ajaxUrl = ajaxTemplate.replace(
+				'%%endpoint%%',
+				'add_to_cart'
+			);
+			const productId =
+				button.getAttribute( 'value' ) ||
+				button.getAttribute( 'data-product_id' );
+			const quantity =
+				form.querySelector( 'input.qty' )?.value ||
+				button.getAttribute( 'data-quantity' ) ||
+				'1';
+			if ( ! ajaxUrl || ! productId ) {
+				return;
+			}
+			event.preventDefault();
+			window.jQuery.post(
+				ajaxUrl,
+				{
+					product_id: productId,
+					quantity,
+				},
+				( response ) => {
+					if ( ! response || response.error ) {
+						form.submit();
+						return;
+					}
+					window
+						.jQuery( document.body )
+						.trigger( 'added_to_cart', [
+							response.fragments,
+							response.cart_hash,
+							window.jQuery( button ),
+						] );
+				}
+			);
+		} );
+	};
+
 	if ( ! window.jQuery ) {
 		return;
 	}
@@ -70,4 +144,6 @@
 		const button = $button && $button.get ? $button.get( 0 ) : $button;
 		markAdded( button );
 	} );
+
+	bindPdpForm();
 } )();
