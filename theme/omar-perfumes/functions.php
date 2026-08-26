@@ -231,6 +231,108 @@ function omar_perfumes_related_products_args( $args ) {
 add_filter( 'woocommerce_output_related_products_args', 'omar_perfumes_related_products_args' );
 
 /**
+ * Shop, category and search loops reuse the home product grid class.
+ *
+ * @param string $html Loop opening markup.
+ * @return string
+ */
+function omar_perfumes_product_loop_start( $html ) {
+	if ( 'related' === wc_get_loop_prop( 'name' ) || false !== strpos( $html, 'perfumes-product-grid' ) ) {
+		return $html;
+	}
+
+	$updated = preg_replace( '/class="products/', 'class="products perfumes-product-grid', $html, 1 );
+	return is_string( $updated ) ? $updated : $html;
+}
+add_filter( 'woocommerce_product_loop_start', 'omar_perfumes_product_loop_start' );
+
+/**
+ * Catalog archives must use the theme templates (home product card), not
+ * WooCommerce's Product Collection blocks saved in the Site Editor.
+ *
+ * @return string[]
+ */
+function omar_perfumes_catalog_template_slugs() {
+	return array(
+		'archive-product',
+		'taxonomy-product_cat',
+		'taxonomy-product_tag',
+		'product-search-results',
+	);
+}
+
+/**
+ * @param string $slug Template slug.
+ * @return WP_Block_Template|null
+ */
+function omar_perfumes_theme_catalog_template( $slug ) {
+	if ( ! in_array( $slug, omar_perfumes_catalog_template_slugs(), true ) || ! class_exists( 'WP_Block_Template' ) ) {
+		return null;
+	}
+
+	$path = get_theme_file_path( 'templates/' . $slug . '.html' );
+	if ( ! $path || ! file_exists( $path ) ) {
+		return null;
+	}
+
+	$template                 = new WP_Block_Template();
+	$template->id             = get_stylesheet() . '//' . $slug;
+	$template->theme          = get_stylesheet();
+	$template->content        = (string) file_get_contents( $path );
+	$template->slug           = $slug;
+	$template->source         = 'theme';
+	$template->type           = 'wp_template';
+	$template->title          = $slug;
+	$template->status         = 'publish';
+	$template->has_theme_file = true;
+	$template->is_custom      = false;
+	$template->origin         = 'theme';
+	return $template;
+}
+
+/**
+ * @param WP_Block_Template|null $template      Current template.
+ * @param string                 $id            Template id (`theme//slug`).
+ * @param string                 $template_type Template post type.
+ * @return WP_Block_Template|null
+ */
+function omar_perfumes_pre_get_catalog_template( $template, $id, $template_type ) {
+	if ( 'wp_template' !== $template_type || ! is_string( $id ) ) {
+		return $template;
+	}
+
+	$slug   = false !== strpos( $id, '//' ) ? substr( $id, strpos( $id, '//' ) + 2 ) : $id;
+	$loaded = omar_perfumes_theme_catalog_template( $slug );
+	return $loaded ? $loaded : $template;
+}
+add_filter( 'pre_get_block_template', 'omar_perfumes_pre_get_catalog_template', 10, 3 );
+
+/**
+ * @param WP_Block_Template[] $query_result Templates.
+ * @param array               $query        Query args.
+ * @param string              $template_type Template post type.
+ * @return WP_Block_Template[]
+ */
+function omar_perfumes_force_catalog_templates( $query_result, $query, $template_type ) {
+	if ( 'wp_template' !== $template_type || ! is_array( $query_result ) ) {
+		return $query_result;
+	}
+
+	foreach ( $query_result as $index => $item ) {
+		if ( ! $item instanceof WP_Block_Template ) {
+			continue;
+		}
+		$loaded = omar_perfumes_theme_catalog_template( $item->slug );
+		if ( $loaded ) {
+			$query_result[ $index ] = $loaded;
+		}
+	}
+
+	return $query_result;
+}
+add_filter( 'get_block_templates', 'omar_perfumes_force_catalog_templates', 99, 3 );
+
+/**
  * Prefer the same brand category, then the parent family, ordered by sales.
  *
  * @param int[] $related_posts Related product IDs from WooCommerce.
