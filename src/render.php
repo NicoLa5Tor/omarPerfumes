@@ -313,8 +313,8 @@ if ( function_exists( 'wc_get_products' ) ) {
 									<?php if ( $product_price ) : ?><strong class="perfumes-product-card__price"><?php echo esc_html( $product_price ); ?></strong><?php endif; ?>
 									<?php if ( $product_old_price ) : ?><span class="perfumes-product-card__old-price"><?php echo esc_html( $product_old_price ); ?></span><?php endif; ?>
 								</div>
-								<?php if ( $product_id && $is_in_stock ) : ?>
-									<a class="button perfumes-product-card__button add_to_cart_button ajax_add_to_cart" href="<?php echo esc_url( $product['addUrl'] ?? '' ); ?>" data-product_id="<?php echo esc_attr( $product_id ); ?>" data-quantity="1" aria-label="<?php echo esc_attr( sprintf( __( 'Añadir %s al carrito', 'perfumes' ), wp_strip_all_tags( $product_name ) ) ); ?>" rel="nofollow"><?php echo esc_html__( 'Añadir', 'perfumes' ); ?></a>
+								<?php if ( $product_id && $is_in_stock && function_exists( 'omar_perfumes_add_to_cart_button' ) ) : ?>
+									<?php echo omar_perfumes_add_to_cart_button( (int) $product_id, $product['addUrl'] ?? '', $product_name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 								<?php else : ?>
 									<a class="button perfumes-product-card__button" href="<?php echo esc_url( $product['url'] ?? $shop_url ); ?>"><?php echo esc_html__( 'Ver producto', 'perfumes' ); ?></a>
 								<?php endif; ?>

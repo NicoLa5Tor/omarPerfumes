@@ -686,8 +686,8 @@
 
 	.perfumes-catalog-card__footer {
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
+		flex-direction: column;
+		align-items: stretch;
 		gap: 0.85rem;
 		margin-top: auto;
 	}
@@ -754,7 +754,7 @@
 	.wc-block-product .wp-block-button__link,
 	.wc-block-grid__product .wp-block-button__link {
 		display: inline-flex;
-		width: auto;
+		width: 100%;
 		min-height: 0;
 		align-items: center;
 		justify-content: center;
@@ -908,9 +908,9 @@
 
 	.perfumes-product-card__footer {
 		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 0.85rem;
 		margin-top: auto;
 	}
 
@@ -940,7 +940,7 @@
 	.perfumes-product-card__button,
 	.woocommerce .perfumes-related ul.products li.product .button {
 		display: inline-flex;
-		width: auto;
+		width: 100%;
 		min-height: 0;
 		align-items: center;
 		justify-content: center;
@@ -961,6 +961,180 @@
 	.woocommerce .perfumes-related ul.products li.product .button:hover {
 		background: #ffb900;
 		color: #071527;
+	}
+
+	.woocommerce ul.products li.product a.added_to_cart,
+	.perfumes-product-card a.added_to_cart,
+	.perfumes-catalog-card a.added_to_cart {
+		display: none !important;
+	}
+
+	.woocommerce a.add-to-cart-button,
+	.woocommerce ul.products li.product .add-to-cart-button,
+	.add-to-cart-button {
+		position: relative;
+		display: flex;
+		overflow: hidden;
+		width: 100%;
+		min-height: 44px;
+		align-items: center;
+		justify-content: center;
+		padding: 0.7rem 1rem 0.7rem 2.6rem;
+		border: 0;
+		border-radius: 50rem;
+		background: #071527;
+		box-shadow: 0 3px 13px -2px rgba(7, 21, 39, 0.18);
+		color: #fff;
+		font-family: Inter, system-ui, sans-serif;
+		font-size: 12px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		line-height: 1.2;
+		text-decoration: none;
+		text-transform: uppercase;
+		transition:
+			background-color 0.4s ease,
+			color 0.4s ease,
+			box-shadow 0.4s ease,
+			transform 0.4s ease;
+	}
+
+	.perfumes-product-card .add-to-cart-button,
+	.woocommerce .perfumes-related ul.products li.product .add-to-cart-button {
+		background: #fff;
+		color: #071527;
+	}
+
+	.woocommerce ul.products li.product .add-to-cart-button:hover,
+	.woocommerce ul.products li.product .add-to-cart-button:focus-visible,
+	.woocommerce .perfumes-related ul.products li.product .add-to-cart-button:hover,
+	.add-to-cart-button:hover,
+	.add-to-cart-button:focus-visible {
+		background: #e2bd6d;
+		box-shadow: 0 0 0 0.2rem rgba(226, 189, 109, 0.45);
+		color: #071527;
+		transform: translateY(-1px);
+	}
+
+	.add-to-cart-button:active {
+		box-shadow: 0 0 0 0.2rem rgba(226, 189, 109, 0.45);
+		transform: translateY(3px);
+	}
+
+	.woocommerce ul.products li.product .add-to-cart-button.is-added,
+	.add-to-cart-button.is-added {
+		background: #e2bd6d;
+		box-shadow: 0 0 0 0.2rem rgba(226, 189, 109, 0.45);
+		color: #071527;
+	}
+
+	.add-to-cart-button .add-to-cart,
+	.add-to-cart-button .added-to-cart {
+		position: relative;
+		margin: 0;
+	}
+
+	.add-to-cart-button .added-to-cart {
+		display: none;
+	}
+
+	.add-to-cart-button.is-added .add-to-cart {
+		display: none;
+	}
+
+	.add-to-cart-button.is-added .added-to-cart {
+		display: block;
+	}
+
+	.add-to-cart-button .add-to-cart-box {
+		position: absolute;
+		top: -8px;
+		width: 5px;
+		height: 5px;
+		transition: top 0.4s ease;
+	}
+
+	.add-to-cart-button .box-1 {
+		left: 23px;
+		transform: rotate(45deg);
+	}
+
+	.add-to-cart-button .box-2 {
+		left: 32px;
+		transform: rotate(63deg);
+	}
+
+	.add-to-cart-button.is-added .box-1,
+	.add-to-cart-button.is-added .box-2 {
+		top: 18px;
+	}
+
+	.add-to-cart-button .cart-icon {
+		position: absolute;
+		top: 10px;
+		left: 15px;
+		width: 22px;
+		height: 22px;
+	}
+
+	.add-to-cart-button.is-added .cart-icon {
+		animation: perfumes-cart-drop 0.3s forwards;
+		animation-delay: 0.18s;
+	}
+
+	.add-to-cart-button .tick {
+		position: absolute;
+		top: 7px;
+		left: 28px;
+		z-index: 2;
+		width: 18px;
+		height: 18px;
+		transform: scale(0);
+	}
+
+	.add-to-cart-button.is-added .tick {
+		animation: perfumes-cart-grow 0.6s forwards;
+		animation-delay: 0.7s;
+	}
+
+	@keyframes perfumes-cart-grow {
+		0% {
+			transform: scale(0);
+		}
+
+		50% {
+			transform: scale(1.2);
+		}
+
+		100% {
+			transform: scale(1);
+		}
+	}
+
+	@keyframes perfumes-cart-drop {
+		0% {
+			transform: translateY(0);
+		}
+
+		100% {
+			transform: translateY(1px);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.add-to-cart-button,
+		.add-to-cart-button .add-to-cart-box {
+			transition: none;
+		}
+
+		.add-to-cart-button.is-added .cart-icon,
+		.add-to-cart-button.is-added .tick {
+			animation: none;
+		}
+
+		.add-to-cart-button.is-added .tick {
+			transform: scale(1);
+		}
 	}
 
 	.woocommerce div.product,

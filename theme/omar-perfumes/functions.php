@@ -327,3 +327,80 @@ function omar_perfumes_query_related_ids( $term_ids, $exclude, $limit ) {
 
 	return array_map( 'intval', (array) $ids );
 }
+
+/**
+ * Animated add-to-cart control used on product cards.
+ *
+ * @param int    $product_id Product ID.
+ * @param string $url        Add-to-cart URL.
+ * @param string $name       Product name for the aria-label.
+ * @return string
+ */
+function omar_perfumes_add_to_cart_button( $product_id, $url, $name = '' ) {
+	$product_id = (int) $product_id;
+	if ( $product_id < 1 || ! $url ) {
+		return '';
+	}
+
+	$label = sprintf(
+		/* translators: %s: product name */
+		__( 'Añadir %s al carrito', 'omar-perfumes' ),
+		wp_strip_all_tags( $name )
+	);
+
+	ob_start();
+	?>
+	<a
+		class="button add-to-cart-button add_to_cart_button ajax_add_to_cart product_type_simple"
+		href="<?php echo esc_url( $url ); ?>"
+		data-product_id="<?php echo esc_attr( (string) $product_id ); ?>"
+		data-quantity="1"
+		aria-label="<?php echo esc_attr( $label ); ?>"
+		rel="nofollow"
+	>
+		<svg class="add-to-cart-box box-1" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect width="24" height="24" rx="2" fill="currentColor"/></svg>
+		<svg class="add-to-cart-box box-2" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect width="24" height="24" rx="2" fill="currentColor"/></svg>
+		<svg class="cart-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+		<svg class="tick" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path fill="none" d="M0 0h24v24H0V0z"/><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM9.29 16.29L5.7 12.7c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0L10 14.17l6.88-6.88c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-7.59 7.59c-.38.39-1.02.39-1.41 0z"/></svg>
+		<span class="add-to-cart"><?php esc_html_e( 'Añadir', 'omar-perfumes' ); ?></span>
+		<span class="added-to-cart"><?php esc_html_e( 'Añadido', 'omar-perfumes' ); ?></span>
+	</a>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
+ * Swap the loop add-to-cart link for the animated card button.
+ *
+ * @param string     $html    Default markup.
+ * @param WC_Product $product Product.
+ * @return string
+ */
+function omar_perfumes_loop_add_to_cart_link( $html, $product ) {
+	if ( ! $product instanceof WC_Product || ! $product->is_purchasable() || ! $product->is_in_stock() || ! $product->is_type( 'simple' ) ) {
+		return $html;
+	}
+
+	return omar_perfumes_add_to_cart_button(
+		$product->get_id(),
+		$product->add_to_cart_url(),
+		$product->get_name()
+	);
+}
+add_filter( 'woocommerce_loop_add_to_cart_link', 'omar_perfumes_loop_add_to_cart_link', 10, 2 );
+
+function omar_perfumes_cart_button_assets() {
+	if ( wp_script_is( 'wc-add-to-cart', 'registered' ) ) {
+		wp_enqueue_script( 'wc-add-to-cart' );
+	}
+
+	$path = get_theme_file_path( 'assets/cart-button.js' );
+	wp_enqueue_script(
+		'omar-perfumes-cart-button',
+		get_theme_file_uri( 'assets/cart-button.js' ),
+		array( 'jquery' ),
+		file_exists( $path ) ? filemtime( $path ) : wp_get_theme()->get( 'Version' ),
+		true
+	);
+}
+add_action( 'wp_enqueue_scripts', 'omar_perfumes_cart_button_assets', 26 );
