@@ -918,6 +918,7 @@
 		text-align: center;
 		text-decoration: none;
 		text-transform: none;
+		cursor: pointer;
 		transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 	}
 
@@ -931,6 +932,7 @@
 		background: #0b1f3a;
 		box-shadow: none;
 		color: #fff;
+		cursor: pointer;
 		transform: none;
 	}
 
@@ -1412,7 +1414,7 @@
 	}
 
 	.perfumes-pdp__qty {
-		@apply inline-flex h-9 items-center overflow-hidden rounded-full border border-[#e4e7ec] bg-[#f8fafc];
+		@apply inline-flex h-9 items-center rounded-full border border-[#e4e7ec] bg-[#f8fafc];
 	}
 
 	.perfumes-pdp__qty-btn {
@@ -1435,12 +1437,14 @@
 		color: #d0d5dd;
 	}
 
-	.perfumes-pdp__cart .quantity {
-		display: block;
+	.woocommerce div.product.perfumes-pdp form.cart .quantity {
+		display: flex;
 		float: none;
-		flex: 0 0 auto;
-		width: 1.75rem;
-		min-width: 0;
+		align-items: center;
+		justify-content: center;
+		width: 2rem;
+		min-width: 2rem;
+		max-width: 2rem;
 		margin: 0;
 		padding: 0;
 	}
@@ -1457,8 +1461,12 @@
 		border: 0;
 	}
 
-	.perfumes-pdp__cart .quantity input.qty {
-		width: 1.75rem;
+	.woocommerce div.product.perfumes-pdp form.cart .quantity .qty,
+	.woocommerce div.product.perfumes-pdp form.cart .quantity input.qty {
+		display: block;
+		width: 2rem;
+		min-width: 2rem;
+		max-width: 2rem;
 		height: 36px;
 		min-height: 36px;
 		margin: 0;
@@ -1467,12 +1475,14 @@
 		border-radius: 0;
 		background: transparent;
 		box-shadow: none;
+		opacity: 1;
 		font-family: Inter, system-ui, sans-serif;
-		font-size: 13px;
+		font-size: 14px;
 		font-weight: 600;
 		line-height: 36px;
 		text-align: center;
 		color: #071527;
+		-webkit-text-fill-color: #071527;
 		-moz-appearance: textfield;
 		appearance: textfield;
 	}
@@ -1514,6 +1524,7 @@
 		text-align: center;
 		text-transform: none;
 		color: #fff;
+		cursor: pointer;
 	}
 
 	.woocommerce div.product.perfumes-pdp form.cart .single_add_to_cart_button:hover,
@@ -1521,6 +1532,7 @@
 	.woocommerce div.product.perfumes-pdp form.cart .add-to-cart-button:focus-visible {
 		background: #0b1f3a;
 		color: #fff;
+		cursor: pointer;
 		transform: none;
 	}
 
