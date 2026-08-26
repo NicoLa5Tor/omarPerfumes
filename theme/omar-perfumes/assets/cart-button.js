@@ -24,16 +24,40 @@
 		}, 700 );
 	};
 
+	const stripViewCartLinks = ( button ) => {
+		const root = button?.parentElement || document;
+		root.querySelectorAll( 'a.added_to_cart' ).forEach( ( node ) => {
+			node.remove();
+		} );
+	};
+
+	const toViewCart = ( button ) => {
+		const cartUrl = window.omarPerfumesCart?.cartUrl || '/carrito/';
+		const label = window.omarPerfumesCart?.viewCart || 'Ver carrito';
+		button.classList.add( 'is-in-cart' );
+		button.classList.remove( 'ajax_add_to_cart', 'add_to_cart_button' );
+		button.setAttribute( 'href', cartUrl );
+		button.setAttribute( 'aria-label', label );
+	};
+
 	const markAdded = ( button ) => {
 		const reduceMotion = prefersReducedMotion();
+		stripViewCartLinks( button );
 		if ( button && button.classList.contains( 'add-to-cart-button' ) ) {
-			button.classList.remove( 'is-added' );
-			void button.offsetWidth;
-			button.classList.add( 'is-added' );
-			window.setTimeout( () => {
+			if ( ! button.classList.contains( 'is-in-cart' ) ) {
 				button.classList.remove( 'is-added' );
-			}, ANIMATION_MS );
+				void button.offsetWidth;
+				button.classList.add( 'is-added' );
+				window.setTimeout(
+					() => {
+						toViewCart( button );
+						stripViewCartLinks( button );
+					},
+					reduceMotion ? 0 : ANIMATION_MS
+				);
+			}
 		}
+		window.setTimeout( () => stripViewCartLinks( button ), 0 );
 		window.setTimeout( pulseCart, reduceMotion ? 0 : CART_PULSE_MS );
 	};
 

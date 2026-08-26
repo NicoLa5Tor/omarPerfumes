@@ -297,9 +297,7 @@ if ( function_exists( 'wc_get_products' ) ) {
 							<?php endif; ?>
 						</a>
 						<div class="perfumes-product-card__body">
-							<?php if ( $product_brand ) : ?>
-								<span class="perfumes-product-card__category"><?php echo esc_html( $product_brand ); ?></span>
-							<?php endif; ?>
+							<span class="perfumes-product-card__category"><?php echo $product_brand ? esc_html( $product_brand ) : '&nbsp;'; ?></span>
 							<?php if ( $product_name ) : ?>
 								<h3 class="perfumes-product-card__title"><a href="<?php echo esc_url( $product['url'] ?? '#' ); ?>"><?php echo wp_kses_post( $product_name ); ?></a></h3>
 							<?php endif; ?>

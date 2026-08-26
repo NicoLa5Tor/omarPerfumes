@@ -359,17 +359,15 @@ function omar_perfumes_add_to_cart_button( $product_id, $url, $name = '' ) {
 		rel="nofollow"
 	>
 		<span class="add-to-cart-button__label add-to-cart-button__label--idle"><?php esc_html_e( 'Añadir', 'omar-perfumes' ); ?></span>
-		<span class="add-to-cart-button__label add-to-cart-button__label--added"><?php esc_html_e( 'Añadido', 'omar-perfumes' ); ?></span>
+		<span class="add-to-cart-button__label add-to-cart-button__label--added"><?php esc_html_e( 'Ver carrito', 'omar-perfumes' ); ?></span>
 		<span class="add-to-cart-button__cart" aria-hidden="true">
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-				<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10V6a3 3 0 0 1 3-3 3 3 0 0 1 3 3v4m3-2 .917 11.923A1 1 0 0 1 17.92 21H6.08a1 1 0 0 1-.997-1.077L6 8h12Z" />
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
+				<path fill="currentColor" d="M0 24C0 10.7 10.7 0 24 0h45.5c22 0 41.5 12.8 50.6 32H531c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zm128 440a48 48 0 1 1 96 0 48 48 0 1 1-96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z" />
 			</svg>
 		</span>
 		<span class="add-to-cart-button__box" aria-hidden="true">
-			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-				<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M21 8 12 3 3 8l9 5 9-5Z" />
-				<path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M3 8v8l9 5 9-5V8" />
-				<path stroke="currentColor" stroke-width="2" d="M12 13v8" />
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+				<path fill="currentColor" d="M50.7 58.5 0 160h448L397.3 58.5C387.8 41.6 369.7 32 350.1 32H97.9c-19.6 0-37.7 9.6-47.2 26.5zM0 192v272c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48V192H0z" />
 			</svg>
 		</span>
 	</a>
@@ -398,17 +396,27 @@ function omar_perfumes_loop_add_to_cart_link( $html, $product ) {
 add_filter( 'woocommerce_loop_add_to_cart_link', 'omar_perfumes_loop_add_to_cart_link', 10, 2 );
 
 function omar_perfumes_cart_button_assets() {
+	$deps = array( 'jquery' );
 	if ( wp_script_is( 'wc-add-to-cart', 'registered' ) ) {
 		wp_enqueue_script( 'wc-add-to-cart' );
+		$deps[] = 'wc-add-to-cart';
 	}
 
 	$path = get_theme_file_path( 'assets/cart-button.js' );
 	wp_enqueue_script(
 		'omar-perfumes-cart-button',
 		get_theme_file_uri( 'assets/cart-button.js' ),
-		array( 'jquery' ),
+		$deps,
 		file_exists( $path ) ? filemtime( $path ) : wp_get_theme()->get( 'Version' ),
 		true
+	);
+	wp_localize_script(
+		'omar-perfumes-cart-button',
+		'omarPerfumesCart',
+		array(
+			'cartUrl'  => function_exists( 'wc_get_cart_url' ) ? wc_get_cart_url() : home_url( '/carrito/' ),
+			'viewCart' => __( 'Ver carrito', 'omar-perfumes' ),
+		)
 	);
 }
 add_action( 'wp_enqueue_scripts', 'omar_perfumes_cart_button_assets', 26 );

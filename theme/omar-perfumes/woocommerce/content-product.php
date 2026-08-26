@@ -36,9 +36,7 @@ if ( ! $in_stock ) {
 		<?php echo wp_kses_post( $product->get_image( 'woocommerce_thumbnail', array( 'loading' => 'lazy' ) ) ); ?>
 	</a>
 	<div class="<?php echo esc_attr( $prefix ); ?>__body">
-		<?php if ( $categories ) : ?>
-			<span class="<?php echo esc_attr( $prefix ); ?>__category"><?php echo wp_kses_post( $categories ); ?></span>
-		<?php endif; ?>
+		<span class="<?php echo esc_attr( $prefix ); ?>__category"><?php echo $categories ? wp_kses_post( $categories ) : '&nbsp;'; ?></span>
 		<h2 class="woocommerce-loop-product__title <?php echo esc_attr( $prefix ); ?>__title">
 			<a href="<?php echo esc_url( $product->get_permalink() ); ?>"><?php echo esc_html( $product->get_name() ); ?></a>
 		</h2>
