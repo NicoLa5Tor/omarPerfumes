@@ -30,15 +30,29 @@ if ( ! $product->is_in_stock() ) {
 	?>
 	<div class="perfumes-pdp__quantity-wrap">
 		<span class="perfumes-pdp__quantity-label"><?php esc_html_e( 'Cantidad', 'omar-perfumes' ); ?></span>
-		<?php
-		woocommerce_quantity_input(
-			array(
-				'min_value'   => apply_filters( 'woocommerce_quantity_input_min', $product->get_min_purchase_quantity(), $product ),
-				'max_value'   => apply_filters( 'woocommerce_quantity_input_max', $product->get_max_purchase_quantity(), $product ),
-				'input_value' => isset( $_POST['quantity'] ) ? wc_stock_amount( wp_unslash( $_POST['quantity'] ) ) : $product->get_min_purchase_quantity(), // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			)
-		);
-		?>
+		<div class="perfumes-pdp__qty" data-pdp-qty>
+			<button
+				type="button"
+				class="perfumes-pdp__qty-btn"
+				data-qty="-1"
+				aria-label="<?php esc_attr_e( 'Reducir cantidad', 'omar-perfumes' ); ?>"
+			>−</button>
+			<?php
+			woocommerce_quantity_input(
+				array(
+					'min_value'   => apply_filters( 'woocommerce_quantity_input_min', $product->get_min_purchase_quantity(), $product ),
+					'max_value'   => apply_filters( 'woocommerce_quantity_input_max', $product->get_max_purchase_quantity(), $product ),
+					'input_value' => isset( $_POST['quantity'] ) ? wc_stock_amount( wp_unslash( $_POST['quantity'] ) ) : $product->get_min_purchase_quantity(), // phpcs:ignore WordPress.Security.NonceVerification.Missing, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				)
+			);
+			?>
+			<button
+				type="button"
+				class="perfumes-pdp__qty-btn"
+				data-qty="1"
+				aria-label="<?php esc_attr_e( 'Aumentar cantidad', 'omar-perfumes' ); ?>"
+			>+</button>
+		</div>
 	</div>
 	<?php
 	do_action( 'woocommerce_after_add_to_cart_quantity' );

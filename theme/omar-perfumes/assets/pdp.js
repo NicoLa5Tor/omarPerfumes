@@ -7,6 +7,7 @@
 
 		root.dataset.omarPdpBound = '1';
 		initGallery( root );
+		initQuantity( root );
 		initRelatedCarousel( root );
 		initReviewReveal( root );
 	};
@@ -31,6 +32,57 @@
 				thumb.classList.add( 'is-active' );
 			} );
 		} );
+	};
+
+	const initQuantity = ( root ) => {
+		const wrap = root.querySelector( '[data-pdp-qty]' );
+		const input = wrap ? wrap.querySelector( 'input.qty' ) : null;
+		if ( ! wrap || ! input ) {
+			return;
+		}
+
+		const buttons = [ ...wrap.querySelectorAll( '[data-qty]' ) ];
+		const min = () => {
+			const value = Number( input.min );
+			return Number.isFinite( value ) && value > 0 ? value : 1;
+		};
+		const max = () => {
+			const value = Number( input.max );
+			return Number.isFinite( value ) && value > 0 ? value : 9999;
+		};
+		const step = () => {
+			const value = Number( input.step );
+			return Number.isFinite( value ) && value > 0 ? value : 1;
+		};
+
+		const syncButtons = () => {
+			const current = Number( input.value ) || min();
+			buttons.forEach( ( button ) => {
+				const delta = Number( button.getAttribute( 'data-qty' ) );
+				button.disabled =
+					delta < 0 ? current <= min() : current >= max();
+			} );
+		};
+
+		buttons.forEach( ( button ) => {
+			button.addEventListener( 'click', () => {
+				const delta = Number( button.getAttribute( 'data-qty' ) );
+				const next = Math.min(
+					max(),
+					Math.max(
+						min(),
+						( Number( input.value ) || min() ) + delta * step()
+					)
+				);
+				input.value = String( next );
+				input.dispatchEvent( new Event( 'input', { bubbles: true } ) );
+				input.dispatchEvent( new Event( 'change', { bubbles: true } ) );
+				syncButtons();
+			} );
+		} );
+
+		input.addEventListener( 'change', syncButtons );
+		syncButtons();
 	};
 
 	const initRelatedCarousel = ( root ) => {

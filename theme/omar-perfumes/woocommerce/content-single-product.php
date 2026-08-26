@@ -14,10 +14,12 @@ if ( ! $product instanceof WC_Product ) {
 }
 
 $gallery_ids = array_values(
-	array_filter(
-		array_merge(
-			array( $product->get_image_id() ),
-			$product->get_gallery_image_ids()
+	array_unique(
+		array_filter(
+			array_merge(
+				array( $product->get_image_id() ),
+				$product->get_gallery_image_ids()
+			)
 		)
 	)
 );
@@ -25,10 +27,7 @@ $main_image = $gallery_ids ? wp_get_attachment_image_url( $gallery_ids[0], 'full
 $short      = $product->get_short_description();
 $long       = $product->get_description();
 $excerpt    = $short ? wp_strip_all_tags( $short ) : ( $long ? wp_trim_words( wp_strip_all_tags( $long ), 28 ) : __( 'Perfume original.', 'omar-perfumes' ) );
-$thumb_ids  = $gallery_ids ? $gallery_ids : array();
-while ( count( $thumb_ids ) < 3 && $gallery_ids ) {
-	$thumb_ids[] = $gallery_ids[0];
-}
+$logo_url   = get_theme_file_uri( 'assets/omar-logo-light-v1.png' );
 
 do_action( 'woocommerce_before_single_product' );
 
@@ -40,9 +39,9 @@ if ( post_password_required() ) {
 <div id="product-<?php the_ID(); ?>" <?php wc_product_class( 'perfumes-pdp', $product ); ?>>
 	<div class="perfumes-pdp__card">
 		<div class="perfumes-pdp__media">
-			<?php if ( $thumb_ids ) : ?>
-				<div class="perfumes-pdp__thumbs">
-					<?php foreach ( $thumb_ids as $index => $attachment_id ) : ?>
+			<?php if ( count( $gallery_ids ) > 1 ) : ?>
+				<div class="perfumes-pdp__thumbs" role="tablist" aria-label="<?php esc_attr_e( 'Galería del producto', 'omar-perfumes' ); ?>">
+					<?php foreach ( $gallery_ids as $index => $attachment_id ) : ?>
 						<button
 							type="button"
 							class="perfumes-pdp__thumb<?php echo 0 === $index ? ' is-active' : ''; ?>"
@@ -57,7 +56,14 @@ if ( post_password_required() ) {
 				src="<?php echo esc_url( $main_image ); ?>"
 				alt="<?php echo esc_attr( $product->get_name() ); ?>"
 			/>
-			<div class="perfumes-pdp__watermark" aria-hidden="true">OMAR</div>
+			<img
+				class="perfumes-pdp__watermark"
+				src="<?php echo esc_url( $logo_url ); ?>"
+				alt=""
+				width="900"
+				height="277"
+				aria-hidden="true"
+			/>
 			<div class="perfumes-pdp__spark" aria-hidden="true">✦</div>
 		</div>
 
