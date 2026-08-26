@@ -35,6 +35,10 @@ function omar_perfumes_pdp_assets() {
 		return;
 	}
 
+	if ( comments_open() ) {
+		wp_enqueue_script( 'comment-reply' );
+	}
+
 	$path = get_theme_file_path( 'assets/pdp.js' );
 	wp_enqueue_script(
 		'omar-perfumes-pdp',
@@ -560,6 +564,96 @@ function omar_perfumes_product_comments_query_args( $args ) {
 	return $args;
 }
 add_filter( 'comments_template_query_args', 'omar_perfumes_product_comments_query_args' );
+
+/**
+ * Ensure product reviews are saved with the correct comment type and rating.
+ *
+ * @param array $comment_data Comment data.
+ * @return array
+ */
+function omar_perfumes_preprocess_product_review( $comment_data ) {
+	$post_id = isset( $comment_data['comment_post_ID'] ) ? (int) $comment_data['comment_post_ID'] : 0;
+	if ( ! $post_id || 'product' !== get_post_type( $post_id ) ) {
+		return $comment_data;
+	}
+
+	$comment_data['comment_type'] = 'review';
+
+	if (
+		function_exists( 'wc_review_ratings_enabled' ) &&
+		wc_review_ratings_enabled() &&
+		function_exists( 'wc_review_ratings_required' ) &&
+		wc_review_ratings_required() &&
+		empty( $_POST['rating'] ) // phpcs:ignore WordPress.Security.NonceVerification.Missing
+	) {
+		wp_die(
+			esc_html__( 'Por favor elige una valoración antes de publicar tu opinión.', 'omar-perfumes' ),
+			esc_html__( 'Opinión incompleta', 'omar-perfumes' ),
+			array(
+				'response'  => 403,
+				'back_link' => true,
+			)
+		);
+	}
+
+	return $comment_data;
+}
+add_filter( 'preprocess_comment', 'omar_perfumes_preprocess_product_review', 0 );
+
+/**
+ * Persist review star ratings and refresh WooCommerce product stats.
+ *
+ * @param int        $comment_id       Comment ID.
+ * @param int|string $comment_approved Approval status.
+ * @param array      $comment_data     Comment data.
+ */
+function omar_perfumes_save_product_review_rating( $comment_id, $comment_approved, $comment_data ) {
+	$post_id = isset( $comment_data['comment_post_ID'] ) ? (int) $comment_data['comment_post_ID'] : 0;
+	if ( ! $post_id || 'product' !== get_post_type( $post_id ) ) {
+		return;
+	}
+
+	if ( isset( $_POST['rating'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		$rating = (int) wp_unslash( $_POST['rating'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( $rating >= 1 && $rating <= 5 ) {
+			update_comment_meta( $comment_id, 'rating', $rating );
+		}
+	}
+
+	if ( class_exists( 'WC_Comments' ) ) {
+		WC_Comments::clear_transients( $post_id );
+	}
+}
+add_action( 'comment_post', 'omar_perfumes_save_product_review_rating', 10, 3 );
+
+/**
+ * Show feedback after a review is submitted.
+ */
+function omar_perfumes_review_submission_notice() {
+	if ( ! function_exists( 'is_product' ) || ! is_product() ) {
+		return;
+	}
+
+	if ( isset( $_GET['unapproved'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		echo '<p class="perfumes-review-notice perfumes-review-notice--pending">';
+		esc_html_e( 'Gracias. Tu opinión fue enviada y aparecerá en cuanto sea aprobada.', 'omar-perfumes' );
+		echo '</p>';
+		return;
+	}
+
+	if ( empty( $_GET['replytocom'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return;
+	}
+
+	$comment_id = absint( wp_unslash( $_GET['replytocom'] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+	if ( ! $comment_id || ! wp_get_comment_status( $comment_id ) ) {
+		return;
+	}
+
+	echo '<p class="perfumes-review-notice perfumes-review-notice--success">';
+	esc_html_e( 'Gracias. Tu opinión ya fue publicada.', 'omar-perfumes' );
+	echo '</p>';
+}
 
 /**
  * Prefer the same brand category, then the parent family, ordered by sales.

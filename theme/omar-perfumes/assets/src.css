@@ -1522,6 +1522,26 @@
 		padding: 0 8px;
 	}
 
+	.perfumes-review-notice {
+		margin: 0 0 20px;
+		padding: 14px 16px;
+		border-radius: 12px;
+		font-size: 14px;
+		line-height: 1.5;
+	}
+
+	.perfumes-review-notice--pending {
+		background: #fff7ed;
+		border: 1px solid #fdba74;
+		color: #9a3412;
+	}
+
+	.perfumes-review-notice--success {
+		background: #ecfdf3;
+		border: 1px solid #86efac;
+		color: #166534;
+	}
+
 	.perfumes-pdp-reviews .woocommerce-Reviews-title {
 		margin: 0 0 24px;
 		font-family: "Cormorant Garamond", Georgia, serif;

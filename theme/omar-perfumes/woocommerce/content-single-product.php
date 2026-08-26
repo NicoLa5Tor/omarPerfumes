@@ -97,7 +97,18 @@ if ( post_password_required() ) {
 		</section>
 	<?php endif; ?>
 
-	<?php comments_template(); ?>
+	<?php
+	global $post;
+	$product_post = get_post( $product->get_id() );
+	if ( $product_post instanceof WP_Post ) {
+		$post = $product_post; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+		setup_postdata( $post );
+	}
+	comments_template();
+	if ( $product_post instanceof WP_Post ) {
+		wp_reset_postdata();
+	}
+	?>
 
 	<?php
 	woocommerce_output_related_products();

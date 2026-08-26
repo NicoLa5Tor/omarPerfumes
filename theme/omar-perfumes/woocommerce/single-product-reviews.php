@@ -21,6 +21,7 @@ if ( function_exists( 'omar_perfumes_product_review_stats' ) ) {
 }
 ?>
 <section id="reviews" class="woocommerce-Reviews perfumes-pdp-reviews">
+	<?php omar_perfumes_review_submission_notice(); ?>
 	<div id="comments">
 		<h2 class="woocommerce-Reviews-title">
 			<?php
@@ -89,8 +90,9 @@ if ( function_exists( 'omar_perfumes_product_review_stats' ) ) {
 
 				$comment_form['fields'] = $fields;
 
+				$rating_required = wc_review_ratings_required();
 				if ( wc_review_ratings_enabled() ) {
-					$comment_form['comment_field'] = '<div class="comment-form-rating"><label for="rating">' . esc_html__( 'Tu valoración', 'omar-perfumes' ) . ( wc_review_ratings_required() ? '&nbsp;<span class="required">*</span>' : '' ) . '</label><select name="rating" id="rating" required>
+					$comment_form['comment_field'] = '<div class="comment-form-rating"><label for="rating">' . esc_html__( 'Tu valoración', 'omar-perfumes' ) . ( $rating_required ? '&nbsp;<span class="required">*</span>' : '' ) . '</label><select name="rating" id="rating"' . ( $rating_required ? ' required' : '' ) . '>
 						<option value="">' . esc_html__( 'Valora…', 'omar-perfumes' ) . '</option>
 						<option value="5">' . esc_html__( 'Perfecto', 'omar-perfumes' ) . '</option>
 						<option value="4">' . esc_html__( 'Muy bueno', 'omar-perfumes' ) . '</option>
@@ -102,7 +104,10 @@ if ( function_exists( 'omar_perfumes_product_review_stats' ) ) {
 
 				$comment_form['comment_field'] .= '<p class="comment-form-comment"><label for="comment">' . esc_html__( 'Tu opinión', 'omar-perfumes' ) . '&nbsp;<span class="required">*</span></label><textarea id="comment" name="comment" cols="45" rows="4" required placeholder="' . esc_attr__( 'Cuéntanos cómo te fue con esta fragancia…', 'omar-perfumes' ) . '"></textarea></p>';
 
-				comment_form( apply_filters( 'woocommerce_product_review_comment_form_args', $comment_form ) );
+				comment_form(
+					apply_filters( 'woocommerce_product_review_comment_form_args', $comment_form ),
+					$product->get_id()
+				);
 				?>
 			</div>
 		</div>
