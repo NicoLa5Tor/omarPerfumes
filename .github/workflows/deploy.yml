@@ -48,37 +48,44 @@ jobs:
           cp -R theme/omar-perfumes/. dist/theme/
           rm -f dist/theme/assets/src.css
 
+      # Hostinger drops GitHub runner IPs on :21 at random. Fail fast and retry.
       - name: Deploy plugin por FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        uses: Wandalen/wretry.action@v3.8.0
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          protocol: ftps
-          port: 21
-          security: loose
-          timeout: 180000
-          log-level: verbose
-          local-dir: ./dist/plugin/
-          server-dir: wp-content/plugins/perfumes-block/
-          # Reinicia el inventario remoto para no reutilizar rutas obsoletas
-          # (por ejemplo, build/images) de despliegues anteriores.
-          state-name: .ftp-deploy-plugin-state-v2.json
+          attempt_limit: 5
+          attempt_delay: 20000
+          action: SamKirkland/FTP-Deploy-Action@v4.4.0
+          with: |
+            server: ${{ secrets.FTP_HOST }}
+            username: ${{ secrets.FTP_USER }}
+            password: ${{ secrets.FTP_PASS }}
+            protocol: ftps
+            port: 21
+            security: loose
+            timeout: 30000
+            log-level: verbose
+            local-dir: ./dist/plugin/
+            server-dir: wp-content/plugins/perfumes-block/
+            state-name: .ftp-deploy-plugin-state-v2.json
 
       - name: Deploy tema Omar por FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
+        uses: Wandalen/wretry.action@v3.8.0
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USER }}
-          password: ${{ secrets.FTP_PASS }}
-          protocol: ftps
-          port: 21
-          security: loose
-          timeout: 180000
-          log-level: verbose
-          local-dir: ./dist/theme/
-          server-dir: wp-content/themes/omar-perfumes/
-          state-name: .ftp-deploy-theme-state.json
+          attempt_limit: 5
+          attempt_delay: 20000
+          action: SamKirkland/FTP-Deploy-Action@v4.4.0
+          with: |
+            server: ${{ secrets.FTP_HOST }}
+            username: ${{ secrets.FTP_USER }}
+            password: ${{ secrets.FTP_PASS }}
+            protocol: ftps
+            port: 21
+            security: loose
+            timeout: 30000
+            log-level: verbose
+            local-dir: ./dist/theme/
+            server-dir: wp-content/themes/omar-perfumes/
+            state-name: .ftp-deploy-theme-state.json
 
       - name: Verificar artefactos publicados
         run: |
