@@ -430,7 +430,7 @@ function omar_perfumes_shop_hero() {
  * @return void
  */
 /**
- * Count active catalog filters for the mobile FAB badge.
+ * Count active catalog filters for the mobile filters badge.
  *
  * @return int
  */
@@ -458,8 +458,7 @@ function omar_perfumes_catalog_active_filter_count() {
  * @return void
  */
 function omar_perfumes_shop_layout_open() {
-	$context      = omar_perfumes_catalog_context();
-	$active_count = omar_perfumes_catalog_active_filter_count();
+	$context = omar_perfumes_catalog_context();
 	?>
 	<div
 		class="perfumes-shop-store"
@@ -584,20 +583,6 @@ function omar_perfumes_shop_layout_open() {
 			</div>
 		</aside>
 
-		<button
-			class="perfumes-shop-filters-fab<?php echo $active_count > 0 ? ' has-active' : ''; ?>"
-			type="button"
-			data-shop-filters-toggle
-			aria-controls="perfumes-shop-sidebar"
-			aria-expanded="false"
-		>
-			<svg class="perfumes-shop-filters-fab__icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7m0-4V3m8 18v-9m0-4V3m8 18v-5m0-4V3M1 14h6M9 8h6m2 8h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
-			<span class="perfumes-shop-filters-fab__label"><?php esc_html_e( 'Filtros', 'omar-perfumes' ); ?></span>
-			<?php if ( $active_count > 0 ) : ?>
-				<span class="perfumes-shop-filters-fab__badge" aria-hidden="true"><?php echo esc_html( (string) $active_count ); ?></span>
-			<?php endif; ?>
-		</button>
-
 		<div class="perfumes-shop-main">
 	<?php
 }
@@ -648,8 +633,9 @@ function omar_perfumes_shop_toolbar() {
 	}
 	$rendered = true;
 
-	$context = omar_perfumes_catalog_context();
-	$meta    = array();
+	$context      = omar_perfumes_catalog_context();
+	$active_count = omar_perfumes_catalog_active_filter_count();
+	$meta         = array();
 
 	if ( $context['total_products'] > 0 ) {
 		/* translators: %d: product count */
@@ -669,6 +655,19 @@ function omar_perfumes_shop_toolbar() {
 				<p class="perfumes-shop-toolbar__meta"><?php echo esc_html( implode( ' · ', $meta ) ); ?></p>
 			<?php endif; ?>
 		</div>
+		<button
+			class="perfumes-shop-toolbar__filters<?php echo $active_count > 0 ? ' has-active' : ''; ?>"
+			type="button"
+			data-shop-filters-toggle
+			aria-controls="perfumes-shop-sidebar"
+			aria-expanded="false"
+		>
+			<svg class="perfumes-shop-toolbar__filters-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21v-7m0-4V3m8 18v-9m0-4V3m8 18v-5m0-4V3M1 14h6M9 8h6m2 8h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+			<span><?php esc_html_e( 'Filtros', 'omar-perfumes' ); ?></span>
+			<?php if ( $active_count > 0 ) : ?>
+				<span class="perfumes-shop-toolbar__filters-badge" aria-hidden="true"><?php echo esc_html( (string) $active_count ); ?></span>
+			<?php endif; ?>
+		</button>
 	</header>
 	<?php
 }
