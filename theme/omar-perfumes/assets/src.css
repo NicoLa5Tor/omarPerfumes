@@ -1447,21 +1447,27 @@
 	}
 
 	.perfumes-product-card__title {
-		display: -webkit-box;
+		display: block;
 		overflow: hidden;
 		margin: 0 0 0.4rem;
 		padding: 0;
+
+		/* Fixed 2-line slot so the card height stays stable. */
+		min-height: calc(0.88rem * 1.25 * 2);
+		max-height: calc(0.88rem * 1.25 * 2);
 		font-size: 0.88rem;
 		font-weight: 500;
 		line-height: 1.25;
 		color: #fff;
-		-webkit-box-orient: vertical;
-		-webkit-line-clamp: 2;
 	}
 
 	.perfumes-product-card__title a {
+		display: block;
 		color: #fff;
 		text-decoration: none;
+		overflow-wrap: anywhere;
+		word-break: break-word;
+		hyphens: auto;
 	}
 
 	.perfumes-product-card__ratings {
@@ -2742,7 +2748,9 @@
 		}
 
 		.perfumes-product-card__title {
-			font-size: 0.82rem;
+			min-height: calc(0.8rem * 1.25 * 2);
+			max-height: calc(0.8rem * 1.25 * 2);
+			font-size: 0.8rem;
 		}
 
 		.perfumes-search,

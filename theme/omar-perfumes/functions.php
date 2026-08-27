@@ -1138,5 +1138,25 @@ function omar_perfumes_cart_button_assets() {
 }
 add_action( 'wp_enqueue_scripts', 'omar_perfumes_cart_button_assets', 26 );
 
+/**
+ * Fit long product titles into the fixed card slot without clipping.
+ *
+ * @return void
+ */
+function omar_perfumes_product_card_title_assets() {
+	$path = get_theme_file_path( 'assets/product-card-title.js' );
+	wp_enqueue_script(
+		'omar-perfumes-product-card-title',
+		get_theme_file_uri( 'assets/product-card-title.js' ),
+		array(),
+		file_exists( $path ) ? filemtime( $path ) : wp_get_theme()->get( 'Version' ),
+		array(
+			'in_footer' => true,
+			'strategy'  => 'defer',
+		)
+	);
+}
+add_action( 'wp_enqueue_scripts', 'omar_perfumes_product_card_title_assets', 27 );
+
 require get_theme_file_path( 'inc/shop-catalog-settings.php' );
 require get_theme_file_path( 'inc/shop-catalog.php' );
