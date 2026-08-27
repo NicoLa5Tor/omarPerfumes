@@ -14,7 +14,7 @@
     "start": "wp-scripts start",
     "format": "wp-scripts format",
     "lint:css": "wp-scripts lint-style \"src/**/*.scss\" \"theme/omar-perfumes/assets/src.css\"",
-    "lint:js": "wp-scripts lint-js",
+    "lint:js": "wp-scripts lint-js \"src/**/*.js\" \"theme/omar-perfumes/assets/src/**/*.js\" \"theme/omar-perfumes/assets/router.js\" \"theme/omar-perfumes/assets/cart-button.js\" \"theme/omar-perfumes/assets/pdp.js\" \"webpack.shop-catalog.config.js\" \"tailwind.config.js\" \"postcss.config.js\"",
     "test:smoke": "node scripts/smoke-storefront.mjs",
     "plugin-zip": "wp-scripts plugin-zip"
   },

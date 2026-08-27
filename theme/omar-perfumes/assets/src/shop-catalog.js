@@ -88,9 +88,7 @@ function destroyCatalogPin() {
 	} );
 
 	document
-		.querySelectorAll(
-			'.perfumes-shop-sidebar, .perfumes-shop-toolbar'
-		)
+		.querySelectorAll( '.perfumes-shop-sidebar, .perfumes-shop-toolbar' )
 		.forEach( ( node ) => {
 			node.classList.remove( 'is-pin-active' );
 		} );
