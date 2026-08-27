@@ -290,7 +290,7 @@ const { state: routerState } = store( 'omar/router', {
 
 document.addEventListener( 'change', ( event ) => {
 	const select = event.target?.closest?.(
-		'.perfumes-shop-toolbar__ordering select.orderby'
+		'.perfumes-shop-ordering select.orderby'
 	);
 	if ( ! select ) {
 		return;
