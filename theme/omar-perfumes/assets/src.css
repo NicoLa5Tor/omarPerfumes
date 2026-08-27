@@ -670,6 +670,22 @@
 		min-height: 238px;
 	}
 
+	.perfumes-shop-hero__composition--photo {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+	}
+
+	.perfumes-shop-hero__photo {
+		display: block;
+		width: 100%;
+		max-width: 420px;
+		height: auto;
+		max-height: 280px;
+		object-fit: contain;
+	}
+
 	.perfumes-shop-hero__halo,
 	.perfumes-shop-hero__reflection,
 	.perfumes-shop-hero__bottle,

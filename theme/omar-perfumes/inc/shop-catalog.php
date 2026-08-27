@@ -134,7 +134,7 @@ function omar_perfumes_catalog_context() {
 	}
 
 	if ( ! empty( $_GET['instock'] ) && '1' === $_GET['instock'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$selection_bits[] = __( 'Con stock', 'omar-perfumes' );
+		$selection_bits[] = (string) omar_perfumes_catalog_content( 'instock_label' );
 	}
 
 	$orderby = isset( $_GET['orderby'] ) ? sanitize_text_field( wp_unslash( $_GET['orderby'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -224,8 +224,8 @@ function omar_perfumes_catalog_filter_url( $key ) {
 			}
 			return add_query_arg(
 				array(
-					'min_price' => 60,
-					'max_price' => 180,
+					'min_price' => (int) omar_perfumes_catalog_content( 'price_min' ),
+					'max_price' => (int) omar_perfumes_catalog_content( 'price_max' ),
 				),
 				$base
 			);
@@ -387,48 +387,61 @@ add_action( 'wp', 'omar_perfumes_catalog_remove_loop_header', 20 );
  * @return void
  */
 function omar_perfumes_shop_hero() {
-	$context = omar_perfumes_catalog_context();
-	$chips   = array(
-		'popular' => __( 'Best sellers', 'omar-perfumes' ),
-		'new'     => __( 'Nuevos', 'omar-perfumes' ),
-		'gifts'   => __( 'Regalos premium', 'omar-perfumes' ),
+	$chips = array(
+		'popular' => omar_perfumes_catalog_content( 'hero_chip_popular' ),
+		'new'     => omar_perfumes_catalog_content( 'hero_chip_new' ),
+		'gifts'   => omar_perfumes_catalog_content( 'hero_chip_gifts' ),
 	);
+	$hero_image_id = (int) omar_perfumes_catalog_content( 'hero_image' );
+	$hero_image    = $hero_image_id ? wp_get_attachment_image(
+		$hero_image_id,
+		'large',
+		false,
+		array(
+			'class'   => 'perfumes-shop-hero__photo',
+			'loading' => 'eager',
+			'alt'     => '',
+		)
+	) : '';
 	?>
 	<section class="perfumes-shop-hero" aria-labelledby="perfumes-shop-hero-title">
 		<div class="perfumes-shop-hero__inner">
 			<div class="perfumes-shop-hero__copy">
-				<p class="perfumes-shop-hero__eyebrow"><?php esc_html_e( 'Tienda oficial', 'omar-perfumes' ); ?></p>
-				<h1 class="perfumes-shop-hero__title" id="perfumes-shop-hero-title"><?php esc_html_e( 'Fragancias elegantes para cada presencia', 'omar-perfumes' ); ?></h1>
-				<p class="perfumes-shop-hero__description"><?php esc_html_e( 'Explora perfumes árabes, nicho, diseñador y sets seleccionados. Filtra por ocasión, intensidad y familia olfativa sin perder el estilo premium de Omar Perfumes.', 'omar-perfumes' ); ?></p>
+				<p class="perfumes-shop-hero__eyebrow"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'hero_eyebrow' ) ); ?></p>
+				<h1 class="perfumes-shop-hero__title" id="perfumes-shop-hero-title"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'hero_title' ) ); ?></h1>
+				<p class="perfumes-shop-hero__description"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'hero_description' ) ); ?></p>
 				<ul class="perfumes-shop-hero__quick-filters" aria-label="<?php esc_attr_e( 'Filtros destacados', 'omar-perfumes' ); ?>">
 					<?php foreach ( $chips as $chip_key => $chip_label ) : ?>
 						<li>
 							<a
 								class="perfumes-shop-hero__chip<?php echo omar_perfumes_catalog_chip_is_active( $chip_key ) ? ' perfumes-shop-hero__chip--active' : ''; ?>"
 								href="<?php echo esc_url( omar_perfumes_catalog_chip_url( $chip_key ) ); ?>"
-							><?php echo esc_html( $chip_label ); ?></a>
+							><?php echo esc_html( (string) $chip_label ); ?></a>
 						</li>
 					<?php endforeach; ?>
 				</ul>
 			</div>
-			<div class="perfumes-shop-hero__composition" aria-hidden="true">
-				<span class="perfumes-shop-hero__halo"></span>
-				<span class="perfumes-shop-hero__box">NOIR</span>
-				<span class="perfumes-shop-hero__cap perfumes-shop-hero__cap--primary"></span>
-				<span class="perfumes-shop-hero__bottle perfumes-shop-hero__bottle--primary"></span>
-				<span class="perfumes-shop-hero__label perfumes-shop-hero__label--primary">OMAR</span>
-				<span class="perfumes-shop-hero__cap perfumes-shop-hero__cap--secondary"></span>
-				<span class="perfumes-shop-hero__bottle perfumes-shop-hero__bottle--secondary"></span>
-				<span class="perfumes-shop-hero__reflection"></span>
-			</div>
+			<?php if ( $hero_image ) : ?>
+				<div class="perfumes-shop-hero__composition perfumes-shop-hero__composition--photo" aria-hidden="true">
+					<?php echo $hero_image; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- wp_get_attachment_image() ?>
+				</div>
+			<?php else : ?>
+				<div class="perfumes-shop-hero__composition" aria-hidden="true">
+					<span class="perfumes-shop-hero__halo"></span>
+					<span class="perfumes-shop-hero__box"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'hero_box_label' ) ); ?></span>
+					<span class="perfumes-shop-hero__cap perfumes-shop-hero__cap--primary"></span>
+					<span class="perfumes-shop-hero__bottle perfumes-shop-hero__bottle--primary"></span>
+					<span class="perfumes-shop-hero__label perfumes-shop-hero__label--primary"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'hero_bottle_label' ) ); ?></span>
+					<span class="perfumes-shop-hero__cap perfumes-shop-hero__cap--secondary"></span>
+					<span class="perfumes-shop-hero__bottle perfumes-shop-hero__bottle--secondary"></span>
+					<span class="perfumes-shop-hero__reflection"></span>
+				</div>
+			<?php endif; ?>
 		</div>
 	</section>
 	<?php
 }
 
-/**
- * @return void
- */
 /**
  * Count active catalog filters for the mobile filters badge.
  *
@@ -480,8 +493,8 @@ function omar_perfumes_shop_layout_open() {
 				<header class="perfumes-shop-sidebar__sheet-head">
 					<div class="perfumes-shop-sidebar__sheet-copy">
 						<p class="perfumes-shop-sidebar__sheet-eyebrow"><?php esc_html_e( 'Catálogo', 'omar-perfumes' ); ?></p>
-						<h2 class="perfumes-shop-sidebar__title" id="perfumes-shop-filters-title"><?php esc_html_e( 'Filtros y orden', 'omar-perfumes' ); ?></h2>
-						<p class="perfumes-shop-sidebar__helper"><?php esc_html_e( 'Categorías, stock, precio y orden en un solo lugar.', 'omar-perfumes' ); ?></p>
+						<h2 class="perfumes-shop-sidebar__title" id="perfumes-shop-filters-title"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'filters_title' ) ); ?></h2>
+						<p class="perfumes-shop-sidebar__helper"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'filters_helper' ) ); ?></p>
 					</div>
 					<button
 						class="perfumes-shop-sidebar__close"
@@ -494,8 +507,8 @@ function omar_perfumes_shop_layout_open() {
 				</header>
 
 				<div class="perfumes-shop-sidebar__desktop-head">
-					<h2 class="perfumes-shop-sidebar__title" id="perfumes-shop-sidebar-title"><?php esc_html_e( 'Categorías', 'omar-perfumes' ); ?></h2>
-					<p class="perfumes-shop-sidebar__helper"><?php esc_html_e( 'Explora por tipo, ocasión o familia olfativa.', 'omar-perfumes' ); ?></p>
+					<h2 class="perfumes-shop-sidebar__title" id="perfumes-shop-sidebar-title"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'sidebar_title' ) ); ?></h2>
+					<p class="perfumes-shop-sidebar__helper"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'sidebar_helper' ) ); ?></p>
 				</div>
 
 				<div class="perfumes-shop-sidebar__body">
@@ -550,26 +563,26 @@ function omar_perfumes_shop_layout_open() {
 					<?php endif; ?>
 
 					<section class="perfumes-shop-sidebar__group perfumes-shop-sidebar__group--ordering" aria-labelledby="perfumes-shop-order-title">
-						<h3 class="perfumes-shop-sidebar__group-title" id="perfumes-shop-order-title"><?php esc_html_e( 'Ordenar por', 'omar-perfumes' ); ?></h3>
+						<h3 class="perfumes-shop-sidebar__group-title" id="perfumes-shop-order-title"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'order_title' ) ); ?></h3>
 						<div class="perfumes-shop-ordering">
 							<?php woocommerce_catalog_ordering(); ?>
 						</div>
 					</section>
 
 					<section class="perfumes-shop-sidebar__group" aria-labelledby="perfumes-shop-filter-title">
-						<h3 class="perfumes-shop-sidebar__group-title" id="perfumes-shop-filter-title"><?php esc_html_e( 'Filtros rápidos', 'omar-perfumes' ); ?></h3>
+						<h3 class="perfumes-shop-sidebar__group-title" id="perfumes-shop-filter-title"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'quick_filters_title' ) ); ?></h3>
 						<ul class="perfumes-shop-filter-list">
 							<li>
 								<a
 									class="perfumes-shop-filter-list__link<?php echo omar_perfumes_catalog_filter_is_active( 'price' ) ? ' is-active' : ''; ?>"
 									href="<?php echo esc_url( omar_perfumes_catalog_filter_url( 'price' ) ); ?>"
-								><?php esc_html_e( 'Precio: $60 - $180', 'omar-perfumes' ); ?></a>
+								><?php echo esc_html( omar_perfumes_catalog_price_label() ); ?></a>
 							</li>
 							<li>
 								<a
 									class="perfumes-shop-filter-list__link<?php echo omar_perfumes_catalog_filter_is_active( 'instock' ) ? ' is-active' : ''; ?>"
 									href="<?php echo esc_url( omar_perfumes_catalog_filter_url( 'instock' ) ); ?>"
-								><?php esc_html_e( 'Con stock', 'omar-perfumes' ); ?></a>
+								><?php echo esc_html( (string) omar_perfumes_catalog_content( 'instock_label' ) ); ?></a>
 							</li>
 						</ul>
 					</section>
