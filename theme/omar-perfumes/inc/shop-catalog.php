@@ -550,6 +550,13 @@ function omar_perfumes_shop_layout_open() {
 						</section>
 					<?php endif; ?>
 
+					<section class="perfumes-shop-sidebar__group perfumes-shop-sidebar__group--ordering" aria-labelledby="perfumes-shop-order-title">
+						<h3 class="perfumes-shop-sidebar__group-title" id="perfumes-shop-order-title"><?php esc_html_e( 'Ordenar por', 'omar-perfumes' ); ?></h3>
+						<div class="perfumes-shop-ordering">
+							<?php woocommerce_catalog_ordering(); ?>
+						</div>
+					</section>
+
 					<section class="perfumes-shop-sidebar__group" aria-labelledby="perfumes-shop-filter-title">
 						<h3 class="perfumes-shop-sidebar__group-title" id="perfumes-shop-filter-title"><?php esc_html_e( 'Filtros rápidos', 'omar-perfumes' ); ?></h3>
 						<ul class="perfumes-shop-filter-list">
@@ -566,13 +573,6 @@ function omar_perfumes_shop_layout_open() {
 								><?php esc_html_e( 'Con stock', 'omar-perfumes' ); ?></a>
 							</li>
 						</ul>
-					</section>
-
-					<section class="perfumes-shop-sidebar__group perfumes-shop-sidebar__group--ordering" aria-labelledby="perfumes-shop-order-title">
-						<h3 class="perfumes-shop-sidebar__group-title" id="perfumes-shop-order-title"><?php esc_html_e( 'Ordenar por', 'omar-perfumes' ); ?></h3>
-						<div class="perfumes-shop-ordering">
-							<?php woocommerce_catalog_ordering(); ?>
-						</div>
 					</section>
 				</div>
 

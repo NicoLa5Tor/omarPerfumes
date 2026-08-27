@@ -1,13 +1,4 @@
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin( ScrollTrigger );
-
-let catalogPinContext = null;
-let catalogPinMediaQuery = null;
-let filtersEscapeBound = false;
-
-function getPinnedStartOffset() {
+function getStickyOffset() {
 	const header = document.querySelector(
 		'.perfumes-global-header:not(.is-home-route)'
 	);
@@ -21,23 +12,12 @@ function getPinnedStartOffset() {
 	return offset;
 }
 
-function getCatalogPinEnd( store ) {
-	const productsBody = store.querySelector( '.perfumes-shop-products-body' );
-	const toolbar = store.querySelector( '.perfumes-shop-toolbar' );
-
-	if ( ! productsBody || ! toolbar ) {
-		return 'bottom bottom';
-	}
-
-	const offset = getPinnedStartOffset();
-	const viewportRoom =
-		window.innerHeight - offset - toolbar.offsetHeight - 20;
-	const scrollDistance = Math.max(
-		0,
-		productsBody.scrollHeight - viewportRoom
+function syncCatalogStickyOffset() {
+	const offset = `${ getStickyOffset() }px`;
+	document.documentElement.style.setProperty(
+		'--perfumes-catalog-sticky-top',
+		offset
 	);
-
-	return `+=${ scrollDistance }`;
 }
 
 function isMobileFiltersViewport() {
@@ -134,78 +114,8 @@ function resetCatalogUi( root ) {
 	setFiltersOpen( root, false );
 }
 
-function setCatalogPinState( store, sidebar, toolbar, isActive ) {
-	store.classList.toggle( 'is-catalog-pin-active', isActive );
-	sidebar.classList.toggle( 'is-pin-active', isActive );
-	toolbar.classList.toggle( 'is-pin-active', isActive );
-}
-
-function destroyCatalogPin() {
-	catalogPinContext?.revert();
-	catalogPinContext = null;
-
-	document.querySelectorAll( '.perfumes-shop-store' ).forEach( ( store ) => {
-		delete store.dataset.catalogPinReady;
-		store.classList.remove( 'is-catalog-pin-active' );
-	} );
-
-	document
-		.querySelectorAll( '.perfumes-shop-sidebar, .perfumes-shop-toolbar' )
-		.forEach( ( node ) => {
-			node.classList.remove( 'is-pin-active' );
-		} );
-}
-
-function initCatalogPin() {
-	if (
-		window.matchMedia( '(max-width: 900px)' ).matches ||
-		window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches
-	) {
-		return;
-	}
-
-	const store = document.querySelector( '.perfumes-shop-store' );
-	if ( ! store || store.dataset.catalogPinReady === 'true' ) {
-		return;
-	}
-
-	const sidebar = store.querySelector( '.perfumes-shop-sidebar' );
-	const toolbar = store.querySelector( '.perfumes-shop-toolbar' );
-	const productsBody = store.querySelector( '.perfumes-shop-products-body' );
-
-	if ( ! sidebar || ! toolbar || ! productsBody ) {
-		return;
-	}
-
-	store.dataset.catalogPinReady = 'true';
-
-	catalogPinContext = gsap.context( () => {
-		const pinConfig = {
-			trigger: store,
-			start: () => `top top+=${ getPinnedStartOffset() }`,
-			end: () => getCatalogPinEnd( store ),
-			invalidateOnRefresh: true,
-			anticipatePin: 1,
-			onToggle: ( self ) => {
-				setCatalogPinState( store, sidebar, toolbar, self.isActive );
-			},
-		};
-
-		ScrollTrigger.create( {
-			...pinConfig,
-			id: 'omar-catalog-sidebar',
-			pin: sidebar,
-			pinSpacing: false,
-		} );
-
-		ScrollTrigger.create( {
-			...pinConfig,
-			id: 'omar-catalog-toolbar',
-			pin: toolbar,
-			pinSpacing: false,
-		} );
-	}, store );
-}
+let filtersEscapeBound = false;
+let stickyOffsetBound = false;
 
 function bindFiltersEscape() {
 	if ( filtersEscapeBound ) {
@@ -229,40 +139,31 @@ function bindFiltersEscape() {
 	} );
 }
 
+function bindStickyOffset() {
+	if ( stickyOffsetBound ) {
+		return;
+	}
+
+	stickyOffsetBound = true;
+	window.addEventListener( 'resize', syncCatalogStickyOffset );
+}
+
 function initCatalogUi() {
+	syncCatalogStickyOffset();
+	bindStickyOffset();
 	document
 		.querySelectorAll( '.perfumes-shop-store' )
 		.forEach( bindCatalogUi );
 	bindFiltersEscape();
-	initCatalogPin();
-	window.requestAnimationFrame( () => ScrollTrigger.refresh() );
 }
 
 function handleCatalogRouteChange() {
 	document
 		.querySelectorAll( '.perfumes-shop-store' )
 		.forEach( resetCatalogUi );
-	destroyCatalogPin();
 	initCatalogUi();
 }
 
-function bindCatalogPinMediaQuery() {
-	if ( catalogPinMediaQuery ) {
-		return;
-	}
-
-	catalogPinMediaQuery = window.matchMedia( '(min-width: 901px)' );
-	catalogPinMediaQuery.addEventListener( 'change', () => {
-		document
-			.querySelectorAll( '.perfumes-shop-store' )
-			.forEach( ( root ) => setFiltersOpen( root, false ) );
-		destroyCatalogPin();
-		initCatalogPin();
-		ScrollTrigger.refresh();
-	} );
-}
-
 initCatalogUi();
-bindCatalogPinMediaQuery();
 document.addEventListener( 'omar:routechange', handleCatalogRouteChange );
-window.addEventListener( 'load', () => ScrollTrigger.refresh() );
+window.addEventListener( 'load', syncCatalogStickyOffset );

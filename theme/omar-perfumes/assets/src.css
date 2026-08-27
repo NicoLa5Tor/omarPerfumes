@@ -1019,6 +1019,16 @@
 		font-size: 13px;
 	}
 
+	@media (min-width: 901px) {
+		.omar-catalog-view .perfumes-shop-sidebar {
+			position: sticky;
+			top: var(--perfumes-catalog-sticky-top, 92px);
+			z-index: 25;
+			max-height: calc(100vh - var(--perfumes-catalog-sticky-top, 92px) - 24px);
+			overflow: auto;
+		}
+	}
+
 	.omar-catalog-view .perfumes-shop-products .woocommerce-notices-wrapper:empty {
 		display: none;
 	}
@@ -1046,23 +1056,6 @@
 		width: 100% !important;
 		max-width: none !important;
 		margin: 0 !important;
-	}
-
-	@media (min-width: 901px) {
-		.omar-catalog-view .perfumes-shop-sidebar.is-pin-active {
-			z-index: 25;
-		}
-
-		.omar-catalog-view .perfumes-shop-toolbar.is-pin-active {
-			z-index: 24;
-			background: #f8f5ee;
-			box-shadow: 0 10px 24px rgba(7, 21, 39, 0.08);
-		}
-
-		.omar-catalog-view .perfumes-shop-store.is-catalog-pin-active .perfumes-shop-products-body {
-			position: relative;
-			z-index: 1;
-		}
 	}
 
 	.perfumes-content-shell > h1,
