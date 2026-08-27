@@ -564,7 +564,7 @@ function omar_perfumes_shop_layout_open() {
 
 					<section class="perfumes-shop-sidebar__group perfumes-shop-sidebar__group--ordering" aria-labelledby="perfumes-shop-order-title">
 						<h3 class="perfumes-shop-sidebar__group-title" id="perfumes-shop-order-title"><?php echo esc_html( (string) omar_perfumes_catalog_content( 'order_title' ) ); ?></h3>
-						<div class="perfumes-shop-ordering">
+						<div class="perfumes-select perfumes-shop-ordering">
 							<?php woocommerce_catalog_ordering(); ?>
 						</div>
 					</section>
@@ -668,6 +668,8 @@ function omar_perfumes_shop_toolbar() {
 				<p class="perfumes-shop-toolbar__meta"><?php echo esc_html( implode( ' · ', $meta ) ); ?></p>
 			<?php endif; ?>
 		</div>
+	</header>
+	<div class="perfumes-shop-filters-bar">
 		<button
 			class="perfumes-shop-toolbar__filters<?php echo $active_count > 0 ? ' has-active' : ''; ?>"
 			type="button"
@@ -681,7 +683,7 @@ function omar_perfumes_shop_toolbar() {
 				<span class="perfumes-shop-toolbar__filters-badge" aria-hidden="true"><?php echo esc_html( (string) $active_count ); ?></span>
 			<?php endif; ?>
 		</button>
-	</header>
+	</div>
 	<?php
 }
 
